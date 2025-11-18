@@ -9,9 +9,7 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 
 ## 🗓️ Development Timeline
 - 2025-11-18:　画面の設計に入る　画面のイメージを持つことでどんな処理が必要なのか洗い出そうと思った
-- <img width="2339" height="1653" alt="書籍検索画面" src="https://github.com/user-attachments/assets/ef0dc816-f68a-4bc0-ab3a-6a55582dbd52" />
-- 2025-11-17:　ドメインの設計が完了する　このリポジトリを立ち上げる
-- <img width="1653" height="2339" alt="ドメイン" src="https://github.com/user-attachments/assets/b9cd809d-65fc-4817-90db-f83ff2764ee9" />
+- 2025-11-17:　ドメインの設計が完了する　このリポジトリを立ち上げる　[ドメイン設計](#ドメイン設計)
 - 2025-11-16:　ドメインの設計に着手する　ドメインから設計することが自分の中でしっくりきていた
 - 2025-11-15:　GoogleBooksAPIから返ってくるJSONをDTOに入れることができたためこのシステムの構想に入る
 
@@ -72,6 +70,18 @@ src
 └── test
 
 ##  4. 設計資料
+
+### ドメイン設計
+<img width="1653" height="2339" alt="ドメイン" src="https://github.com/user-attachments/assets/b9cd809d-65fc-4817-90db-f83ff2764ee9" />
+
+### 書籍検索画面設計  
+<img width="2339" height="1653" alt="書籍検索画面" src="https://github.com/user-attachments/assets/ef0dc816-f68a-4bc0-ab3a-6a55582dbd52" />
+
+
+
+
+
+
 - 2025-11-17 大まかな画面や処理についてのメモ書き
 
 - [大まかな設計 - レビュー投稿内容確認画面.pdf](https://github.com/user-attachments/files/23594471/-.pdf)
