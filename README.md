@@ -71,20 +71,20 @@ src
 ##  4. 設計資料
 - 2025-11-17 大まかな画面や処理についてのメモ書き
 
--- [大まかな設計 - レビュー投稿内容確認画面.pdf](https://github.com/user-attachments/files/23594471/-.pdf)
--- [大まかな設計 - レビュー投稿、編集画面.pdf](https://github.com/user-attachments/files/23594470/-.pdf)
--- [大まかな設計 - ユーザ情報入力確認画面.pdf](https://github.com/user-attachments/files/23594468/-.pdf)
--- [大まかな設計 - ユーザ情報登録画面.pdf](https://github.com/user-attachments/files/23594467/-.pdf)
--- [大まかな設計 - マイページ(ユーザ情報表示画面).pdf](https://github.com/user-attachments/files/23594466/-.pdf)
--- [大まかな設計 - パスワード変更画面.pdf](https://github.com/user-attachments/files/23594465/-.pdf)
--- [大まかな設計 - ウェルカムページ.pdf](https://github.com/user-attachments/files/23594463/-.pdf)
--- [大まかな設計 - NAV.pdf](https://github.com/user-attachments/files/23594462/-.NAV.pdf)
--- [大まかな設計 - 本棚表示画面.pdf](https://github.com/user-attachments/files/23594461/-.pdf)
--- [大まかな設計 - 書籍詳細画面.pdf](https://github.com/user-attachments/files/23594460/-.pdf)
--- [大まかな設計 - 書籍検索画面.pdf](https://github.com/user-attachments/files/23594459/-.pdf)
--- [大まかな設計 - 管理者画面.pdf](https://github.com/user-attachments/files/23594458/-.pdf)
--- [大まかな設計 - ログイン画面.pdf](https://github.com/user-attachments/files/23594456/-.pdf)
--- [大まかな設計 - ログアウト完了画面.pdf](https://github.com/user-attachments/files/23594453/-.pdf)
+- [大まかな設計 - レビュー投稿内容確認画面.pdf](https://github.com/user-attachments/files/23594471/-.pdf)
+- [大まかな設計 - レビュー投稿、編集画面.pdf](https://github.com/user-attachments/files/23594470/-.pdf)
+- [大まかな設計 - ユーザ情報入力確認画面.pdf](https://github.com/user-attachments/files/23594468/-.pdf)
+- [大まかな設計 - ユーザ情報登録画面.pdf](https://github.com/user-attachments/files/23594467/-.pdf)
+- [大まかな設計 - マイページ(ユーザ情報表示画面).pdf](https://github.com/user-attachments/files/23594466/-.pdf)
+- [大まかな設計 - パスワード変更画面.pdf](https://github.com/user-attachments/files/23594465/-.pdf)
+- [大まかな設計 - ウェルカムページ.pdf](https://github.com/user-attachments/files/23594463/-.pdf)
+- [大まかな設計 - NAV.pdf](https://github.com/user-attachments/files/23594462/-.NAV.pdf)
+- [大まかな設計 - 本棚表示画面.pdf](https://github.com/user-attachments/files/23594461/-.pdf)
+- [大まかな設計 - 書籍詳細画面.pdf](https://github.com/user-attachments/files/23594460/-.pdf)
+- [大まかな設計 - 書籍検索画面.pdf](https://github.com/user-attachments/files/23594459/-.pdf)
+- [大まかな設計 - 管理者画面.pdf](https://github.com/user-attachments/files/23594458/-.pdf)
+- [大まかな設計 - ログイン画面.pdf](https://github.com/user-attachments/files/23594456/-.pdf)
+- [大まかな設計 - ログアウト完了画面.pdf](https://github.com/user-attachments/files/23594453/-.pdf)
 
 
 
