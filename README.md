@@ -8,6 +8,8 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ---
 
 ## 🗓️ Development Timeline
+- 2025-11-20: 設計の順番は画面→DTO→Mapper→Service→Controllerがしっくりきそうな予感。。。。
+- やっと命名にも慣れてきた気が。。。。する。。ｗ
 - 2025-11-19: [Entity](#Entity) , [enum](#enum) , [書籍検索画面](#書籍検索画面) と [書籍詳細画面](#書籍詳細画面) の [DTO](#DTO) , [Service](#Service) , [Controller](#Controller) , [Mapper](#Mapper) のクラス設計が終わる
 - 2025-11-18:　画面の設計と一緒にクラス設計を考えることにする
 - 2025-11-18:　画面の設計に入る　画面のイメージを持つことでどんな処理が必要なのか洗い出そうと思った
