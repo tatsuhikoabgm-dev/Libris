@@ -8,7 +8,7 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ---
 
 ## 🗓️ Development Timeline
-- 2025-11-19: Entity,enum,書籍検索画面と書籍詳細画面のDTO,Service,Controller,Mapperのクラス設計が終わる
+- 2025-11-19: [Entity](#Entity) , [enum](#enum) , [書籍検索画面](#書籍検索画面) と [書籍詳細画面](#書籍詳細画面) の [DTO](#DTO) , [Service](#Service) , [Controller](#Controller) , [Mapper](#Mapper) のクラス設計が終わる
 - 2025-11-18:　画面の設計と一緒にクラス設計をすればDTO名などを連動させられることに気づく
 - 途中でとりあえずレイアウトだけを作成し、明日から画面設計とクラス設計を平行して行う　[ここまででできたもの](#ここまでで完成した画面設計ととりあえずのレイアウト)
 - 2025-11-18:　画面の設計に入る　画面のイメージを持つことでどんな処理が必要なのか洗い出そうと思った
@@ -92,10 +92,13 @@ src
 ## 書籍検索画面と書籍詳細画面のService,Controller,Mapper,DTO
 ### DTO
 <img width="2339" height="1653" alt="DTO" src="https://github.com/user-attachments/assets/978594a0-015e-4bfc-afd5-5495393f3ac4" />
+
 ### Mapper
 <img width="2339" height="1653" alt="Mapper" src="https://github.com/user-attachments/assets/5ea45b98-ea69-44ee-9c19-571381375671" />
-### COntroller
+
+### Controller
 <img width="2339" height="1653" alt="Controller" src="https://github.com/user-attachments/assets/7e6e92df-93cf-47a9-b03c-d46bf4ea7fec" />
+
 ### Service
 <img width="2339" height="1653" alt="Service" src="https://github.com/user-attachments/assets/4f957f6c-1eb0-4191-a2e9-b6e016e54e6b" />
 
