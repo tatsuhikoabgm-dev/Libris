@@ -49,29 +49,9 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 
 ---
 
-##  3. ディレクトリ構成（例）
-src
-└── main
-├── java
-│ └── com.example.libris
-│ ├── controller
-│ ├── service
-│ ├── mapper
-│ ├── domain
-│ │ ├── entity
-│ │ ├── dto
-│ │ └── googlebooks ← APIレスポンスPOJO
-│ └── config
-├── resources
-│ ├── templates
-│ │ ├── user
-│ │ └── book
-│ ├── mapper
+##  3. ディレクトリ構成
+<img width="1006" height="667" alt="image" src="https://github.com/user-attachments/assets/3c5b4c70-32d3-40a3-b8dd-db5ab45731a2" />
 
-│ ├── static
-│ │ ├── css
-│ │ └── js（必要なら）
-└── test
 
 #  4. 設計資料
 
