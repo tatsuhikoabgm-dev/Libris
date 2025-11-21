@@ -54,7 +54,8 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ---
 
 ##  3. ディレクトリ構成
-<img width="1006" height="667" alt="image" src="https://github.com/user-attachments/assets/3c5b4c70-32d3-40a3-b8dd-db5ab45731a2" />
+<img width="808" height="553" alt="image" src="https://github.com/user-attachments/assets/8bc842b2-6ba1-4d29-b3b5-14e9627821de" />
+
 
 
 #  4. 設計資料
@@ -66,7 +67,8 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ---
 
 ### Entity
-<img width="2339" height="1653" alt="Entity" src="https://github.com/user-attachments/assets/9215a835-9533-431d-9f3f-22c42146fb5c" />
+<img width="2339" height="1653" alt="クラス設計書 - Entity" src="https://github.com/user-attachments/assets/84059852-96bf-4f66-a783-7c40de4fc12d" />
+
 
 ---
 
@@ -74,18 +76,23 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 <img width="2339" height="1653" alt="enum" src="https://github.com/user-attachments/assets/9a0f37f6-cf5c-4d83-8c9b-0b83d7ca9f43" />
 ---
 
-## 書籍検索画面と書籍詳細画面のService,Controller,Mapper,DTO
+## 書籍検索画面、書籍詳細画面、本棚表示画面、本棚編集画面
 ### DTO
+<img width="2339" height="1653" alt="クラス設計書 - DTO" src="https://github.com/user-attachments/assets/afa61240-226d-48cf-802c-35e6c1574db9" />
 
 
 ### Mapper
-<img width="2339" height="1653" alt="Mapper" src="https://github.com/user-attachments/assets/5ea45b98-ea69-44ee-9c19-571381375671" />
+<img width="2339" height="1653" alt="クラス設計書 - Mapper" src="https://github.com/user-attachments/assets/9233ce05-4f0e-4850-a3d2-2267925c83ea" />
 
-### Controller
-<img width="2339" height="1653" alt="Controller" src="https://github.com/user-attachments/assets/7e6e92df-93cf-47a9-b03c-d46bf4ea7fec" />
 
 ### Service
-<img width="2339" height="1653" alt="Service" src="https://github.com/user-attachments/assets/4f957f6c-1eb0-4191-a2e9-b6e016e54e6b" />
+<img width="2339" height="1653" alt="クラス設計書 - Service" src="https://github.com/user-attachments/assets/46c58d99-422c-4fc6-9eac-9476d3abcb2c" />
+
+
+
+### Controller
+<img width="2339" height="1653" alt="クラス設計書 - Controller" src="https://github.com/user-attachments/assets/b0705785-c77e-4b94-9bd5-19aeddaaffdd" />
+
 
 
 ## 画面設計
@@ -93,7 +100,15 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 <img width="2339" height="1653" alt="書籍検索画面" src="https://github.com/user-attachments/assets/ef0dc816-f68a-4bc0-ab3a-6a55582dbd52" />
 
 ### 書籍詳細画面
-<img width="2339" height="1653" alt="書籍詳細画面" src="https://github.com/user-attachments/assets/9030cbec-d852-4a75-a549-9fca813c1758" />
+
+
+### 本棚表示画面
+<img width="2339" height="1653" alt="画面設計 - 本棚表示画面" src="https://github.com/user-attachments/assets/482dfc66-0db0-4098-afc9-eaaf04089b19" />
+
+
+### 本棚編集画面
+<img width="2339" height="1653" alt="画面設計 - 本棚編集画面" src="https://github.com/user-attachments/assets/07da84d7-b2fa-4ff3-8604-afdf178f9ba7" />
+
 
 
 
