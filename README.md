@@ -9,7 +9,8 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ---
 
 ## 🗓️ Development Timeline
-- 2025-11-25: 更新が滞ってしまった。画面設計がすべて終わりクラス設計をしている。最初のころに設計していた書籍検索画面、書籍詳細画面が甘かったのでやり直している。
+- 2025-11-25: [クラス設計](#クラス設計)の更新　
+- 2025-11-25: 更新が滞ってしまった。[画面設計](#画面設計)がすべて終わりクラス設計をしている。最初のころに設計していた書籍検索画面、書籍詳細画面の設計が甘かったのでやり直して[メモ](#メモ)を追加した。
 進捗が遅れそうで怖かったが、レイヤードの理解が深まったと前向きにとらえ納得がいくように設計をし直している。Mapperから返ってくるnullをどうしようかと調べているとoptionalにたどりついた。
 最近、今まで使ったことのないメソッドやクラスが出てきて知恵熱がでそう。optional系,objectクラス.stream()など、ぜひこの開発中にものにしたいと思っている。
 - 2025-11-21: 書籍検索画面、書籍詳細画面、本棚表示画面、本棚編集画面の画面設計とクラス設計が終わる。これでメインとなる機能の設計が完了。明日からユーザー登録、ログイン、ログアウトの設計に入る。
@@ -85,7 +86,14 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ---
 
 ### DTO
-<img width="2339" height="1653" alt="クラス設計書 - DTO" src="https://github.com/user-attachments/assets/afa61240-226d-48cf-802c-35e6c1574db9" />
+
+<img width="595" height="842" alt="クラス設計書 - DTO pdf_page1" src="https://github.com/user-attachments/assets/4e305fa3-b1a6-49a2-84e1-d0b05416bf86" />
+
+
+---
+
+### SESSION
+<img width="842" height="595" alt="クラス設計書 - SessionKeys pdf_page1" src="https://github.com/user-attachments/assets/b042363e-24bb-49b7-bdb3-2b49d818f1bd" />
 
 
 ---
@@ -97,13 +105,15 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ---
 
 ### Service
-<img width="2339" height="1653" alt="クラス設計書 - Service" src="https://github.com/user-attachments/assets/46c58d99-422c-4fc6-9eac-9476d3abcb2c" />
+<img width="842" height="595" alt="クラス設計書 - Service pdf_page1" src="https://github.com/user-attachments/assets/ed5c0437-a3d8-4aa0-8534-c4ef35b8762c" />
+
 
 
 ---
 
 ### Controller
-<img width="2339" height="1653" alt="クラス設計書 - Controller" src="https://github.com/user-attachments/assets/b0705785-c77e-4b94-9bd5-19aeddaaffdd" />
+<img width="842" height="595" alt="クラス設計書 - Controller pdf_page1" src="https://github.com/user-attachments/assets/1b950a3d-b06d-4b1c-85d1-059029237ca7" />
+
 
 
 ---
@@ -113,9 +123,20 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 [【決定】画面設計.pdf](https://github.com/user-attachments/files/23750894/default.pdf)
 
 
+## メモ
+<img width="842" height="595" alt="クラス設計書 - 書籍検索画面のロジック pdf_page1" src="https://github.com/user-attachments/assets/22f14523-fc28-4685-8291-88f59c656626" />
+<img width="842" height="595" alt="クラス設計書 - 書籍詳細画面のロジック pdf_page1" src="https://github.com/user-attachments/assets/44ca824d-08b2-4fee-9f7f-eba44d74a035" />
 
 
 
+
+
+
+
+
+
+
+### 　
 
 
 
