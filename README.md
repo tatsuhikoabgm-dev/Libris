@@ -59,6 +59,8 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ---
 
 ##  3. ディレクトリ構成
+[クラス設計書 - 構成とURLマッピング.pdf](https://github.com/user-attachments/files/23751249/-.URL.pdf)
+
 <img width="808" height="553" alt="image" src="https://github.com/user-attachments/assets/8bc842b2-6ba1-4d29-b3b5-14e9627821de" />
 
 
@@ -68,24 +70,31 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ## クラス設計
 
 ### ドメイン設計
+[【決定】ドメイン設計 - ドメイン設計.pdf](https://github.com/user-attachments/files/23751220/-.pdf)
+
 <img width="1653" height="2339" alt="ドメイン" src="https://github.com/user-attachments/assets/b9cd809d-65fc-4817-90db-f83ff2764ee9" />
 
 
 ---
 
 ### Entity
+[クラス設計書 - Entity.pdf](https://github.com/user-attachments/files/23751224/-.Entity.pdf)
+
 <img width="2339" height="1653" alt="クラス設計書 - Entity" src="https://github.com/user-attachments/assets/84059852-96bf-4f66-a783-7c40de4fc12d" />
 
 
 ---
 
 ### enum
+[クラス設計書 - enum.pdf](https://github.com/user-attachments/files/23751227/-.enum.pdf)
+
 <img width="2339" height="1653" alt="enum" src="https://github.com/user-attachments/assets/9a0f37f6-cf5c-4d83-8c9b-0b83d7ca9f43" />
 
 
 ---
 
 ### DTO
+[クラス設計書 - DTO.pdf](https://github.com/user-attachments/files/23751230/-.DTO.pdf)
 
 <img width="595" height="842" alt="クラス設計書 - DTO pdf_page1" src="https://github.com/user-attachments/assets/4e305fa3-b1a6-49a2-84e1-d0b05416bf86" />
 
@@ -93,18 +102,24 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ---
 
 ### SESSION
+[クラス設計書 - SessionKeys.pdf](https://github.com/user-attachments/files/23751232/-.SessionKeys.pdf)
+
 <img width="842" height="595" alt="クラス設計書 - SessionKeys pdf_page1" src="https://github.com/user-attachments/assets/b042363e-24bb-49b7-bdb3-2b49d818f1bd" />
 
 
 ---
 
 ### Mapper
+[クラス設計書 - Mapper.pdf](https://github.com/user-attachments/files/23751236/-.Mapper.pdf)
+
 <img width="2339" height="1653" alt="クラス設計書 - Mapper" src="https://github.com/user-attachments/assets/9233ce05-4f0e-4850-a3d2-2267925c83ea" />
 
 
 ---
 
 ### Service
+[クラス設計書 - Service.pdf](https://github.com/user-attachments/files/23751239/-.Service.pdf)
+
 <img width="842" height="595" alt="クラス設計書 - Service pdf_page1" src="https://github.com/user-attachments/assets/ed5c0437-a3d8-4aa0-8534-c4ef35b8762c" />
 
 
@@ -112,6 +127,8 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ---
 
 ### Controller
+[クラス設計書 - Controller.pdf](https://github.com/user-attachments/files/23751240/-.Controller.pdf)
+
 <img width="842" height="595" alt="クラス設計書 - Controller pdf_page1" src="https://github.com/user-attachments/assets/1b950a3d-b06d-4b1c-85d1-059029237ca7" />
 
 
@@ -124,7 +141,12 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 
 
 ## メモ
+[クラス設計書 - 書籍検索画面のロジック.pdf](https://github.com/user-attachments/files/23751256/-.pdf)
+
 <img width="842" height="595" alt="クラス設計書 - 書籍検索画面のロジック pdf_page1" src="https://github.com/user-attachments/assets/22f14523-fc28-4685-8291-88f59c656626" />
+
+[クラス設計書 - 書籍詳細画面のロジック.pdf](https://github.com/user-attachments/files/23751257/-.pdf)
+
 <img width="842" height="595" alt="クラス設計書 - 書籍詳細画面のロジック pdf_page1" src="https://github.com/user-attachments/assets/44ca824d-08b2-4fee-9f7f-eba44d74a035" />
 
 
