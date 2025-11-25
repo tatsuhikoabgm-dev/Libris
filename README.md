@@ -10,7 +10,7 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 
 ## 🗓️ Development Timeline
 - 2025-11-25: 更新が滞ってしまった。画面設計がすべて終わりクラス設計をしている。最初のころに設計していた書籍検索画面、書籍詳細画面が甘かったのでやり直している。
-- 進捗が遅れそうで怖かったが、レイヤードの理解が深まったと前向きにとらえ納得がいくように設計をし直している。Mapperから返ってくるnullをどうしようかと調べているとoptionalにたどりついた。
+進捗が遅れそうで怖かったが、レイヤードの理解が深まったと前向きにとらえ納得がいくように設計をし直している。Mapperから返ってくるnullをどうしようかと調べているとoptionalにたどりついた。
 最近、今まで使ったことのないメソッドやクラスが出てきて知恵熱がでそう。optional系,objectクラス.stream()など、ぜひこの開発中にものにしたいと思っている。
 - 2025-11-21: 書籍検索画面、書籍詳細画面、本棚表示画面、本棚編集画面の画面設計とクラス設計が終わる。これでメインとなる機能の設計が完了。明日からユーザー登録、ログイン、ログアウトの設計に入る。
 - 2025-11-21: クラス設計をしていて書籍詳細画面のUI変更を思いついた。これはPGに入る前で本当によかったな＆レイヤーと機能をしっかり分けているから修正箇所が明白だなってとてもうれしい気持ちになる。
@@ -68,6 +68,8 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 
 ### ドメイン設計
 <img width="1653" height="2339" alt="ドメイン" src="https://github.com/user-attachments/assets/b9cd809d-65fc-4817-90db-f83ff2764ee9" />
+
+
 ---
 
 ### Entity
@@ -78,47 +80,37 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 
 ### enum
 <img width="2339" height="1653" alt="enum" src="https://github.com/user-attachments/assets/9a0f37f6-cf5c-4d83-8c9b-0b83d7ca9f43" />
+
+
 ---
 
-## 書籍検索画面、書籍詳細画面、本棚表示画面、本棚編集画面
 ### DTO
 <img width="2339" height="1653" alt="クラス設計書 - DTO" src="https://github.com/user-attachments/assets/afa61240-226d-48cf-802c-35e6c1574db9" />
 
+
+---
 
 ### Mapper
 <img width="2339" height="1653" alt="クラス設計書 - Mapper" src="https://github.com/user-attachments/assets/9233ce05-4f0e-4850-a3d2-2267925c83ea" />
 
 
+---
+
 ### Service
 <img width="2339" height="1653" alt="クラス設計書 - Service" src="https://github.com/user-attachments/assets/46c58d99-422c-4fc6-9eac-9476d3abcb2c" />
 
 
+---
 
 ### Controller
 <img width="2339" height="1653" alt="クラス設計書 - Controller" src="https://github.com/user-attachments/assets/b0705785-c77e-4b94-9bd5-19aeddaaffdd" />
 
 
+---
 
 ## 画面設計
-### 書籍検索画面
-<img width="2339" height="1653" alt="書籍検索画面" src="https://github.com/user-attachments/assets/ef0dc816-f68a-4bc0-ab3a-6a55582dbd52" />
 
-### 書籍詳細画面
-
-
-### 本棚表示画面
-<img width="2339" height="1653" alt="画面設計 - 本棚表示画面" src="https://github.com/user-attachments/assets/482dfc66-0db0-4098-afc9-eaaf04089b19" />
-
-
-### 本棚編集画面
-<img width="2339" height="1653" alt="画面設計 - 本棚編集画面" src="https://github.com/user-attachments/assets/07da84d7-b2fa-4ff3-8604-afdf178f9ba7" />
-
-
-
-
-
-
-
+[【決定】画面設計.pdf](https://github.com/user-attachments/files/23750894/default.pdf)
 
 
 
