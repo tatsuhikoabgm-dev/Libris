@@ -8,7 +8,12 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ＵＸ，ＵＩについても日ごろいいなと思う仕様を取り入れてみたり、なんでこういう仕様なんだろうと学ぶきっかけにしています。
 
 ---
+## 開発管理（GitHub Projects）
+https://github.com/users/tatsuhikoabgm-dev/projects/1
 
+## 開発タスク一覧（Issues）
+https://github.com/tatsuhikoabgm-dev/Libris/issues
+---
 ## 🗓️ Development Timeline
 - 2025-11-26: クラス設計が終了した。DBを作成しダミーデータを流し込む作業までは完了。いよいよPGに入る！！
 - 2025-11-25: 更新が滞ってしまった。[画面設計](#画面設計)がすべて終わりクラス設計をしている。最初のころに設計していた書籍検索画面、書籍詳細画面の設計が甘かったのでやり直して[メモ](#メモ)を追加した。
