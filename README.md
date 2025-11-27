@@ -169,6 +169,15 @@ GitHubでのプロジェクト管理を学びながら開発します。
 
 # ↓作成中です↓
 
+
+## 📁 設計資料（docs）
+
+- [UI 設計](docs/ui)
+- [ドメイン設計・クラス図](docs/domain)
+- [システム構成図](docs/architecture)
+- [SQL（初期データ）](docs/sql)
+- [仕様書 / 要件定義](docs/specification)
+
 ## 📱 画面設計（UI Screens）
 
 ### 🔍 書籍検索画面
