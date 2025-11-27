@@ -1,4 +1,4 @@
-# 📚 Libris - 読書管理システム
+#  ☆☆Libris - 読書管理システム☆☆
 
 訓練校で学習したこと、自分で調べて学んだことを総動員して開発する読書管理システム。  
 Google Books API と連携し、書籍情報の検索、読書管理を行うアプリケーションです。  
@@ -8,11 +8,21 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 ＵＸ，ＵＩについても日ごろいいなと思う仕様を取り入れてみたり、なんでこういう仕様なんだろうと学ぶきっかけにしています。
 
 ---
-## 開発管理（GitHub Projects）
-https://github.com/users/tatsuhikoabgm-dev/projects/1
+# 🔗 開発管理（GitHub Projects）
 
-## 開発タスク一覧（Issues）
-https://github.com/tatsuhikoabgm-dev/Libris/issues/1
+進捗管理・タスク分割は GitHub Projects で行っています。  
+Issue → ToDo → InProgress → Done の流れが分かります。
+
+➡ **https://github.com/users/tatsuhikoabgm-dev/projects/1**
+
+---
+
+# 📝 開発タスク一覧（Issues）
+
+100以上のタスクを Entity/DTO/Service/Controller 単位で分割し、  
+テンプレートに基づいて Issue 化しています。
+
+➡ [https://github.com/tatsuhikoabgm-dev/Libris/issues](https://github.com/tatsuhikoabgm-dev/Libris/issues)
 ---
 ## 🗓️ Development Timeline
 - 2025-11-26: クラス設計が終了した。DBを作成しダミーデータを流し込む作業までは完了。いよいよPGに入る！！
