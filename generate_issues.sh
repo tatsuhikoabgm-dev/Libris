@@ -2,37 +2,89 @@
 export GH_TOKEN="${GH_TOKEN:-$GITHUB_TOKEN}"
 
 # =====================================================
-# Libris Issue Auto Generator
+# Libris Issue Auto Generator（決定版）
 # =====================================================
 
-REPO="tatsuhikoabgm-dev/Libris"     # ★社長のリポ名
-PROJECT_ID="PVT_kwHODfrBac4BJL5g"   # ★取得済みのプロジェクトID
+REPO="tatsuhikoabgm-dev/Libris"        # ★社長のリポ名
+PROJECT_ID="PVT_kwHODfrBac4BJL5g"      # ★GitHub CLI で取得した Project ID
 TEMPLATE_DIR="./templates"
 SOURCE="./ISSUES.md"
 
 # =====================================================
-# テンプレ判定（template ファイル名だけ返す）
+# タイトル → テンプレート判定
 # =====================================================
 get_template() {
   local title="$1"
 
-  if [[ "$title" == *"Entity"* ]]; then
+  if [[ "$title" == *"[Entity]"* ]]; then
     echo "entity.md"
-  elif [[ "$title" == *"Dto"* ]]; then
+  elif [[ "$title" == *"[DTO]"* ]]; then
     echo "dto.md"
-  elif [[ "$title" == *"Enum"* ]]; then
+  elif [[ "$title" == *"[Enum]"* ]]; then
     echo "enum.md"
-  elif [[ "$title" == *"Config"* ]]; then
-    echo "config.md"
-  elif [[ "$title" == *"Controller"* ]]; then
-    echo "controller.md"
-  elif [[ "$title" == *"Service"* ]]; then
-    echo "service.md"
-  elif [[ "$title" == *"Mapper"* ]]; then
+  elif [[ "$title" == *"[Mapper]"* ]]; then
     echo "mapper.md"
+  elif [[ "$title" == *"[Service]"* ]]; then
+    echo "service.md"
+  elif [[ "$title" == *"[Controller]"* ]]; then
+    echo "controller.md"
+  elif [[ "$title" == *"[Config]"* ]]; then
+    echo "config.md"
   else
     echo ""
   fi
+}
+
+# =====================================================
+# タイトル → 自動タグ追加
+# =====================================================
+add_tag() {
+  local title="$1"
+
+  # Entity
+  if [[ "$title" == *"Entity を作成する"* ]]; then
+    echo "[Entity] $title"
+    return
+  fi
+
+  # DTO
+  if [[ "$title" == *"Dto を作成する"* ]]; then
+    echo "[DTO] $title"
+    return
+  fi
+
+  # Enum
+  if [[ "$title" == *"Enum"* ]]; then
+    echo "[Enum] $title"
+    return
+  fi
+
+  # Mapper（find/insert/update 系）
+  if [[ "$title" == *"find"* ]] || [[ "$title" == *"insert"* ]] || [[ "$title" == *"update"* ]]; then
+    echo "[Mapper] $title"
+    return
+  fi
+
+  # Controller
+  if [[ "$title" == *"Controller"* ]]; then
+    echo "[Controller] $title"
+    return
+  fi
+
+  # Config
+  if [[ "$title" == *"Config"* ]]; then
+    echo "[Config] $title"
+    return
+  fi
+
+  # Service（残りの「～を実装する」系）
+  if [[ "$title" == *"を実装する"* ]]; then
+    echo "[Service] $title"
+    return
+  fi
+
+  # マッチなし
+  echo "$title"
 }
 
 # =====================================================
@@ -45,9 +97,10 @@ create_issue() {
   echo "👉 Creating issue: $title (template: $template_file)"
 
   BODY_FILE=$(mktemp)
+
   cp "$TEMPLATE_DIR/$template_file" "$BODY_FILE"
 
-  # 置換用の名前（例：[Entity] UsersEntity を作成 → UsersEntity）
+  # 名前抽出（[Tag] xxx を作成する → xxx）
   local NAME=$(echo "$title" | sed -E 's/^\[[^]]+\] //; s/ を.*//')
 
   sed -i "s/{EntityName}/$NAME/g" "$BODY_FILE"
@@ -72,40 +125,17 @@ create_issue() {
 }
 
 # =====================================================
-# メインループ（ISSUES.md を読み取る）
+# メイン処理
 # =====================================================
 echo "===== Libris Issue Auto Generator ====="
 echo ""
 
 while read -r line; do
-
   if [[ "$line" =~ "- \[ \]" ]]; then
 
     RAW_TITLE=$(echo "$line" | sed -E 's/- \[ \] //')
-    TITLE="$RAW_TITLE"
 
-    # ===== カテゴリ判別（TITLE は上書きせず付与だけ） =====
-    CATEGORY=""
-    if [[ "$TITLE" == *"Entity"* ]]; then
-      CATEGORY="[Entity]"
-    elif [[ "$TITLE" == *"Dto"* ]]; then
-      CATEGORY="[DTO]"
-    elif [[ "$TITLE" == *"Enum"* ]]; then
-      CATEGORY="[Enum]"
-    elif [[ "$TITLE" == *"Mapper"* ]]; then
-      CATEGORY="[Mapper]"
-    elif [[ "$TITLE" == *"Service"* ]]; then
-      CATEGORY="[Service]"
-    elif [[ "$TITLE" == *"Controller"* ]]; then
-      CATEGORY="[Controller]"
-    elif [[ "$TITLE" == *"Config"* ]]; then
-      CATEGORY="[Config]"
-    fi
-
-    # タイトルにカテゴリタグを前置
-    if [[ -n "$CATEGORY" ]]; then
-      TITLE="$CATEGORY $TITLE"
-    fi
+    TITLE=$(add_tag "$RAW_TITLE")
 
     TEMPLATE=$(get_template "$TITLE")
 
@@ -117,7 +147,6 @@ while read -r line; do
     create_issue "$TITLE" "$TEMPLATE"
 
   fi
-
 done < "$SOURCE"
 
 echo ""
