@@ -1,5 +1,5 @@
 # SQL（初期データ / ダミーデータ）
 
-- create_tables.sql
-- dummy_data.sql
+- Libris-CREATE.sql
+- Libris-INSERT.sql
 - ER図と整合性のあるデータ構成
