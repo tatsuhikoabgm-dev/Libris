@@ -13,7 +13,7 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 進捗管理・タスク分割は GitHub Projects で行っています。  
 Issue → ToDo → InProgress → Done の流れが分かります。
 
-➡ **https://github.com/users/tatsuhikoabgm-dev/projects/1**
+➡ [プロジェクトはこちら](https://github.com/users/tatsuhikoabgm-dev/projects/1)
 
 ---
 
@@ -22,7 +22,7 @@ Issue → ToDo → InProgress → Done の流れが分かります。
 100以上のタスクを Entity/DTO/Service/Controller 単位で分割し、  
 テンプレートに基づいて Issue 化しています。
 
-➡ [https://github.com/tatsuhikoabgm-dev/Libris/issues](https://github.com/tatsuhikoabgm-dev/Libris/issues)
+➡ [Issues 一覧はこちら](https://github.com/tatsuhikoabgm-dev/Libris/issues)
 ---
 ## 🗓️ Development Timeline
 - 2025-11-26: クラス設計が終了した。DBを作成しダミーデータを流し込む作業までは完了。いよいよPGに入る！！
