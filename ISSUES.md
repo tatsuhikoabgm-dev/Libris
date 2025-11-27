@@ -1,5 +1,4 @@
-#  Libris 開発タスク一覧
-
+# Libris 開発タスク一覧
 
 ---
 
@@ -16,13 +15,20 @@
 - [ ] UserProfilesEntity を作成する
 - [ ] UserBooksEntity を作成する
 - [ ] BooksEntity を作成する
-- [ ] UserBooksWithBooksEntity を作成する
 
 ## 1-2. DTO（クラス単位）
 
 ### 認証 / セッション
 - [ ] LoginForm を作成する
 - [ ] SessionUser を作成する
+
+### ユーザー
+- [ ] UserRegisterForm を作成する
+- [ ] UserRegisterConfirmDto を作成する
+- [ ] UserMypageDto を作成する
+- [ ] UserEditForm を作成する
+- [ ] UserEditConfirmDto を作成する
+- [ ] PasswordChangeForm を作成する
 
 ### Google Books API
 - [ ] GoogleBooksApiDto を作成する
@@ -47,14 +53,6 @@
 - [ ] StatusEditForm を作成する
 - [ ] ReviewEditForm を作成する
 - [ ] ReviewEditPageDto を作成する
-
-### ユーザー
-- [ ] UserRegisterForm を作成する
-- [ ] UserRegisterConfirmDto を作成する
-- [ ] UserMypageDto を作成する
-- [ ] UserEditForm を作成する
-- [ ] UserEditConfirmDto を作成する
-- [ ] PasswordChangeForm を作成する
 
 ## 1-3. Enum
 - [ ] UserAuthority を作成する
@@ -84,7 +82,7 @@
 - [ ] findUserProfileByUserId を実装する
 - [ ] findByUserId を実装する
 - [ ] updateUser を実装する
-- [ ] upateUserProfile を実装する
+- [ ] updateUserProfile を実装する
 - [ ] updatePassword を実装する
 
 ---
@@ -120,13 +118,6 @@
 - [ ] getStatusEditForm を実装する
 - [ ] updateUserBookStatus を実装する
 - [ ] saveUserReview を実装する
-
-## ユーザー登録
-- [ ] existsByLoginId を実装する
-- [ ] toConfirmDto を実装する
-- [ ] toForm を実装する
-- [ ] registerUser を実装する
-- [ ] hashPassword を実装する
 
 ## ユーザー情報
 - [ ] getUserInfo を実装する
@@ -186,4 +177,3 @@
 - [ ] SecurityConfig を作成する
 - [ ] GlobalExceptionHandler を作成する
 - [ ] LoggingConfig を作成する
-

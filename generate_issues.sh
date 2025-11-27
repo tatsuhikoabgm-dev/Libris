@@ -1,17 +1,16 @@
 #!/bin/bash
 export GH_TOKEN="${GH_TOKEN:-$GITHUB_TOKEN}"
 
-# =====================================================
-# Libris Issue Auto Generator（決定版）
-# =====================================================
+echo "===== Libris Issue Auto Generator (DEBUG MODE) ====="
+echo ""
 
-REPO="tatsuhikoabgm-dev/Libris"        # ★社長のリポ名
-PROJECT_ID="PVT_kwHODfrBac4BJL5g"      # ★GitHub CLI で取得した Project ID
+REPO="tatsuhikoabgm-dev/Libris"
+PROJECT_ID="PVT_kwHODfrBac4BJL5g"
 TEMPLATE_DIR="./templates"
 SOURCE="./ISSUES.md"
 
 # =====================================================
-# タイトル → テンプレート判定
+# template detection
 # =====================================================
 get_template() {
   local title="$1"
@@ -36,59 +35,51 @@ get_template() {
 }
 
 # =====================================================
-# タイトル → 自動タグ追加
+# auto prepend tag
 # =====================================================
 add_tag() {
   local title="$1"
 
-  # Entity
   if [[ "$title" == *"Entity を作成する"* ]]; then
     echo "[Entity] $title"
     return
   fi
 
-  # DTO
   if [[ "$title" == *"Dto を作成する"* ]]; then
     echo "[DTO] $title"
     return
   fi
 
-  # Enum
   if [[ "$title" == *"Enum"* ]]; then
     echo "[Enum] $title"
     return
   fi
 
-  # Mapper（find/insert/update 系）
   if [[ "$title" == *"find"* ]] || [[ "$title" == *"insert"* ]] || [[ "$title" == *"update"* ]]; then
     echo "[Mapper] $title"
     return
   fi
 
-  # Controller
   if [[ "$title" == *"Controller"* ]]; then
     echo "[Controller] $title"
     return
   fi
 
-  # Config
   if [[ "$title" == *"Config"* ]]; then
     echo "[Config] $title"
     return
   fi
 
-  # Service（残りの「～を実装する」系）
   if [[ "$title" == *"を実装する"* ]]; then
     echo "[Service] $title"
     return
   fi
 
-  # マッチなし
   echo "$title"
 }
 
 # =====================================================
-# Issue 作成処理
+# issue creation logic
 # =====================================================
 create_issue() {
   local title="$1"
@@ -97,10 +88,8 @@ create_issue() {
   echo "👉 Creating issue: $title (template: $template_file)"
 
   BODY_FILE=$(mktemp)
-
   cp "$TEMPLATE_DIR/$template_file" "$BODY_FILE"
 
-  # 名前抽出（[Tag] xxx を作成する → xxx）
   local NAME=$(echo "$title" | sed -E 's/^\[[^]]+\] //; s/ を.*//')
 
   sed -i "s/{EntityName}/$NAME/g" "$BODY_FILE"
@@ -125,28 +114,42 @@ create_issue() {
 }
 
 # =====================================================
-# メイン処理
+# Main loop with debug
 # =====================================================
-echo "===== Libris Issue Auto Generator ====="
-echo ""
 
-while read -r line; do
-  if [[ "$line" =~ "- \[ \]" ]]; then
+echo "Reading ISSUES.md ..."
+echo "-----------------------------------------"
 
-    RAW_TITLE=$(echo "$line" | sed -E 's/- \[ \] //')
+while IFS= read -r line; do
+  # Debug display raw line
+  echo "LINE(raw): $line"
 
-    TITLE=$(add_tag "$RAW_TITLE")
-
-    TEMPLATE=$(get_template "$TITLE")
-
-    if [[ -z "$TEMPLATE" ]]; then
-      echo "⚠ No template found for: $TITLE"
-      continue
-    fi
-
-    create_issue "$TITLE" "$TEMPLATE"
-
+  # Debug: Does it match check-box?
+  if [[ "$line" =~ -\ \[\ \] ]]; then
+    echo "  → MATCH: this line is a task"
+  else
+    echo "  → NO MATCH"
+    continue
   fi
+
+  RAW_TITLE=$(echo "$line" | sed -E 's/- \[ \] //')
+  echo "  Extracted title: $RAW_TITLE"
+
+  TITLE=$(add_tag "$RAW_TITLE")
+  echo "  After add_tag:   $TITLE"
+
+  TEMPLATE=$(get_template "$TITLE")
+  echo "  Template:        $TEMPLATE"
+
+  if [[ -z "$TEMPLATE" ]]; then
+    echo "  ⚠ SKIP (No template found)"
+    continue
+  fi
+
+  create_issue "$TITLE" "$TEMPLATE"
+
+  echo "-----------------------------------------"
+
 done < "$SOURCE"
 
 echo ""
