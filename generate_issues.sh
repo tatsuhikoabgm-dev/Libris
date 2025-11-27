@@ -14,26 +14,25 @@ SOURCE="./ISSUES.md"
 get_template() {
   local title="$1"
 
-  if [[ "$TITLE" == *"Entity"* ]]; then
-  TITLE="[Entity] $TITLE"
-elif [[ "$TITLE" == *"Dto"* ]] || [[ "$TITLE" == *"Dto を作成する"* ]]; then
-  TITLE="[DTO] $TITLE"
-elif [[ "$TITLE" == *"Enum"* ]]; then
-  TITLE="[Enum] $TITLE"
-elif [[ "$TITLE" == *"Config"* ]]; then
-  TITLE="[Config] $TITLE"
-elif [[ "$TITLE" == *"Controller"* ]]; then
-  TITLE="[Controller] $TITLE"
-elif [[ "$TITLE" == *"Service"* ]]; then
-  TITLE="[Service] $TITLE"
-elif [[ "$TITLE" == *"Mapper"* ]]; then
-  TITLE="[Mapper] $TITLE"
-else
-  echo "⚠ No template found for: $TITLE"
-  continue
-fi
-
+  if [[ "$title" == *"Entity"* ]]; then
+    echo "entity.md"
+  elif [[ "$title" == *"Dto"* ]] || [[ "$title" == *"Dto を作成する"* ]]; then
+    echo "dto.md"
+  elif [[ "$title" == *"Enum"* ]]; then
+    echo "enum.md"
+  elif [[ "$title" == *"Config"* ]]; then
+    echo "config.md"
+  elif [[ "$title" == *"Controller"* ]]; then
+    echo "controller.md"
+  elif [[ "$title" == *"Service"* ]]; then
+    echo "service.md"
+  elif [[ "$title" == *"Mapper"* ]]; then
+    echo "mapper.md"
+  else
+    echo ""
+  fi
 }
+
 
 # Issue 作成処理
 create_issue() {
