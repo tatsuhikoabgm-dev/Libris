@@ -11,9 +11,8 @@ GitHubでのプロジェクト管理を学びながら開発します。
 #  開発管理（GitHub Projects）
 
 進捗管理・タスク分割は GitHub Projects で行っています。  
-Issue → ToDo → InProgress → Done の流れが分かります。
 
-➡ [プロジェクトはこちら](https://github.com/users/tatsuhikoabgm-dev/projects/1)
+➡ [Issue → ToDo → InProgress → Doneで管理しています。](https://github.com/users/tatsuhikoabgm-dev/projects/1)
 
 ---
 
@@ -22,7 +21,7 @@ Issue → ToDo → InProgress → Done の流れが分かります。
 100以上のタスクを Entity/DTO/Service/Controller 単位で分割し、  
 テンプレートに基づいて Issue 化しています。
 
-➡ [Issues 一覧はこちら](https://github.com/tatsuhikoabgm-dev/Libris/issues)
+➡ [レイヤーごとにタスクを分割しています。](https://github.com/tatsuhikoabgm-dev/Libris/issues)
 ---
 
 ## 1. プロジェクト概要
@@ -59,7 +58,7 @@ Issue → ToDo → InProgress → Done の流れが分かります。
 ##  3. ディレクトリ構成
 [クラス設計書 - 構成とURLマッピング.pdf](https://github.com/user-attachments/files/23751249/-.URL.pdf)
 
-<img width="808" height="553" alt="image" src="https://github.com/user-attachments/assets/8bc842b2-6ba1-4d29-b3b5-14e9627821de" />
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/8bc842b2-6ba1-4d29-b3b5-14e9627821de" />
 
 
 
@@ -136,6 +135,24 @@ Issue → ToDo → InProgress → Done の流れが分かります。
 ## 画面設計
 
 [【決定】画面設計.pdf](https://github.com/user-attachments/files/23750894/default.pdf)
+
+
+
+## 📱 画面設計（UI Screens）
+
+### 🔍 書籍検索画面
+[<img src="screens/thumb_search.png" width="300" alt="検索画面サムネ" />](screens/search.svg)
+
+### 📖 書籍詳細画面
+[<img src="screens/thumb_detail.png" width="300" alt="詳細画面サムネ" />](screens/detail.svg)
+
+### 📚 本棚一覧画面
+[<img src="screens/thumb_shelf.png" width="300" alt="本棚画面サムネ" />](screens/shelf.svg)
+
+---
+
+### 📄 PDFまとめ（UI設計全ページ）
+[「Libris UI 全画面設計書（PDF）」をダウンロード](screens/Libris_UI.pdf)
 
 
 
