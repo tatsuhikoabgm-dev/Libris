@@ -6,7 +6,7 @@ export GH_TOKEN="${GH_TOKEN:-$GITHUB_TOKEN}"
 # =====================================================
 
 REPO="tatsuhikoabgm-dev/Libris"      # ★社長のリポ名
-PROJECT_ID="REPLACE_PROJECT_ID"       # ★あとで取得して置き換える
+PROJECT_ID="PVT_kwHODfrBac4BJL5g"       # ★あとで取得して置き換える
 TEMPLATE_DIR="./templates"
 SOURCE="./ISSUES.md"
 
