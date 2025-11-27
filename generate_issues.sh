@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# =====================================================
+# Libris Issue Auto Generator
+# =====================================================
+
+REPO="tatsuhikoabgm-dev/Libris"      # ★社長のリポ名
+PROJECT_ID="REPLACE_PROJECT_ID"       # ★あとで取得して置き換える
+TEMPLATE_DIR="./templates"
+SOURCE="./ISSUES.md"
+
+# テンプレ割り当て
+get_template() {
+  local title="$1"
+
+  if [[ "$title" == *"[Entity]"* ]]; then echo "entity.md"
+  elif [[ "$title" == *"[DTO]"* ]]; then echo "dto.md"
+  elif [[ "$title" == *"[Enum]"* ]]; then echo "enum.md"
+  elif [[ "$title" == *"[Mapper]"* ]]; then echo "mapper.md"
+  elif [[ "$title" == *"[Service]"* ]]; then echo "service.md"
+  elif [[ "$title" == *"[Controller]"* ]]; then echo "controller.md"
+  elif [[ "$title" == *"[Config]"* ]]; then echo "config.md"
+  else echo ""
+  fi
+}
+
+# Issue 作成処理
+create_issue() {
+  local title="$1"
+  local template_file="$2"
+
+  echo "👉 Creating issue: $title (template: $template_file)"
+
+  BODY_FILE=$(mktemp)
+
+  cp "$TEMPLATE_DIR/$template_file" "$BODY_FILE"
+
+  # 置換用の名前（[Entity] UsersEntity を作成する → UsersEntity）
+  local NAME=$(echo "$title" | sed -E 's/^\[[^]]+\] //; s/ を.*//')
+
+  sed -i "s/{EntityName}/$NAME/g" "$BODY_FILE"
+  sed -i "s/{DtoName}/$NAME/g" "$BODY_FILE"
+  sed -i "s/{EnumName}/$NAME/g" "$BODY_FILE"
+  sed -i "s/{methodName}/$NAME/g" "$BODY_FILE"
+  sed -i "s/{ConfigName}/$NAME/g" "$BODY_FILE"
+
+  ISSUE_NUMBER=$(gh issue create \
+    --repo "$REPO" \
+    --title "$title" \
+    --body-file "$BODY_FILE" \
+    --label "auto" \
+    --json number \
+    --jq ".number")
+
+  echo "✔ Created issue #$ISSUE_NUMBER"
+
+  echo "📌 Adding to project..."
+  gh project item-add "$PROJECT_ID" --content-id "$ISSUE_NUMBER" >/dev/null
+  echo "   → Added to Project"
+}
+
+# =====================================================
+# メインループ
+# =====================================================
+echo "===== Libris Issue Auto Generator ====="
+echo ""
+
+while read -r line; do
+
+  if [[ "$line" =~ "- \[ \]" ]]; then
+
+    # タイトル抽出
+    RAW_TITLE=$(echo "$line" | sed -E 's/- \[ \] //')
+
+    TITLE="$RAW_TITLE"
+
+    # 自動で前にカテゴリタグ付ける
+    if [[ "$TITLE" == *"Entity を作成する"* ]]; then
+      TITLE="[Entity] $TITLE"
+    elif [[ "$TITLE" == *"Dto を作成する"* ]]; then
+      TITLE="[DTO] $TITLE"
+    elif [[ "$TITLE" == *"Enum"* ]]; then
+      TITLE="[Enum] $TITLE"
+    elif [[ "$TITLE" == *"を実装する"* ]]; then
+      # Mapper/Service/Controller は事前分類済み
+      TITLE="$TITLE"
+    fi
+
+    TEMPLATE=$(get_template "$TITLE")
+
+    if [[ -z "$TEMPLATE" ]]; then
+      echo "⚠ No template found for: $TITLE"
+      continue
+    fi
+
+    create_issue "$TITLE" "$TEMPLATE"
+
+  fi
+
+done < "$SOURCE"
+
+echo ""
+echo "🎉 ALL Issues Generated Successfully!"
