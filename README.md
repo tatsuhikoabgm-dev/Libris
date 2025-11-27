@@ -11,22 +11,6 @@ GitHubでのプロジェクト管理を学びながら開発します。
 ＵＸ，ＵＩについても日ごろいいなと思う仕様を取り入れてみたり、なんでこういう仕様なんだろうと学ぶきっかけにしています。
 
 ---
-#  開発管理（GitHub Projects）
-
-進捗管理・タスク分割は GitHub Projects で行っています。  
-
-➡ [Issue → ToDo → InProgress → Doneで管理しています。](https://github.com/users/tatsuhikoabgm-dev/projects/1)
-
----
-
-#  開発タスク一覧（Issues）
-
-100以上のタスクを Entity/DTO/Service/Controller 単位で分割し、  
-テンプレートに基づいて Issue 化しています。
-
-➡ [レイヤーごとにタスクを分割しています。](https://github.com/tatsuhikoabgm-dev/Libris/issues)
----
-
 # 日記
 [日々の更新記録をつけています。](#更新記録)
 
