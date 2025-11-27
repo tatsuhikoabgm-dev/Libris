@@ -55,7 +55,7 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 | DB | MySQL |
 | ビュー | Thymeleaf / HTML / CSS |
 | API | Google Books API |
-| その他 | Lombok / Git / GitHub / Postman |
+| その他 | Lombok / Git / GitHub |
 
 ---
 
