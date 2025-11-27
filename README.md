@@ -12,7 +12,7 @@ Google Books API と連携し、書籍情報の検索、読書管理を行うア
 https://github.com/users/tatsuhikoabgm-dev/projects/1
 
 ## 開発タスク一覧（Issues）
-https://github.com/tatsuhikoabgm-dev/Libris/issues
+https://github.com/tatsuhikoabgm-dev/Libris/issues/1
 ---
 ## 🗓️ Development Timeline
 - 2025-11-26: クラス設計が終了した。DBを作成しダミーデータを流し込む作業までは完了。いよいよPGに入る！！
