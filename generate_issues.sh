@@ -1,4 +1,5 @@
 #!/bin/bash
+export GH_TOKEN="${GH_TOKEN:-$GITHUB_TOKEN}"
 
 # =====================================================
 # Libris Issue Auto Generator
