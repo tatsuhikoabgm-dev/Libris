@@ -152,36 +152,3 @@ GitHubでのプロジェクト管理を学びながら開発します。
 
 
 
-# ↓作成中です↓
-
-
-## 📁 設計資料（docs）
-
-- [UI 設計](docs/ui)
-- [ドメイン設計・クラス図](docs/domain)
-- [システム構成図](docs/architecture)
-- [SQL（初期データ）](docs/sql)
-- [仕様書 / 要件定義](docs/specification)
-
-## 📱 画面設計（UI Screens）
-
-### 🔍 書籍検索画面
-[<img src="screens/thumb_search.png" width="300" alt="検索画面サムネ" />](screens/search.svg)
-
-### 📖 書籍詳細画面
-[<img src="screens/thumb_detail.png" width="300" alt="詳細画面サムネ" />](screens/detail.svg)
-
-### 📚 本棚一覧画面
-[<img src="screens/thumb_shelf.png" width="300" alt="本棚画面サムネ" />](screens/shelf.svg)
-
----
-
-### 📄 PDFまとめ（UI設計全ページ）
-[「Libris UI 全画面設計書（PDF）」をダウンロード](screens/Libris_UI.pdf)
-
-<img width="438" height="855" alt="image" src="https://github.com/user-attachments/assets/c80b89ae-6743-4795-8696-7e7de1046e68" />
-
-
-
-
-
