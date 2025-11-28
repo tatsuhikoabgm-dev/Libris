@@ -8,7 +8,7 @@ import com.tsd.libris.domain.entity.UsersEntity;
 public interface UserMapper {
 	
 	UsersEntity findByLoginId(String loginId);
-	String existsByLoginId(String loginId);
+	boolean existsByLoginId(String loginId);
 	UsersEntity findByUserId(Long userId);
 	int insertUser(UsersEntity entity);
 	int updateUser(UsersEntity entity);
