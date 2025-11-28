@@ -129,6 +129,7 @@ GitHubでのプロジェクト管理を学びながら開発します。
 
 
 ##  更新記録
+- 2025-11-28: Entity,Enum,DTOのPGが終わった<img width="438" height="855" alt="image" src="https://github.com/user-attachments/assets/c80b89ae-6743-4795-8696-7e7de1046e68" />
 - 2025-11-26: クラス設計が終了した。DBを作成しダミーデータを流し込む作業までは完了。いよいよPGに入る！！
 - 2025-11-25: 更新が滞ってしまった。[画面設計](#画面設計)がすべて終わりクラス設計をしている。最初のころに設計していた書籍検索画面、書籍詳細画面の設計が甘かったのでやり直して[メモ](#メモ)を追加した。
 進捗が遅れそうで怖かったが、レイヤードの理解が深まったと前向きにとらえ納得がいくように設計をし直している。Mapperから返ってくるnullをどうしようかと調べているとoptionalにたどりついた。
@@ -178,6 +179,7 @@ GitHubでのプロジェクト管理を学びながら開発します。
 ### 📄 PDFまとめ（UI設計全ページ）
 [「Libris UI 全画面設計書（PDF）」をダウンロード](screens/Libris_UI.pdf)
 
+<img width="438" height="855" alt="image" src="https://github.com/user-attachments/assets/c80b89ae-6743-4795-8696-7e7de1046e68" />
 
 
 
