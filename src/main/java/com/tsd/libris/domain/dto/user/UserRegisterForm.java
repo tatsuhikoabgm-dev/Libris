@@ -19,22 +19,22 @@ import lombok.NoArgsConstructor;
 public class UserRegisterForm {
 	
 	@NotBlank
-	@Size(max=50)
+	@Size(max=12)
 	private String lastName;
 	
 	@NotBlank
-	@Size(max=50)
+	@Size(max=12)
 	private String firstName;
 	
 	//文字化けの可能性を回避するため全角カタカナの仕様
 	@NotBlank
-	@Size(max=50)
+	@Size(max=12)
 	@Pattern(regexp = "^[\\u30A0-\\u30FFー]+$")
 	private String lastNameKana;
 	
 	//文字化けの可能性を回避するため全角カタカナの仕様
 	@NotBlank
-	@Size(max=50)
+	@Size(max=12)
 	@Pattern(regexp = "^[\\u30A0-\\u30FFー]+$")
 	private String firstNameKana;
 	
@@ -45,22 +45,22 @@ public class UserRegisterForm {
 	private String postalCode;
 	
 	@NotBlank
-	@Size(max=50)
+	@Size(max=12)
 	private String prefecture;
 	
 	@NotBlank
-	@Size(max=50)
+	@Size(max=12)
 	private String city;
 	
 	@NotBlank
-	@Size(max=50)
+	@Size(max=12)
 	private String town;
 	
 	@NotBlank
-	@Size(max=50)
+	@Size(max=12)
 	private String addressNumber;
 	
-	@Size(max=100)
+	@Size(max=25)
 	private String building;
 	
 	@NotNull
@@ -82,9 +82,10 @@ public class UserRegisterForm {
 	@NotBlank
 	private String emailConfirm;
 	
-	@Size(max=50)
+	@Size(max=12)
 	private String displayName;
 	
+	//半角英数字のみ
 	@NotBlank
 	@Size(min = 4, max = 50)
 	@Pattern(regexp = "^[a-zA-Z0-9]+$")
