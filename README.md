@@ -1,4 +1,4 @@
-^_^ま<h1 align="center">
+<h1 align="center">
   ☆☆<b>Libris - 読書管理システム</b>☆☆
 </h1>
 
