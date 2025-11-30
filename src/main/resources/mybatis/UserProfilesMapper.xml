@@ -2,4 +2,81 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tsd.libris.mapper.user.UserProfilesMapper">
 
+
+	<select id="findUserProfileByUserId" resultType="UserProfilesEntity">
+	
+		select *
+		from user_profiles
+		where user_id = #{userId};
+	
+	</select>
+	
+	<insert id="insertProfile" parameterType="UserProfilesEntity">
+	
+		insert into user_profiles( 
+		user_id,
+		last_name,
+		first_name,
+		last_name_kana,
+		first_name_kana,
+		postal_code,
+		prefecture,
+		city,
+		town,
+		address_number,
+		building,
+		birthday,
+		phone_number,
+		email)
+		values(
+		#{userId},
+		#{lastName},
+		#{firstName},
+		#{lastNameKana},
+		#{firstNameKana},
+		#{postalCode},
+		#{prefecture},
+		#{city},
+		#{town},
+		#{addressNumber},
+		#{building},
+		#{birthday},
+		#{phoneNumber},
+		#{email});
+	
+	</insert>
+
+
+	<update id="updateProfile" parameterType="UserProfilesEntity">
+	
+		update user_profiles
+		set
+		postal_code = #{postalCode},
+		prefecture =  #{prefecture},
+		city = #{city},
+		town = #{town},
+		address_number = #{addressNumber},
+		building = #{building},
+		phone_number = #{phoneNumber},
+		email = #{email}
+		where user_id = #{userId};
+	
+	
+	</update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

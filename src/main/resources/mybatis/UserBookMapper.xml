@@ -2,4 +2,78 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tsd.libris.mapper.userbooks.UserBookMapper">
 
+
+	<select id="findByUserIdAndBookId" resultType="UserBooksEntity">
+	
+		select *
+		from user_books
+		where
+		user_id = #{userId}
+		and
+		book_id = #{bookId};
+	
+	</select>
+	
+
+	<select id="findReviewsByBookId" resultType="UserBooksEntity">
+	
+		select *
+		from user_books
+		where book_id = #{bookId};
+	
+	</select>
+
+
+	<select id="findUserBookStatus" resultType="String">
+	
+		select status
+		from user_books
+		where
+		user_id = #{userId}
+		and
+		book_id = #{bookId};
+		
+	</select>
+	
+	
+	<insert id="insertUserBook" parameterType="UserBooksEntity">
+	
+		insert into user_books(
+		user_id,
+		book_id,
+		status,
+		rating,
+		review)
+		values(
+		#{userId},
+		#{bookId},
+		#{status},
+		#{rating},
+		#{review});
+	
+	</insert>
+	
+	
+	<update id="updateUserBookStatus" parameterType="UserBooksEntity">	
+	
+		update user_books
+		set
+		status = #{status}
+		where id = #{id};
+	
+	</update>
+	
+	<update id="updateUserBookReview" parameterType="UserBooksEntity">
+	
+		update user_books
+		set
+		review = #{review}
+		where id = #{id};
+	
+	</update>
+	
+	
+
+
+
 </mapper>

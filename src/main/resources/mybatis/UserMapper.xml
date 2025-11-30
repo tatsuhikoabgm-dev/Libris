@@ -4,17 +4,65 @@
 
 
 
-<!--	<select id="findByLoginId" parameterType="String" resultType="UsersEntity">-->
+	<select id="findByLoginId" resultType="UsersEntity">
 
-<!--		select *-->
-<!--		from users-->
-<!--		where login_id = #{};-->
-		
-<!--	</select>-->
+		select *
+		from users
+		where login_id = #{loginId};
 
+	</select>
+
+
+	<select id="existsByLoginId" resultType="String">
+
+		select login_id
+		from users
+		where login_id = #{loginId};
+
+	</select>
+
+
+	<select id="findByUserId" resultType="UsersEntity">
+
+		select *
+		from users
+		where user_id = #{userId};
+
+	</select>
 	
+	
+	<insert id="insertUser" parameterType="UsersEntity" >
+	
+		INSERT INTO users(
+		login_id,
+		password_hash,
+		display_name)
+		values
+		(#{loginId},#{passwordHash},#{displayName});
+	
+	</insert>
+	
+	
+	<update id="updateUser" parameterType="UsersEntity">
+	
+		update users
+		set
+		display_name = #{displayName}
+		where user_id = #{userId};
+	
+	</update>
 
 
+
+	<update id="updatePassword" parameterType="UsersEntity">
+	
+		update users
+		set
+		password_hash = #{passwordHash}
+		where user_id = #{userId};
+	
+	</update>
+	
 
 
 

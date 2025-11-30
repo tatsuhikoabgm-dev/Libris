@@ -2,4 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tsd.libris.mapper.book.BooksMapper">
 
+
+	<select id="findByGoogleVolumeId" resultType="BooksEntity">
+	
+		select *
+		from books
+		where google_volume_id = #{googleVolumeId};
+	
+	</select>
+
+	
+	<select id="findBookDetailByBookId" resultType="BooksEntity">
+	
+		select *
+		from books
+		where id = #{bookId};
+	
+	</select>
+
+	<insert id="insertBook" parameterType="BooksEntity">
+	
+		insert into books(
+		google_volume_id,
+		isbn,
+		title,
+		authors,
+		publisher,
+		published_date,
+		description,
+		thumbnail_link,
+		preview_link
+		)values(
+		#{googleVolumeId},
+		#{isbn},
+		#{title},
+		#{authors},
+		#{publisher},
+		#{publishedDate},
+		#{description},
+		#{thumbnailLink},
+		#{previewLink}
+		);
+	
+	</insert>
+	
+	
+	
+
+
 </mapper>
