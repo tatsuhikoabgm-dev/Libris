@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle} ?: 'Libris'">Libris</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:replace="layout/fragments/header :: header"></header>
+<nav th:replace="layout/fragments/nav :: nav"></nav>
+
+<div class="container">
+    <!-- 子ページがここに入る -->
+    <div th:replace="~{::section}"></div>
+</div>
+
+<footer th:replace="layout/fragments/footer :: footer"></footer>
+
+</body>
+</html>

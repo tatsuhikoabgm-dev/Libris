@@ -11,7 +11,7 @@ public class BookSearchForm {
 
 	/*書籍検索用のフォーム
 	 * APIの仕様がわからないから
-	 * バリデーションはかけませｎ
+	 * バリデーションはかけません
 	 */
 	
 	private String keyword;
