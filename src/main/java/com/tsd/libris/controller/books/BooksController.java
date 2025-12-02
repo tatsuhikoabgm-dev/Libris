@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tsd.libris.domain.dto.books.BookSearchForm;
 import com.tsd.libris.service.books.BooksService;
@@ -49,7 +50,8 @@ public class BooksController {
 	 * 検索結果の表示と検索条件の復元
 	 */
 	@PostMapping("/search")
-	public String searchBooks(@Valid @ModelAttribute BookSearchForm form,
+	public String searchBooks(@RequestParam(defaultValue = "1")int page,
+															@Valid @ModelAttribute BookSearchForm form,
 															BindingResult result,
 															Model model,
 															HttpSession session) {
@@ -61,11 +63,10 @@ public class BooksController {
 				return "books/search";
 			}
 			
-			bs.searchBooks(form);
-			
-			model.addAttribute("bookSearchForm",form);
+		model.addAttribute("page",bs.createBookSearchPage(session, form, page));
 			
 		
+			
 		return "books/search";
 	}
 	

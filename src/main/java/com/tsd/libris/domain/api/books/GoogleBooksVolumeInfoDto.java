@@ -18,6 +18,7 @@ public class GoogleBooksVolumeInfoDto {
 	private String title;
 	private List<String> authors;
 	private List<GoogleBooksIndustryIdentifierDto> DtoindustryIdentifiers;
+	private String publisher;
 	private String publishedDate;
 	private String description;
 	private GoogleBooksImageLinksDto imageLinks;

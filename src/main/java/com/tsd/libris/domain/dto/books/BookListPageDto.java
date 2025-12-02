@@ -16,12 +16,13 @@ public class BookListPageDto {
 	 * 
 	 */
 	
-	private List<BookSearchResultDto> results;
-	private int currentPage;
-	private int totalPages;
-	private int pageSize;
-	private boolean hasNext;
-	private boolean hasPrevious;
-	private String message;
+	private int totalItems; 
+	private int page;
+	private int maxPages; 
+	private int startIndex; 
+	private int endIndex;
+	private List<BookSearchResultDto> books;
+	private BookSearchForm form;
+	
 	
 }

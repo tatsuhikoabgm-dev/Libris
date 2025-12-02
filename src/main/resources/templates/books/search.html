@@ -6,6 +6,8 @@
     <title>書籍検索</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
+
+        /* ▼ 全体2カラム（フォーム部分） */
         .two-columns {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -18,25 +20,36 @@
             margin-bottom: 10px;
         }
 
+        /* ▼ 検索結果2カラムグリッド */
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px 25px;
+            margin-top: 25px;
+        }
+
         .result-card {
             display: flex;
             background: white;
             padding: 15px;
             border-radius: 12px;
             box-shadow: 0px 2px 6px rgba(0,0,0,0.09);
-            margin-bottom: 15px;
+            align-items: flex-start;
         }
 
         .result-card img {
-            width: 90px;
-            height: 120px;
+            width: 85px;
+            height: 115px;
             object-fit: cover;
             border-radius: 8px;
-            margin-right: 20px;
+            margin-right: 15px;
+            flex-shrink: 0;
         }
 
-        .result-info div {
-            margin-bottom: 5px;
+        .result-info div { margin-bottom: 5px; }
+
+        @media (max-width: 768px) {
+            .result-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -45,10 +58,9 @@
 
 <header th:replace="layout/fragments/header :: header"></header>
 
-<!-- ナビゲーションから「書籍検索」を消す -->
 <nav class="navbar">
     <div>
-        <span style="color:#EBE9EA; opacity:0.5;">書籍検索</span> <!-- ←今いる場所なのでクリック不可 -->
+        <span style="color:#EBE9EA; opacity:0.5;">書籍検索</span>
         <a th:href="@{/shelf}">本棚</a>
     </div>
     <div>
@@ -59,47 +71,39 @@
 
 <div class="container">
 
-    <!-- ▼ 検索フォームカード -->
+    <!-- ▼ 検索フォーム -->
     <section>
         <div class="card" style="max-width: 900px; margin: 0 auto;">
 
             <h1 class="page-title" style="text-align:center">書籍検索</h1>
 
-            <!-- エラーメッセージ（フリーワード / タイトル / 著者 が全て空） -->
-            <div th:if="${errorMessage != null}" class="error-msg"
-                 th:text="${errorMessage}">
-            </div>
+            <!-- バリデーションエラー -->
+            <div th:if="${errorMessage != null}" class="error-msg" th:text="${errorMessage}"></div>
 
-            <form th:action="@{/books/search}" method="post" th:object="${bookSearchForm}">
+            <form th:action="@{/books/search}" method="post"
+                  th:object="${page.form}">
 
-                <!-- フリーワード（幅広） -->
                 <div class="form-group">
                     <label>フリーワード検索</label>
                     <input type="text" th:field="*{keyword}">
                 </div>
 
-                <!-- 2カラムエリア -->
                 <div class="two-columns">
-
-                    <!-- 左 -->
                     <div class="form-group">
                         <label>タイトル</label>
                         <input type="text" th:field="*{title}">
                     </div>
 
-                    <!-- 右 -->
                     <div class="form-group">
                         <label>ISBN</label>
                         <input type="text" th:field="*{isbn}">
                     </div>
 
-                    <!-- 左 -->
                     <div class="form-group">
                         <label>著者</label>
                         <input type="text" th:field="*{authors}">
                     </div>
 
-                    <!-- 右 -->
                     <div class="form-group">
                         <label>種類</label>
                         <select th:field="*{printType}">
@@ -109,13 +113,11 @@
                         </select>
                     </div>
 
-                    <!-- 左 -->
                     <div class="form-group">
                         <label>出版社</label>
                         <input type="text" th:field="*{publisher}">
                     </div>
 
-                    <!-- 右 -->
                     <div class="form-group">
                         <label>ソート順</label>
                         <select th:field="*{orderBy}">
@@ -123,10 +125,8 @@
                             <option value="newest">新しい順</option>
                         </select>
                     </div>
-
                 </div>
 
-                <!-- 検索ボタン -->
                 <div style="text-align:center; margin-top:20px;">
                     <button type="submit">検索</button>
                 </div>
@@ -136,35 +136,67 @@
     </section>
 
 
-    <!-- ▼ 検索結果（List<BookSearchResultDto> books） -->
-    <section th:if="${books != null}">
-        <h2 style="margin-top:40px; font-size:1.3rem;" th:if="${books.size() > 0}">
-            検索結果： <span th:text="${books.size()}"></span> 件
+    <!-- ▼ 検索結果 -->
+    <section th:if="${page != null}">
+        
+        <!-- 件数表示 -->
+        <h2 style="margin-top:40px; font-size:1.3rem;"
+            th:if="${page.books.size() > 0}">
+            検索結果： <span th:text="${page.totalItems}"></span> 件<br>
+<!--            <small>-->
+<!--                <span th:text="${page.startIndex}"></span>-->
+<!--                ～-->
+<!--                <span th:text="${page.endIndex}"></span>-->
+<!--                件を表示中-->
+<!--            </small>-->
         </h2>
 
-        <!-- 検索結果が0件 -->
-        <div th:if="${books.size() == 0}" style="margin-top:20px; text-align:center; font-weight:600;">
+        <!-- 0件メッセージ -->
+        <div th:if="${page.books.size() == 0}"
+             style="margin-top:20px; text-align:center; font-weight:600;">
             該当する書籍がありませんでした。
         </div>
 
-        <!-- カード一覧 -->
-        <div th:each="b : ${books}" class="result-card">
+        <!-- 制限超えメッセージ -->
+        <div th:if="${page.overLimit}" style="color:#a00; margin-top:15px; font-weight:700;">
+            検索結果が多すぎます（100件以上）。条件を絞って再検索してください。
+        </div>
 
-            <img th:src="${b.thumbnailUrl}" alt="thumbnail">
+        <!-- ▼ ★★ 2列グリッド ★★ -->
+        <div class="result-grid">
 
-            <div class="result-info">
-                <div><strong th:text="${b.title}"></strong></div>
-                <div th:text="${b.authors}"></div>
-                <div th:text="${b.publisher}"></div>
-                <div th:text="'ISBN: ' + ${b.isbn}"></div>
+            <div th:each="b : ${page.books}" class="result-card">
 
-                <a th:href="@{/books/detail(bookId=${b.bookId})}"
-                   style="display:inline-block; margin-top:8px; color:#34251F; font-weight:700;">
-                    詳細を見る →
-                </a>
+                <img th:src="${b.thumbnailLink}" alt="thumbnail">
+
+                <div class="result-info">
+                    <div><strong th:text="${b.title}"></strong></div>
+                    <div th:text="${b.authors}"></div>
+                    <div th:text="${b.publisher}"></div>
+
+                    <a th:href="@{/books/detail(googleVolumeId=${b.googleVolumeId})}"
+                       style="display:inline-block; margin-top:8px; color:#34251F; font-weight:700;">
+                        詳細を見る →
+                    </a>
+                </div>
+
             </div>
 
         </div>
+
+<!--         ▼ ページネーション -->
+<!--        <div style="text-align:center; margin-top:25px;" th:if="${page.maxPage > 1}">-->
+<!--            <a th:if="${page.page > 1}"-->
+<!--               th:href="@{/books/search(page=${page.page - 1})}">&lt; 前へ</a>-->
+
+<!--            <span th:each="i : ${#numbers.sequence(1, page.maxPage)}"-->
+<!--                  th:text="${i}"-->
+<!--                  th:classappend="${i == page.page} ? 'active-page' : ''"-->
+<!--                  style="margin: 0 5px;"></span>-->
+
+<!--            <a th:if="${page.page < page.maxPage}"-->
+<!--               th:href="@{/books/search(page=${page.page + 1})}">次へ &gt;</a>-->
+<!--        </div>-->
 
     </section>
 
