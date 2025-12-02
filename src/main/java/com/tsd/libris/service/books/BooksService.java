@@ -82,19 +82,24 @@ public class BooksService {
 	/*ページDTOを作るよ
 	 * 
 	 */
-	public BookListPageDto  createBookSearchPage(HttpSession session,BookSearchForm form,int page) {
+	public GoogleBooksApiDto  createBookSearchPage(HttpSession session,BookSearchForm form,int page) {
 		
 		BookListPageDto pageDto = new BookListPageDto();
 		GoogleBooksApiDto results = searchBooks(form, page);
 		
-		if(results.getTotalItems()>=100) pageDto.setTotalItems(100);
-		else pageDto.setTotalItems(results.getTotalItems());
-		pageDto.setPage(page);
-		pageDto.setMaxPages((int)Math.ceil((double)pageDto.getTotalItems()/20));
-		pageDto.setBooks(converter.toSearchResultDto(results));
-		pageDto.setForm(form);
+//		if(results.getTotalItems()>=100) pageDto.setTotalItems(100);
+//		else pageDto.setTotalItems(results.getTotalItems());
+//		pageDto.setPage(page);
+//		pageDto.setMaxPages((int)Math.ceil((double)pageDto.getTotalItems()/20));
+//		pageDto.setBooks(converter.toSearchResultDto(results));
+//		pageDto.setForm(form);
 		
-		return pageDto;
+		/*とりあえずページDTOじゃなくて
+		 * GoogleBooksApiDtoをテンプレートで表示させるだけにするわ！
+		 */
+		saveSearchSession(session,form,converter.toSearchResultDto(results));
+		
+		return results;
 		
 			
 		

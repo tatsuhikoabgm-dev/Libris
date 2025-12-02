@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <title>書籍検索</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
     <style>
 
-        /* ▼ 全体2カラム（フォーム部分） */
         .two-columns {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -20,7 +20,6 @@
             margin-bottom: 10px;
         }
 
-        /* ▼ 検索結果2カラムグリッド */
         .result-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -46,7 +45,9 @@
             flex-shrink: 0;
         }
 
-        .result-info div { margin-bottom: 5px; }
+        .result-info div {
+            margin-bottom: 5px;
+        }
 
         @media (max-width: 768px) {
             .result-grid { grid-template-columns: 1fr; }
@@ -77,11 +78,12 @@
 
             <h1 class="page-title" style="text-align:center">書籍検索</h1>
 
-            <!-- バリデーションエラー -->
-            <div th:if="${errorMessage != null}" class="error-msg" th:text="${errorMessage}"></div>
+            <!-- Validation / Error -->
+            <div th:if="${errorMessage != null}" class="error-msg"
+                 th:text="${errorMessage}"></div>
 
-            <form th:action="@{/books/search}" method="post"
-                  th:object="${page.form}">
+            <!-- form を常にバインド -->
+            <form th:action="@{/books/search}" method="post" th:object="${form}">
 
                 <div class="form-group">
                     <label>フリーワード検索</label>
@@ -89,6 +91,7 @@
                 </div>
 
                 <div class="two-columns">
+
                     <div class="form-group">
                         <label>タイトル</label>
                         <input type="text" th:field="*{title}">
@@ -135,43 +138,35 @@
         </div>
     </section>
 
-
-    <!-- ▼ 検索結果 -->
+    <!-- ▼ 検索結果：BookSearchResultDto のリストが page に入る -->
     <section th:if="${page != null}">
         
-        <!-- 件数表示 -->
+        <!-- 件数 -->
         <h2 style="margin-top:40px; font-size:1.3rem;"
-            th:if="${page.books.size() > 0}">
-            検索結果： <span th:text="${page.totalItems}"></span> 件<br>
-<!--            <small>-->
-<!--                <span th:text="${page.startIndex}"></span>-->
-<!--                ～-->
-<!--                <span th:text="${page.endIndex}"></span>-->
-<!--                件を表示中-->
-<!--            </small>-->
+            th:if="${page.size() > 0}">
+            検索結果： <span th:text="${page.size()}"></span> 件
         </h2>
 
-        <!-- 0件メッセージ -->
-        <div th:if="${page.books.size() == 0}"
+        <!-- 0件表示 -->
+        <div th:if="${page.size() == 0}"
              style="margin-top:20px; text-align:center; font-weight:600;">
             該当する書籍がありませんでした。
         </div>
 
-        <!-- 制限超えメッセージ -->
-        <div th:if="${page.overLimit}" style="color:#a00; margin-top:15px; font-weight:700;">
-            検索結果が多すぎます（100件以上）。条件を絞って再検索してください。
-        </div>
-
-        <!-- ▼ ★★ 2列グリッド ★★ -->
+        <!-- ▼ カード表示 -->
         <div class="result-grid">
 
-            <div th:each="b : ${page.books}" class="result-card">
+            <div th:each="b : ${page}" class="result-card">
 
-                <img th:src="${b.thumbnailLink}" alt="thumbnail">
+                <!-- サムネイル -->
+                <img th:src="${b.thumbnailLink}"
+                     alt="thumbnail">
 
                 <div class="result-info">
                     <div><strong th:text="${b.title}"></strong></div>
+
                     <div th:text="${b.authors}"></div>
+
                     <div th:text="${b.publisher}"></div>
 
                     <a th:href="@{/books/detail(googleVolumeId=${b.googleVolumeId})}"
@@ -184,24 +179,11 @@
 
         </div>
 
-<!--         ▼ ページネーション -->
-<!--        <div style="text-align:center; margin-top:25px;" th:if="${page.maxPage > 1}">-->
-<!--            <a th:if="${page.page > 1}"-->
-<!--               th:href="@{/books/search(page=${page.page - 1})}">&lt; 前へ</a>-->
-
-<!--            <span th:each="i : ${#numbers.sequence(1, page.maxPage)}"-->
-<!--                  th:text="${i}"-->
-<!--                  th:classappend="${i == page.page} ? 'active-page' : ''"-->
-<!--                  style="margin: 0 5px;"></span>-->
-
-<!--            <a th:if="${page.page < page.maxPage}"-->
-<!--               th:href="@{/books/search(page=${page.page + 1})}">次へ &gt;</a>-->
-<!--        </div>-->
-
     </section>
 
 </div>
 
 <footer th:replace="layout/fragments/footer :: footer"></footer>
+
 </body>
 </html>

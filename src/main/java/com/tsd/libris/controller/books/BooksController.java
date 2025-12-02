@@ -35,12 +35,12 @@ public class BooksController {
 																HttpSession session) {
 		
 		if(session.getAttribute("SESSION_BOOK_SEARCH_FORM") ==null) {
-			model.addAttribute("bookSearchForm",new BookSearchForm());
+			model.addAttribute("form",new BookSearchForm());
 			return  "books/search";
 		}
 		
-		model.addAttribute("bookSearchForm",session.getAttribute("SESSION_BOOK_SEARCH_FORM"));
-		model.addAttribute("books",session.getAttribute("SESSION_BOOK_SEARCH_RESULTS"));
+		model.addAttribute("form",session.getAttribute("SESSION_BOOK_SEARCH_FORM"));
+		model.addAttribute("page",session.getAttribute("SESSION_BOOK_SEARCH_RESULTS"));
 		
 		return  "books/search";
 	}
@@ -59,15 +59,15 @@ public class BooksController {
 			//検索条件が不足していた場合
 			if(bs.hasSearchCondition(form)) {
 				model.addAttribute("errorMessage","フリーワード・タイトル・著者・ISBNのいずれかを入力してください");
-				model.addAttribute("bookSearchForm",form);
+				model.addAttribute("form",form);
 				return "books/search";
 			}
 			
+//		
+		model.addAttribute("form",form);
 		model.addAttribute("page",bs.createBookSearchPage(session, form, page));
 			
-		
-			
-		return "books/search";
+		return "redirect:/books/search";
 	}
 	
 	
