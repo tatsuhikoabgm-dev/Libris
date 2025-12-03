@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.tsd.libris.domain.api.books.GoogleBooksApiDto;
 import com.tsd.libris.domain.api.books.GoogleBooksItemDto;
 import com.tsd.libris.domain.api.books.GoogleBooksVolumeInfoDto;
+import com.tsd.libris.domain.dto.books.BookDetailViewDto;
 import com.tsd.libris.domain.dto.books.BookSearchResultDto;
 
 /*外部APIのネストしたDTOをフラットな内部DTOに変換するぞっ！！
@@ -62,5 +63,35 @@ public class GoogleBooksConverter {
 				}).toList();//.stream()
 		
 	}//toSearchResultDto
+	
+	
+	
+	/*書籍詳細画面用
+	 * 
+	 */
+	
+	
+	public BookDetailViewDto toDetailDto(GoogleBooksItemDto results) {
+		
+		
+		BookDetailViewDto dto = Optional.ofNullable(results).map(
+					item ->{
+						
+						return new BookDetailViewDto(item.getId(),
+																					item.getVolumeInfo().getTitle(),
+																					item.getVolumeInfo().getAuthors(),
+																					item.getVolumeInfo().getPublishedDate(),
+																					item.getVolumeInfo().getPublisher(),
+																					item.getVolumeInfo().getIndustryIdentifiers().get
+																					
+								);
+					
+					
+					
+				});
+		
+	}
+	
+	
 	
 }

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>書籍詳細</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body { background:#EBE9EA; color:#34251F; }
+
+        .detail-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 14px;
+            padding: 30px 40px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .book-header {
+            display: flex;
+            gap: 25px;
+        }
+
+        .book-header img {
+            width: 150px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .info-label { font-weight: bold; margin-top: 10px; }
+        .description-box { margin-top: 25px; white-space: pre-wrap; }
+
+        .preview-link { 
+            margin-top: 10px;
+            display: inline-block;
+            color: #34251F;
+            text-decoration: underline;
+        }
+
+        .status-box {
+            margin-top: 25px;
+            padding: 15px;
+            background: #F6F4F3;
+            border-radius: 10px;
+        }
+
+        .review-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 35px;
+            background: #34251F;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .message-box {
+            margin-top: 20px;
+            padding: 12px;
+            background: #D5BDAE;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="detail-container">
+
+    <!-- A〜F：サムネイル ＋ 基本情報 -->
+    <div class="book-header">
+
+        <!-- A: サムネイル -->
+        <img th:src="${book.thumbnailLink}" alt="サムネイル">
+
+        <div>
+
+            <!-- B: タイトル -->
+            <h2 th:text="${book.title}"></h2>
+
+            <!-- C: 著者 -->
+            <div class="info-label">著者</div>
+            <div th:text="${book.authors}"></div>
+
+            <!-- D: 出版日 -->
+            <div class="info-label">出版日</div>
+            <div th:text="${book.publishedDate}"></div>
+
+            <!-- E: 出版社 -->
+            <div class="info-label">出版社</div>
+            <div th:text="${book.publisher}"></div>
+
+            <!-- F: ISBN -->
+            <div class="info-label">ISBN</div>
+            <div th:text="${book.isbn}"></div>
+
+        </div>
+    </div>
+
+    <!-- G: 説明 -->
+    <div class="description-box">
+        <h3>説明</h3>
+        <p th:text="${book.description}"></p>
+    </div>
+
+    <!-- H: プレビューリンク -->
+    <div>
+        <a th:href="${book.previewLink}" target="_blank" class="preview-link">詳しい情報（Google Booksへ）</a>
+    </div>
+
+    <!-- I〜J: 本棚ステータス + 登録 or 更新 -->
+    <form th:action="@{/books/detail/register}" th:object="${registerForm}" method="post">
+        
+        <input type="hidden" th:field="*{googleVolumeId}">
+        <input type="hidden" th:field="*{userBookId}">
+
+        <div class="status-box">
+            <label class="info-label">本棚ステータス</label>
+            <select th:field="*{readingStatus}">
+                <option value="WANT">欲しい</option>
+                <option value="READING">読んでる</option>
+                <option value="COMPLETED">読了</option>
+                <option value="PENDING">積読</option>
+            </select>
+
+            <div style="margin-top:15px;">
+                <button type="submit" class="btn btn-dark" 
+                        th:text="${book.myBookExists} ? '更新する' : '本棚に登録する' ">
+                </button>
+            </div>
+
+            <!-- P：登録完了メッセージ -->
+            <div th:if="${message != null}" class="message-box" th:text="${message}"></div>
+        </div>
+    </form>
+
+    <!-- L〜O：レビュー一覧 -->
+    <div style="margin-top: 40px;">
+        <h3>レビュー</h3>
+
+        <div th:if="${reviews.empty}">
+            <p>レビューはまだありません。</p>
+        </div>
+
+        <div th:each="r : ${reviews}" class="review-card">
+
+            <!-- L: ユーザー表示名 -->
+            <strong th:text="${r.userDisplayName}"></strong>
+
+            <!-- M: 評価 -->
+            <span>（評価: <span th:text="${r.rating}"></span>）</span>
+
+            <!-- N: 投稿日 -->
+            <div th:text="${r.postedDate}"></div>
+
+            <!-- O: コメント -->
+            <p th:text="${r.comment}" style="margin-top:8px;"></p>
+
+        </div>
+    </div>
+
+    <!-- K: 戻るボタン -->
+    <div style="text-align:center;">
+        <a th:href="@{/books/search(page=${session.page})}" class="back-btn">検索結果に戻る</a>
+    </div>
+
+</div>
+
+</body>
+</html>

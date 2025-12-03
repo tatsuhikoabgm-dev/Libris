@@ -90,5 +90,17 @@ public class BooksController {
 	}
 	
 	
+	@GetMapping("/detail")
+	public String getMethodName(@RequestParam("googleVolumeId") String id) {
+		
+		bs.getBookDetailPage(id);
+		
+		return "/books/detail";
+	}
+	
+	
+	
+	
+	
 	
 }
