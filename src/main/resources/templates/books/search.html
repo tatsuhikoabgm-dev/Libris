@@ -49,6 +49,24 @@
             margin-bottom: 5px;
         }
 
+        /* ページネーション */
+        .pagination {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .pagination a {
+            margin: 0 6px;
+            text-decoration: none;
+            color: #34251F;
+            font-weight: 700;
+        }
+
+        .pagination a.active {
+            color: #D5BDAE;
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
             .result-grid { grid-template-columns: 1fr; }
         }
@@ -78,11 +96,10 @@
 
             <h1 class="page-title" style="text-align:center">書籍検索</h1>
 
-            <!-- Validation / Error -->
+            <!-- バリデーションエラー -->
             <div th:if="${errorMessage != null}" class="error-msg"
                  th:text="${errorMessage}"></div>
 
-            <!-- form を常にバインド -->
             <form th:action="@{/books/search}" method="post" th:object="${form}">
 
                 <div class="form-group">
@@ -91,7 +108,6 @@
                 </div>
 
                 <div class="two-columns">
-
                     <div class="form-group">
                         <label>タイトル</label>
                         <input type="text" th:field="*{title}">
@@ -138,35 +154,34 @@
         </div>
     </section>
 
-    <!-- ▼ 検索結果：BookSearchResultDto のリストが page に入る -->
-    <section th:if="${page != null}">
+    <!-- ▼ 検索結果 -->
+    <section th:if="${books != null}">
         
-        <!-- 件数 -->
+        <!-- 件数表示 -->
         <h2 style="margin-top:40px; font-size:1.3rem;"
-            th:if="${page.size() > 0}">
-            検索結果： <span th:text="${page.size()}"></span> 件
+            th:if="${books.size() > 0}">
+            検索結果：
+            <span th:text="${page.totalItems}"></span> 件中
+            <span th:text="${page.startIndex}"></span> -
+            <span th:text="${page.endIndex}"></span> 件を表示
         </h2>
 
-        <!-- 0件表示 -->
-        <div th:if="${page.size() == 0}"
+        <!-- 0件 -->
+        <div th:if="${books.size() == 0}"
              style="margin-top:20px; text-align:center; font-weight:600;">
             該当する書籍がありませんでした。
         </div>
 
-        <!-- ▼ カード表示 -->
+        <!-- ▼ 結果カード -->
         <div class="result-grid">
 
-            <div th:each="b : ${page}" class="result-card">
+            <div th:each="b : ${books}" class="result-card">
 
-                <!-- サムネイル -->
-                <img th:src="${b.thumbnailLink}"
-                     alt="thumbnail">
+                <img th:src="${b.thumbnailLink}" alt="thumbnail">
 
                 <div class="result-info">
                     <div><strong th:text="${b.title}"></strong></div>
-
                     <div th:text="${b.authors}"></div>
-
                     <div th:text="${b.publisher}"></div>
 
                     <a th:href="@{/books/detail(googleVolumeId=${b.googleVolumeId})}"
@@ -176,7 +191,30 @@
                 </div>
 
             </div>
+        </div>
 
+        <!-- ▼ ページネーション -->
+        <div class="pagination" th:if="${page.maxPages > 1}">
+
+            <!-- 前へ -->
+            <a th:if="${page.page > 1}"
+               th:href="@{/books/search(page=${page.page - 1})}">
+                ＜ 前へ
+            </a>
+
+            <!-- ページ番号 -->
+            <span th:each="i : ${#numbers.sequence(1, page.maxPages)}">
+                <a th:href="@{/books/search(page=${i})}"
+                   th:classappend="${i == page.page} ? 'active'"
+                   th:text="${i}">
+                </a>
+            </span>
+
+            <!-- 次へ -->
+            <a th:if="${page.page < page.maxPages}"
+               th:href="@{/books/search(page=${page.page + 1})}">
+                次へ ＞
+            </a>
         </div>
 
     </section>

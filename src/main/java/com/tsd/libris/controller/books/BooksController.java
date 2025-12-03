@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tsd.libris.domain.dto.books.BookSearchForm;
+import com.tsd.libris.domain.dto.books.BookSearchPageDto;
 import com.tsd.libris.service.books.BooksService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,8 @@ public class BooksController {
 	 * 検索用フォームの表示
 	 */
 	@GetMapping("/search")
-	public String showSearchForm(Model model,
+	public String showSearchForm(@RequestParam(defaultValue = "1")int page,
+																Model model,
 																HttpSession session) {
 		
 		if(session.getAttribute("SESSION_BOOK_SEARCH_FORM") ==null) {
@@ -39,8 +41,25 @@ public class BooksController {
 			return  "books/search";
 		}
 		
+		BookSearchPageDto pageDto = (BookSearchPageDto)session.getAttribute("SESSION_BOOK_SEARCH_PAGING");
+		BookSearchForm form = (BookSearchForm)session.getAttribute("SESSION_BOOK_SEARCH_FORM");
+		
+		if(pageDto.getPage() == page) {
+		//ページの復元
+			model.addAttribute("form",session.getAttribute("SESSION_BOOK_SEARCH_FORM"));
+			model.addAttribute("books",session.getAttribute("SESSION_BOOK_SEARCH_RESULTS"));
+			model.addAttribute("page",session.getAttribute("SESSION_BOOK_SEARCH_PAGING"));
+			return  "books/search";
+		}
+		
+		/*すべてを司る神
+		 * 全部呼ぶ君
+		 */
+		System.out.println(page);
+		bs.getTotalItems(session, form, page);
 		model.addAttribute("form",session.getAttribute("SESSION_BOOK_SEARCH_FORM"));
-		model.addAttribute("page",session.getAttribute("SESSION_BOOK_SEARCH_RESULTS"));
+		model.addAttribute("books",session.getAttribute("SESSION_BOOK_SEARCH_RESULTS"));
+		model.addAttribute("page",session.getAttribute("SESSION_BOOK_SEARCH_PAGING"));
 		
 		return  "books/search";
 	}
@@ -50,8 +69,7 @@ public class BooksController {
 	 * 検索結果の表示と検索条件の復元
 	 */
 	@PostMapping("/search")
-	public String searchBooks(@RequestParam(defaultValue = "1")int page,
-															@Valid @ModelAttribute BookSearchForm form,
+	public String searchBooks(@Valid @ModelAttribute BookSearchForm form,
 															BindingResult result,
 															Model model,
 															HttpSession session) {
@@ -63,9 +81,10 @@ public class BooksController {
 				return "books/search";
 			}
 			
-//		
-		model.addAttribute("form",form);
-		model.addAttribute("page",bs.createBookSearchPage(session, form, page));
+		/*すべてを司る神
+		 * 全部呼ぶ君
+		 */	
+		bs.getTotalItems(session, form, 1);
 			
 		return "redirect:/books/search";
 	}
