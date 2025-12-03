@@ -1,7 +1,5 @@
 package com.tsd.libris.domain.dto.books;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookListPageDto {
+public class BookSearchPageDto {
 
 	
 	/*書籍検索画面のページDTO
@@ -21,8 +19,5 @@ public class BookListPageDto {
 	private int maxPages; 
 	private int startIndex; 
 	private int endIndex;
-	private List<BookSearchResultDto> books;
-	private BookSearchForm form;
-	
 	
 }

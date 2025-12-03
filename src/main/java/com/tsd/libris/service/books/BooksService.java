@@ -10,8 +10,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.tsd.libris.domain.api.books.GoogleBooksApiDto;
 import com.tsd.libris.domain.converter.GoogleBooksConverter;
-import com.tsd.libris.domain.dto.books.BookListPageDto;
 import com.tsd.libris.domain.dto.books.BookSearchForm;
+import com.tsd.libris.domain.dto.books.BookSearchPageDto;
 import com.tsd.libris.domain.dto.books.BookSearchResultDto;
 
 import lombok.RequiredArgsConstructor;
@@ -38,6 +38,7 @@ public class BooksService {
 	
 	/*検索条件からエンドポイントを作成し
 	 * 返ってきたJSONをAPI用DTOに詰めて返す
+	 * ページも対応してるよ！
 	 */
 	public GoogleBooksApiDto searchBooks(BookSearchForm form,int page){
 	
@@ -50,7 +51,7 @@ public class BooksService {
 		if(!form.getPublisher().isBlank()) url += "+inpublisher:" + form.getAuthors();
 		url += "&orderBy=" + form.getOrderBy();
 		url += "&printType=" + form.getPrintType();
-//		url += "&startIndex=" + (page-1)*20;
+		url += "&startIndex=" + (page-1)*20;
 		}else {
 		//ISBN入力自は単体検索-
 			url = "https://www.googleapis.com/books/v1/volumes?projection=lite&q=isbn:" + form.getIsbn();
@@ -61,20 +62,22 @@ public class BooksService {
 		System.out.println("form : " + form);
 		
 		//API叩くぞ！！おりゃ！！
-		RestTemplate rest = new RestTemplate();
-		ResponseEntity<GoogleBooksApiDto> results = rest.getForEntity(url, GoogleBooksApiDto.class);
+		ResponseEntity<GoogleBooksApiDto> results = new RestTemplate().getForEntity(url, GoogleBooksApiDto.class);
+		System.out.println("API叩いた！！");
 		
 		return results.getBody();
 		
 	}//searchBooks
 	
+	
 	/*復元のため検索条件と検索結果をSessionに入れるよ
 	 * 
 	 */
-	public void saveSearchSession(HttpSession session,BookSearchForm form,List<BookSearchResultDto> books ) {
+	public void saveSearchSession(HttpSession session,BookSearchForm form,List<BookSearchResultDto> books,BookSearchPageDto page ) {
 		
 		session.setAttribute("SESSION_BOOK_SEARCH_FORM", form);
 		session.setAttribute("SESSION_BOOK_SEARCH_RESULTS", books);
+		session.setAttribute("SESSION_BOOK_SEARCH_PAGING", page);
 		
 	}
 	
@@ -82,27 +85,35 @@ public class BooksService {
 	/*ページDTOを作るよ
 	 * 
 	 */
-	public GoogleBooksApiDto  createBookSearchPage(HttpSession session,BookSearchForm form,int page) {
+	public BookSearchPageDto  createBookSearchPage(GoogleBooksApiDto results, int page) {
 		
-		BookListPageDto pageDto = new BookListPageDto();
+		BookSearchPageDto dto = new BookSearchPageDto();
+		
+		int totalItems;
+				
+		//ページネイション用のデータをセットする
+		if(results.getTotalItems()>=80) totalItems = 80;
+		else totalItems = results.getTotalItems();
+		dto.setTotalItems(totalItems);
+		dto.setPage(page);
+		dto.setMaxPages((totalItems +19)/20);
+		dto.setStartIndex((page-1)*20+1);
+		dto.setEndIndex((page)*20);
+		
+		return dto;
+		
+	}//createBookSearchPage
+	
+	
+	public void getTotalItems(HttpSession session,BookSearchForm form,int page) {
+		
 		GoogleBooksApiDto results = searchBooks(form, page);
-		
-//		if(results.getTotalItems()>=100) pageDto.setTotalItems(100);
-//		else pageDto.setTotalItems(results.getTotalItems());
-//		pageDto.setPage(page);
-//		pageDto.setMaxPages((int)Math.ceil((double)pageDto.getTotalItems()/20));
-//		pageDto.setBooks(converter.toSearchResultDto(results));
-//		pageDto.setForm(form);
-		
-		/*とりあえずページDTOじゃなくて
-		 * GoogleBooksApiDtoをテンプレートで表示させるだけにするわ！
-		 */
-		saveSearchSession(session,form,converter.toSearchResultDto(results));
-		
-		return results;
-		
-			
+		BookSearchPageDto pageDto = createBookSearchPage(results, page);
+		saveSearchSession(session, form, converter.toSearchResultDto(results), pageDto);
+		System.out.println(pageDto);
 		
 	}
-
+	
+	
+	
 }
