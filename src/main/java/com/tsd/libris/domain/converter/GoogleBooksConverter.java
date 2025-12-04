@@ -74,21 +74,9 @@ public class GoogleBooksConverter {
 	public BookDetailViewDto toDetailDto(GoogleBooksItemDto results) {
 		
 		
-		BookDetailViewDto dto = Optional.ofNullable(results).map(
-					item ->{
-						
-						return new BookDetailViewDto(item.getId(),
-																					item.getVolumeInfo().getTitle(),
-																					item.getVolumeInfo().getAuthors(),
-																					item.getVolumeInfo().getPublishedDate(),
-																					item.getVolumeInfo().getPublisher(),
-																					item.getVolumeInfo().getIndustryIdentifiers().get
-																					
-								);
-					
-					
-					
-				});
+		BookDetailViewDto dto = Optional.ofNullable(results)
+				.map();
+		
 		
 	}
 	
