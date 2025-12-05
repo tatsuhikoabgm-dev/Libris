@@ -18,6 +18,6 @@ public class UserBookRegisterForm {
 	 */
 	
 	private String googleVolumeId;
-	private UserBookReadingStatus status;
+	private UserBookReadingStatus readingStatus;
 
 }

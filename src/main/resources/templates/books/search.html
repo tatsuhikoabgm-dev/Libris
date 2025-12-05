@@ -184,7 +184,7 @@
 			<!-- ▼ 結果カード -->
 			<div class="result-grid">
 
-				<a th:each="b : ${books}" th:href="@{/books/detail(googleVolumeId=${b.googleVolumeId})}"
+				<a th:each="b : ${books}" th:href="@{/books/detail/{googleVolumeId}(googleVolumeId=${b.googleVolumeId})}"
 					class="result-card" style="text-decoration:none; color:inherit; display:flex;">
 
 					<img th:src="${b.thumbnailLink}" alt="thumbnail">

@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tsd.libris.domain.converter.GoogleBooksConverter;
 import com.tsd.libris.domain.dto.books.BookSearchForm;
 import com.tsd.libris.domain.dto.books.BookSearchPageDto;
 import com.tsd.libris.service.books.BooksService;
@@ -27,6 +29,7 @@ public class BooksController {
 	
 	//DI
   private final BooksService bs;
+  private final GoogleBooksConverter converter;
 	
 	/*書籍検索画面
 	 * 検索用フォームの表示
@@ -90,10 +93,11 @@ public class BooksController {
 	}
 	
 	
-	@GetMapping("/detail")
-	public String getMethodName(@RequestParam("googleVolumeId") String id) {
+	@GetMapping("/detail/{googleVolumeId}")
+	public String getMethodName(@PathVariable("googleVolumeId") String googleVolumeId,
+																Model model) {
 		
-		bs.getBookDetailPage(id);
+		model.addAttribute("page",bs.test(googleVolumeId));
 		
 		return "/books/detail";
 	}

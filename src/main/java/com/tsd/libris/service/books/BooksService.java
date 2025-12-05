@@ -11,9 +11,11 @@ import org.springframework.web.client.RestTemplate;
 import com.tsd.libris.domain.api.books.GoogleBooksApiDto;
 import com.tsd.libris.domain.api.books.GoogleBooksItemDto;
 import com.tsd.libris.domain.converter.GoogleBooksConverter;
+import com.tsd.libris.domain.dto.books.BookDetailPageDto;
 import com.tsd.libris.domain.dto.books.BookSearchForm;
 import com.tsd.libris.domain.dto.books.BookSearchPageDto;
 import com.tsd.libris.domain.dto.books.BookSearchResultDto;
+import com.tsd.libris.domain.dto.books.UserBookRegisterForm;
 
 import lombok.RequiredArgsConstructor;
 
@@ -124,23 +126,40 @@ public class BooksService {
 	//******************書籍詳細画面*****************
 	
 	
-	public void getBookDetailPage(String volumeId) {
+	/*API叩くよ！！
+	 * volumeId用のエンドポイント
+	 */
+	public GoogleBooksItemDto getBookDetailPage(String googleVolumeId) {
 		
-		String url = "https://www.googleapis.com/books/v1/volumes/" + volumeId;
+		String url = "https://www.googleapis.com/books/v1/volumes/" + googleVolumeId;
 		
 		ResponseEntity<GoogleBooksItemDto> rest= new RestTemplate().getForEntity(url,GoogleBooksItemDto.class);
 		
 		System.out.println(url);
-		System.out.println(volumeId);
-		System.out.println(rest.getBody());
+		System.out.println(googleVolumeId);
+		System.out.println("rest : " + rest.getBody());
 		
+		return rest.getBody();
 		
 	}
 	
 	
+	/*テスト用
+	 * 一回ページDTOにいれてみる
+	 */
 	
-	
-	
+	public BookDetailPageDto test(String googleVolumeId) {
+		
+		BookDetailPageDto dto = new BookDetailPageDto();
+		
+		dto.setBook(converter.toDetailDto(getBookDetailPage(googleVolumeId)));
+		dto.setReviews(List.of());
+		dto.setForm(new UserBookRegisterForm());
+		dto.setMyBookExists(false);
+		dto.setMyBookStatus(null);
+		
+		return dto;
+	}
 	
 	
 	
