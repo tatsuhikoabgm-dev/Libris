@@ -12,10 +12,17 @@ import com.tsd.libris.domain.api.books.GoogleBooksApiDto;
 import com.tsd.libris.domain.api.books.GoogleBooksItemDto;
 import com.tsd.libris.domain.converter.GoogleBooksConverter;
 import com.tsd.libris.domain.dto.books.BookDetailPageDto;
+import com.tsd.libris.domain.dto.books.BookDetailViewDto;
+import com.tsd.libris.domain.dto.books.BookReviewDto;
 import com.tsd.libris.domain.dto.books.BookSearchForm;
 import com.tsd.libris.domain.dto.books.BookSearchPageDto;
 import com.tsd.libris.domain.dto.books.BookSearchResultDto;
 import com.tsd.libris.domain.dto.books.UserBookRegisterForm;
+import com.tsd.libris.domain.entity.BooksEntity;
+import com.tsd.libris.domain.entity.UserBooksEntity;
+import com.tsd.libris.domain.entity.UserBooksWithUserEntity;
+import com.tsd.libris.mapper.book.BooksMapper;
+import com.tsd.libris.mapper.userbooks.UserBookMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +31,8 @@ import lombok.RequiredArgsConstructor;
 public class BooksService {
 	
 	private final GoogleBooksConverter converter;
+	private final BooksMapper bm;
+	private final UserBookMapper ubm;
 	
 	
 //******************書籍検索画面*****************	
@@ -47,7 +56,7 @@ public class BooksService {
 	public GoogleBooksApiDto searchBooks(BookSearchForm form,int page){
 	
 		//エンドポイントの生成
-		String url = "https://www.googleapis.com/books/v1/volumes?projection=lite&maxResults=20&q=";
+		String url = "https://www.googleapis.com/books/v1/volumes?projection=lite&maxResults=20&langRestrict=ja&q=";
 		if(form.getIsbn().isBlank()) {
 		if(!form.getKeyword().isBlank()) url += form.getKeyword().replaceAll("\\s+|\u3000+","+");
 		if(!form.getTitle().isBlank()) url += "+intitle:" + form.getTitle();
@@ -61,13 +70,9 @@ public class BooksService {
 			url = "https://www.googleapis.com/books/v1/volumes?projection=lite&q=isbn:" + form.getIsbn();
 		}
 		
-		//テスト出力
-		System.out.println(url);	
-		System.out.println("form : " + form);
 		
 		//API叩くぞ！！おりゃ！！
 		ResponseEntity<GoogleBooksApiDto> results = new RestTemplate().getForEntity(url, GoogleBooksApiDto.class);
-		System.out.println("API叩いた！！");
 		
 		return results.getBody();
 		
@@ -114,7 +119,6 @@ public class BooksService {
 		GoogleBooksApiDto results = searchBooks(form, page);
 		BookSearchPageDto pageDto = createBookSearchPage(results, page);
 		saveSearchSession(session, form, converter.toSearchResultDto(results), pageDto);
-		System.out.println(pageDto);
 		
 	}
 	
@@ -129,35 +133,104 @@ public class BooksService {
 	/*API叩くよ！！
 	 * volumeId用のエンドポイント
 	 */
-	public GoogleBooksItemDto getBookDetailPage(String googleVolumeId) {
+	public GoogleBooksItemDto getBookInfo(String googleVolumeId) {
 		
 		String url = "https://www.googleapis.com/books/v1/volumes/" + googleVolumeId;
 		
 		ResponseEntity<GoogleBooksItemDto> rest= new RestTemplate().getForEntity(url,GoogleBooksItemDto.class);
 		
-		System.out.println(url);
-		System.out.println(googleVolumeId);
-		System.out.println("rest : " + rest.getBody());
 		
 		return rest.getBody();
 		
 	}
 	
+	/*booksテーブルに登録済を確認
+	 * なければ空を返す
+	 */
+	public BookDetailViewDto findBookByVolumeId(String googleVolumeId) {
+		
+		BooksEntity entity = bm.findByGoogleVolumeId(googleVolumeId);
+		
+		if(entity != null) {
+			
+		
+		return new BookDetailViewDto(entity.getGoogleVolumeId()
+									,entity.getId()
+									,entity.getTitle()
+									,entity.getAuthors()
+									,entity.getPublishedDate()
+									,entity.getPublisher()
+									,entity.getIsbn()
+									,entity.getDescription()
+									,entity.getThumbnailLink()
+									,entity.getPreviewLink()
+									);
+		}
+		return null;
+		
+		
+		}//findBookByVolumeId
 	
-	/*テスト用
-	 * 一回ページDTOにいれてみる
+	
+	public UserBooksEntity getUserBook(Long userId,Long bookId ) {
+		
+		return ubm.findByUserIdAndBookId(userId, bookId);
+	}
+	
+	public List<BookReviewDto> getReviews(Long bookId){
+		
+		List<UserBooksWithUserEntity> entity = ubm.findReviewsByBookId(bookId);
+		
+		
+		return entity.stream()
+					.map(e -> new BookReviewDto(
+												e.getDisplayName()
+												,e.getRating()
+//												,Optional.ofNullable(e.getRating()).orElse(null) 
+												,e.getReview()
+												,e.getReviewUpdatedAt())
+						)
+					.toList();
+				
+	}//getReviews
+	
+	
+	
+	/*全知全能の神
+	 * 
 	 */
 	
-	public BookDetailPageDto test(String googleVolumeId) {
+	public BookDetailPageDto getBookDetailPage(Long userId,String googleVolumeId) {
 		
 		BookDetailPageDto dto = new BookDetailPageDto();
-		
-		dto.setBook(converter.toDetailDto(getBookDetailPage(googleVolumeId)));
-		dto.setReviews(List.of());
-		dto.setForm(new UserBookRegisterForm());
+		/*先にネガティブのフラグ立てるよん
+		 *空のフォームもいれとくしん 
+		 */
 		dto.setMyBookExists(false);
 		dto.setMyBookStatus(null);
+		dto.setForm(new UserBookRegisterForm(googleVolumeId,null));
+		dto.setReviews(List.of());
 		
+		//Booksに登録無し＝ド新規
+		if(findBookByVolumeId(googleVolumeId) == null) {
+			dto.setBook(converter.toDetailDto(getBookInfo(googleVolumeId)));
+			return dto;
+		}
+		
+		//Booksに登録されている
+		dto.setBook(findBookByVolumeId(googleVolumeId));
+		
+		//レビューがあればセット
+		if(getReviews(dto.getBook().getId()) != null)
+		dto.setReviews(getReviews(dto.getBook().getId()));
+
+		
+		//ユーザーの本棚に登録されている
+		if(getUserBook(userId, dto.getBook().getId()) != null) {
+			dto.setMyBookExists(true);
+			dto.setMyBookStatus(getUserBook(userId, dto.getBook().getId())
+								.getStatus().getLabel());
+		}
 		return dto;
 	}
 	

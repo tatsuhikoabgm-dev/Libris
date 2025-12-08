@@ -103,14 +103,12 @@ public class GoogleBooksConverter {
 				
 				String thumbnailLink = Optional.ofNullable(v.getImageLinks())
 																	.map( i -> {
-//																							if(i.getSmall() != null)return i.getSmall();
 																							if(i.getThumbnail() != null) return i.getThumbnail();
 																							if(i.getSmallThumbnail() != null) return i.getSmallThumbnail();
 																							return "/img/noimage.png";
 																							}
 																			)
 																	.orElse("/img/noimage.png");
-				
 				
 				dto.setGoogleVolumeId(results.getId());
 				dto.setTitle(v.getTitle());

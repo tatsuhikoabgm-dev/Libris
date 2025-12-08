@@ -1,4 +1,4 @@
-package com.tsd.libris.domain.dto.books;
+package com.tsd.libris.domain.entity;
 
 import java.time.LocalDateTime;
 
@@ -9,15 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookReviewDto {
-
-	/*書籍詳細画面
-	 * 本棚のレビューを入れるDTO
-	 */
+public class UserBooksWithUserEntity {
 	
 	private String displayName;
 	private Integer rating;
 	private String review;
-	private LocalDateTime reviewedAt;
-	
+	private LocalDateTime reviewUpdatedAt;
 }

@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserBooksWithBooksEntity {
 
-	private UserBooksEntity userBooks;
-	private BooksEntity books;
+	private Long ubId;
+	private Long bId;
+	private String thumbnailLink;
 	
 }

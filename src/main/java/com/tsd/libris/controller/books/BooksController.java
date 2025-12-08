@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tsd.libris.domain.converter.GoogleBooksConverter;
 import com.tsd.libris.domain.dto.books.BookSearchForm;
 import com.tsd.libris.domain.dto.books.BookSearchPageDto;
+import com.tsd.libris.domain.dto.books.UserBookRegisterForm;
 import com.tsd.libris.service.books.BooksService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,6 @@ public class BooksController {
 	
 	//DI
   private final BooksService bs;
-  private final GoogleBooksConverter converter;
 	
 	/*書籍検索画面
 	 * 検索用フォームの表示
@@ -58,7 +57,6 @@ public class BooksController {
 		/*すべてを司る神
 		 * 全部呼ぶ君
 		 */
-		System.out.println(page);
 		bs.getTotalItems(session, form, page);
 		model.addAttribute("form",session.getAttribute("SESSION_BOOK_SEARCH_FORM"));
 		model.addAttribute("books",session.getAttribute("SESSION_BOOK_SEARCH_RESULTS"));
@@ -93,13 +91,33 @@ public class BooksController {
 	}
 	
 	
+	
+	/*書籍詳細画面
+	 * 
+	 */
 	@GetMapping("/detail/{googleVolumeId}")
 	public String getMethodName(@PathVariable("googleVolumeId") String googleVolumeId,
-																Model model) {
+													Model model,
+													HttpSession session) {
 		
-		model.addAttribute("page",bs.test(googleVolumeId));
+		model.addAttribute("page",bs.getBookDetailPage(1L, googleVolumeId)); 
 		
 		return "/books/detail";
+	}
+	
+	
+	/*本棚に登録
+	 * 
+	 */
+	@PostMapping("/register")
+	public String saveUserBook(@Valid @ModelAttribute UserBookRegisterForm form,
+								BindingResult result,
+								Model model,
+								HttpSession session
+								) {
+		System.out.println(form);
+		
+		return "redirect:/books/detail/" + form.getGoogleVolumeId();
 	}
 	
 	

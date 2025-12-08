@@ -12,15 +12,6 @@
             margin: 0;
         }
 
-        /* NAV */
-        .nav {
-            background: #D5BDAE;
-            padding: 15px 25px;
-            font-size: 20px;
-            color: white;
-            font-weight: bold;
-        }
-
         .container {
             max-width: 1050px;
             margin: 30px auto;
@@ -41,13 +32,15 @@
 
         .thumbnail {
             width: 260px;
+            height: 360px;
+            object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.15);
         }
 
         .book-info {
             flex: 1;
-            position: relative; /* フォーム右下に配置するため */
+            position: relative;
         }
 
         .title {
@@ -56,7 +49,6 @@
             margin-bottom: 10px;
         }
 
-        /* 情報2列グリッド */
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -70,16 +62,22 @@
             margin-bottom: 2px;
         }
 
-        /* フォームをカード右下に配置 */
-        .form-box {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-top: 15px;
-        }
+		.form-box {
+		    display: flex;
+		    gap: 10px;
+		    align-items: center;
+		    margin-top: 20px;
+		    justify-content: flex-end;
+		}
+		
+		.form-box select {
+		    width: 120px;
+		    height: 36px;
+		    padding: 6px 8px;
+		    border-radius: 6px;
+		    border: 1px solid #aaa;
+		}
+
 
         select {
             padding: 6px 8px;
@@ -100,59 +98,93 @@
             background: #1e1714;
         }
 
-        /* レビュー */
+        /* レビュー：新デザイン */
         .review-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        .review-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #ddd;
+        .review-card {
+            padding: 15px 18px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .review-user {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #34251F;
+        }
+
+        .review-stars {
+            font-size: 1.1rem;
+            color: #D5BDAE;
+        }
+
+        .review-comment {
+            margin-top: 10px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .review-date {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #888;
         }
 
         .no-review {
             color: #666;
+            padding: 5px 0;
         }
 
-        /* 戻るリンク */
         .back {
             text-align: center;
             margin-top: 20px;
         }
-		
-		.thumbnail {
-		    width: 260px;
-		    height: 360px;          /* ★ 必ず固定する */
-		    object-fit: cover;      /* or contain に変更可 */
-		    border-radius: 10px;
-		    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-		}
 
     </style>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
 
-	<nav th:replace="layout/fragments/nav :: nav"></nav>
+<header th:replace="~{layout/fragments/header :: header}"></header>
 
+<nav class="navbar">
+    <div>
+        <a th:href="@{/books/search}">書籍検索</a>
+        <a th:href="@{/shelf}">本棚</a>
+    </div>
+    <div>
+        <a th:href="@{/mypage}">マイページ</a>
+        <a th:href="@{/logout}">ログアウト</a>
+    </div>
+</nav>
 
 <div class="container">
 
-    <!-- 書籍情報カード（フォーム入り） -->
+    <!-- 書籍情報カード -->
     <div class="card">
         <div class="book-area">
 
-            <!-- 画像 -->
             <img class="thumbnail" th:src="${page.book.thumbnailLink}">
 
-            <!-- 情報 & フォーム -->
             <div class="book-info">
 
                 <div class="title" th:text="${page.book.title}"></div>
 
-                <!-- 情報2列 -->
                 <div class="info-grid">
 
                     <div>
@@ -177,7 +209,6 @@
 
                 </div>
 
-                <!-- 説明 -->
                 <div class="info-label" style="margin-top:20px;">説明</div>
                 <div th:utext="${page.book.description}"></div>
 
@@ -185,9 +216,9 @@
                     <a th:href="${page.book.previewLink}" target="_blank">Google Booksで見る</a>
                 </div>
 
-                <!-- ★ フォームを右下に配置 -->
+                <!-- 登録フォーム or 登録済み -->
                 <div th:if="${!page.myBookExists}" class="form-box">
-                    <form th:action="@{/books/detail/register}" th:object="${page.form}" method="post">
+                    <form th:action="@{/books/register}" th:object="${page.form}" method="post">
                         <input type="hidden" th:field="*{googleVolumeId}">
 
                         <select th:field="*{readingStatus}">
@@ -201,29 +232,41 @@
                     </form>
                 </div>
 
-                <!-- 登録済み表示 -->
                 <div th:if="${page.myBookExists}" class="form-box">
-                    <span th:text="|${page.myBookStatus}で登録済み|"></span>
+                    <span th:text="|【${page.myBookStatus}】で登録済み|"></span>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <!-- レビューカード -->
+    <!-- レビュー一覧カード -->
     <div class="card">
+
         <div class="review-title">レビュー一覧</div>
 
         <div th:if="${#lists.isEmpty(page.reviews)}" class="no-review">
             レビューはまだありません。
         </div>
 
-        <div th:each="rev : ${page.reviews}" class="review-item">
-            <div><strong th:text="${rev.userDisplayName}"></strong></div>
-            <div>評価: <span th:text="${rev.rating}"></span></div>
-            <div th:text="${rev.postedAt}"></div>
-            <div th:text="${rev.comment}"></div>
+        <div th:each="rev : ${page.reviews}" class="review-card">
+
+            <div class="review-header">
+                <span class="review-user" th:text="${rev.displayName}"></span>
+
+                <!-- 星マーク表示 -->
+				<span class="review-stars"
+				      th:utext="${'★'.repeat(rev.rating ?: 0)} + ${'☆'.repeat(5 - (rev.rating ?: 0))}">
+				</span>
+
+            </div>
+
+            <div class="review-comment" th:text="${rev.review}"></div>
+
+<!--            <div class="review-date" th:text="${rev.postedAt}"></div>-->
+
         </div>
+
     </div>
 
     <div class="back">

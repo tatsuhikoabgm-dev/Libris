@@ -15,12 +15,14 @@
 	</select>
 	
 
-	<select id="findReviewsByBookId" resultType="UserBooksEntity">
+	<select id="findReviewsByBookId" resultType="UserBooksWithUserEntity">
 	
-		select *
-		from user_books
-		where book_id = #{bookId};
-	
+		select u.display_name as display_name,ub.rating as rating,ub.review as review,ub.review_updated_at as review_updated_at
+		from user_books ub
+		join users u
+		on ub.user_id = u.user_id
+		where book_id = #{bookId}
+		AND review_updated_at is not null;
 	</select>
 
 
