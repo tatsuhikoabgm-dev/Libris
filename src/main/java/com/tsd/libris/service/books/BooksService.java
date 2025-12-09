@@ -21,6 +21,7 @@ import com.tsd.libris.domain.dto.books.UserBookRegisterForm;
 import com.tsd.libris.domain.entity.BooksEntity;
 import com.tsd.libris.domain.entity.UserBooksEntity;
 import com.tsd.libris.domain.entity.UserBooksWithUserEntity;
+import com.tsd.libris.domain.enums.UserBookReadingStatus;
 import com.tsd.libris.mapper.book.BooksMapper;
 import com.tsd.libris.mapper.userbooks.UserBookMapper;
 
@@ -197,7 +198,7 @@ public class BooksService {
 	
 	
 	/*全知全能の神
-	 * 
+	 * 書籍詳細画面
 	 */
 	
 	public BookDetailPageDto getBookDetailPage(Long userId,String googleVolumeId) {
@@ -208,12 +209,13 @@ public class BooksService {
 		 */
 		dto.setMyBookExists(false);
 		dto.setMyBookStatus(null);
-		dto.setForm(new UserBookRegisterForm(googleVolumeId,null));
+//		dto.setForm(new UserBookRegisterForm(googleVolumeId,null));
 		dto.setReviews(List.of());
 		
 		//Booksに登録無し＝ド新規
 		if(findBookByVolumeId(googleVolumeId) == null) {
 			dto.setBook(converter.toDetailDto(getBookInfo(googleVolumeId)));
+			
 			return dto;
 		}
 		
@@ -234,6 +236,67 @@ public class BooksService {
 		return dto;
 	}
 	
+	
+//	******************本棚登録処理*****************
+	
+	/*INSERTの神
+	 * 本棚登録之命
+	 */
+	public void saveUserBook(Long userId,UserBookRegisterForm form) {
+		Long bookId;
+		
+		bookId = getOrCreateBookId(form.getGoogleVolumeId());
+		saveUserBookToShelf(userId,bookId,form.getReadingStatus().getCode());
+		
+	}
+	
+	
+	
+	/*booksテーブルにあればidを返して
+	 * なければＩＮＳＥＲＴするよ！
+	 */
+ public Long getOrCreateBookId(String googleVolumeId) {
+	 
+	 //API叩いてEntityを生成するよ
+	 if(findBookByVolumeId(googleVolumeId) == null) {
+		 BookDetailViewDto dto = converter.toDetailDto(getBookInfo(googleVolumeId));
+		 BooksEntity entity = new BooksEntity(null,
+				 																		dto.getGoogleVolumeId(),
+				 																		dto.getIsbn(),
+				 																		dto.getTitle(),
+				 																		dto.getAuthors(),
+				 																		dto.getPublisher(),
+				 																		dto.getPublishedDate(),
+				 																		dto.getDescription(),
+				 																		dto.getThumbnailLink(),
+				 																		dto.getPreviewLink(),
+				 																		null,
+				 																		null,
+				 																		null
+				 																		);
+		 Integer arart = bm.insertBook(entity);
+		 return entity.getId();
+	 }
+		 
+	 return bm.findByGoogleVolumeId(googleVolumeId).getId();
+	 
+	 
+ }//getOrCreateBookId
+ 
+ 
+ public void saveUserBookToShelf(Long userId,Long bookId,String status) {
+	
+	 Integer arart = ubm.insertUserBook(new UserBooksEntity(null,
+			 																		userId,
+			 																		bookId,
+			 																		UserBookReadingStatus.valueOf(status),
+			 																		null,
+			 																		null,
+			 																		null,
+			 																		null,
+			 																		null,
+			 																		null));
+ }
 	
 	
 	

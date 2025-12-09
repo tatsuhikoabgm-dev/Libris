@@ -101,6 +101,7 @@ public class BooksController {
 													HttpSession session) {
 		
 		model.addAttribute("page",bs.getBookDetailPage(1L, googleVolumeId)); 
+		model.addAttribute("form",new UserBookRegisterForm(googleVolumeId,null));
 		
 		return "/books/detail";
 	}
@@ -110,12 +111,14 @@ public class BooksController {
 	 * 
 	 */
 	@PostMapping("/register")
-	public String saveUserBook(@Valid @ModelAttribute UserBookRegisterForm form,
+	public String saveUserBook(@ModelAttribute("form") UserBookRegisterForm form,
 								BindingResult result,
 								Model model,
 								HttpSession session
 								) {
 		System.out.println(form);
+		bs.saveUserBook(1L, form);
+		model.addAttribute("msg","☆" + form.getReadingStatus().getLabel() + "で登録しました☆");		
 		
 		return "redirect:/books/detail/" + form.getGoogleVolumeId();
 	}

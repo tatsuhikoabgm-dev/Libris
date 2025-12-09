@@ -20,7 +20,7 @@
 	
 	</select>
 
-	<insert id="insertBook" parameterType="BooksEntity">
+	<insert id="insertBook"  parameterType="BooksEntity" useGeneratedKeys="true" keyProperty="id">
 	
 		insert into books(
 		google_volume_id,

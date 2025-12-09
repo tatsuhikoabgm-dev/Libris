@@ -17,7 +17,7 @@ public class BookDetailPageDto {
 	
 	private BookDetailViewDto book;
 	private List<BookReviewDto> reviews;
-	private UserBookRegisterForm form;
+//	private UserBookRegisterForm form;
 	private boolean myBookExists;
 	private String myBookStatus;
 	
