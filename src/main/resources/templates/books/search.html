@@ -2,226 +2,231 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>書籍検索</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+	<meta charset="UTF-8">
+	<title>書籍検索</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 
-    <style>
+	<style>
+		.two-columns {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 15px 25px;
+		}
 
-        .two-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px 25px;
-        }
+		.error-msg {
+			color: red;
+			font-weight: 700;
+			margin-bottom: 10px;
+		}
 
-        .error-msg {
-            color: red;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
+		.result-grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 20px 25px;
+			margin-top: 25px;
+		}
 
-        .result-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px 25px;
-            margin-top: 25px;
-        }
 
-        .result-card {
-            display: flex;
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0px 2px 6px rgba(0,0,0,0.09);
-            align-items: flex-start;
-        }
+		.result-card img {
+			width: 85px;
+			height: 115px;
+			object-fit: cover;
+			border-radius: 8px;
+			margin-right: 15px;
+			flex-shrink: 0;
+		}
 
-        .result-card img {
-            width: 85px;
-            height: 115px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
+		.result-info div {
+			margin-bottom: 5px;
+		}
 
-        .result-info div {
-            margin-bottom: 5px;
-        }
+		/* ページネーション */
+		.pagination {
+			margin-top: 30px;
+			text-align: center;
+		}
 
-        /* ページネーション */
-        .pagination {
-            margin-top: 30px;
-            text-align: center;
-        }
+		.pagination a {
+			margin: 0 6px;
+			text-decoration: none;
+			color: #34251F;
+			font-weight: 700;
+		}
 
-        .pagination a {
-            margin: 0 6px;
-            text-decoration: none;
-            color: #34251F;
-            font-weight: 700;
-        }
+		.pagination a.active {
+			color: #D5BDAE;
+			text-decoration: underline;
+		}
 
-        .pagination a.active {
-            color: #D5BDAE;
-            text-decoration: underline;
-        }
+		@media (max-width: 768px) {
+			.result-grid {
+				grid-template-columns: 1fr;
+			}
+		}
 
-        @media (max-width: 768px) {
-            .result-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+		.result-card {
+			display: flex;
+			background: white;
+			padding: 15px;
+			border-radius: 12px;
+			box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.09);
+			align-items: flex-start;
+		}
+
+		.result-card:hover {
+		    cursor: pointer;
+		    box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+		    transform: translateY(-4px);
+		    transition: 0.15s ease;
+		}
+
+
+		
+	</style>
 </head>
 
 <body>
 
-<header th:replace="layout/fragments/header :: header"></header>
+	<header th:replace="layout/fragments/header :: header"></header>
 
-<nav class="navbar">
-    <div>
-        <span style="color:#EBE9EA; opacity:0.5;">書籍検索</span>
-        <a th:href="@{/shelf}">本棚</a>
-    </div>
-    <div>
-        <a th:href="@{/mypage}">マイページ</a>
-        <a th:href="@{/logout}">ログアウト</a>
-    </div>
-</nav>
+	<nav class="navbar">
+		<div>
+			<span style="color:#EBE9EA; opacity:0.5;">書籍検索</span>
+			<a th:href="@{/shelf}">本棚</a>
+		</div>
+		<div>
+			<a th:href="@{/mypage}">マイページ</a>
+			<a th:href="@{/logout}">ログアウト</a>
+		</div>
+	</nav>
 
-<div class="container">
+	<div class="container">
 
-    <!-- ▼ 検索フォーム -->
-    <section>
-        <div class="card" style="max-width: 900px; margin: 0 auto;">
+		<!-- ▼ 検索フォーム -->
+		<section>
+			<div class="card" style="max-width: 900px; margin: 0 auto;">
 
-            <h1 class="page-title" style="text-align:center">書籍検索</h1>
+				<h1 class="page-title" style="text-align:center">書籍検索</h1>
 
-            <!-- バリデーションエラー -->
-            <div th:if="${errorMessage != null}" class="error-msg"
-                 th:text="${errorMessage}"></div>
+				<!-- バリデーションエラー -->
+				<div th:if="${errorMessage != null}" class="error-msg" th:text="${errorMessage}"></div>
 
-            <form th:action="@{/books/search}" method="post" th:object="${form}">
+				<form th:action="@{/books/search}" method="post" th:object="${form}">
 
-                <div class="form-group">
-                    <label>フリーワード検索</label>
-                    <input type="text" th:field="*{keyword}">
-                </div>
+					<div class="form-group">
+						<label>フリーワード検索</label>
+						<input type="text" th:field="*{keyword}">
+					</div>
 
-                <div class="two-columns">
-                    <div class="form-group">
-                        <label>タイトル</label>
-                        <input type="text" th:field="*{title}">
-                    </div>
+					<div class="two-columns">
+						<div class="form-group">
+							<label>タイトル</label>
+							<input type="text" th:field="*{title}">
+						</div>
 
-                    <div class="form-group">
-                        <label>ISBN</label>
-                        <input type="text" th:field="*{isbn}">
-                    </div>
+						<div class="form-group">
+							<label>ISBN</label>
+							<input type="text" th:field="*{isbn}">
+						</div>
 
-                    <div class="form-group">
-                        <label>著者</label>
-                        <input type="text" th:field="*{authors}">
-                    </div>
+						<div class="form-group">
+							<label>著者</label>
+							<input type="text" th:field="*{authors}">
+						</div>
 
-                    <div class="form-group">
-                        <label>種類</label>
-                        <select th:field="*{printType}">
-                            <option value="all">すべて</option>
-                            <option value="books">書籍</option>
-                            <option value="magazines">雑誌</option>
-                        </select>
-                    </div>
+						<div class="form-group">
+							<label>種類</label>
+							<select th:field="*{printType}">
+								<option value="all">すべて</option>
+								<option value="books">書籍</option>
+								<option value="magazines">雑誌</option>
+							</select>
+						</div>
 
-                    <div class="form-group">
-                        <label>出版社</label>
-                        <input type="text" th:field="*{publisher}">
-                    </div>
+						<div class="form-group">
+							<label>出版社</label>
+							<input type="text" th:field="*{publisher}">
+						</div>
 
-                    <div class="form-group">
-                        <label>ソート順</label>
-                        <select th:field="*{orderBy}">
-                            <option value="relevance">関連度順</option>
-                            <option value="newest">新しい順</option>
-                        </select>
-                    </div>
-                </div>
+						<div class="form-group">
+							<label>ソート順</label>
+							<select th:field="*{orderBy}">
+								<option value="relevance">関連度順</option>
+								<option value="newest">新しい順</option>
+							</select>
+						</div>
+					</div>
 
-                <div style="text-align:center; margin-top:20px;">
-                    <button type="submit">検索</button>
-                </div>
+					<div style="text-align:center; margin-top:20px;">
+						<button type="submit">検索</button>
+					</div>
 
-            </form>
-        </div>
-    </section>
+				</form>
+			</div>
+		</section>
 
-    <!-- ▼ 検索結果 -->
-    <section th:if="${books != null}">
-        
-        <!-- 件数表示 -->
-        <h2 style="margin-top:40px; font-size:1.3rem;"
-            th:if="${books.size() > 0}">
-            検索結果：
-            <span th:text="${page.totalItems}"></span> 件中
-            <span th:text="${page.startIndex}"></span> -
-            <span th:text="${page.endIndex}"></span> 件を表示
-        </h2>
+		<!-- ▼ 検索結果 -->
+		<section th:if="${books != null}">
 
-        <!-- 0件 -->
-        <div th:if="${books.size() == 0}"
-             style="margin-top:20px; text-align:center; font-weight:600;">
-            該当する書籍がありませんでした。
-        </div>
+			<!-- 件数表示 -->
+			<h2 style="margin-top:40px; font-size:1.3rem;" th:if="${books.size() > 0}">
+				検索結果：
+				<span th:text="${page.totalItems}"></span> 件中
+				<span th:text="${page.startIndex}"></span> -
+				<span th:text="${page.endIndex}"></span> 件を表示
+			</h2>
 
-        <!-- ▼ 結果カード -->
-        <div class="result-grid">
+			<!-- 0件 -->
+			<div th:if="${books.size() == 0}" style="margin-top:20px; text-align:center; font-weight:600;">
+				該当する書籍がありませんでした。
+			</div>
 
-            <div th:each="b : ${books}" class="result-card">
+			<!-- ▼ 結果カード -->
+			<div class="result-grid">
 
-                <img th:src="${b.thumbnailLink}" alt="thumbnail">
+				<a th:each="b : ${books}" th:href="@{/books/detail/{googleVolumeId}(googleVolumeId=${b.googleVolumeId})}"
+					class="result-card" style="text-decoration:none; color:inherit; display:flex;">
 
-                <div class="result-info">
-                    <div><strong th:text="${b.title}"></strong></div>
-                    <div th:text="${b.authors}"></div>
-                    <div th:text="${b.publisher}"></div>
+					<img th:src="${b.thumbnailLink}" alt="thumbnail">
 
-                    <a th:href="@{/books/detail(googleVolumeId=${b.googleVolumeId})}"
-                       style="display:inline-block; margin-top:8px; color:#34251F; font-weight:700;">
-                        詳細を見る →
-                    </a>
-                </div>
+					<div class="result-info">
+						<div><strong th:text="${b.title}"></strong></div>
+						<div th:text="${b.authors}"></div>
+						<div th:text="${b.publisher}"></div>
+					</div>
 
-            </div>
-        </div>
+				</a>
 
-        <!-- ▼ ページネーション -->
-        <div class="pagination" th:if="${page.maxPages > 1}">
+			</div>
 
-            <!-- 前へ -->
-            <a th:if="${page.page > 1}"
-               th:href="@{/books/search(page=${page.page - 1})}">
-                ＜ 前へ
-            </a>
 
-            <!-- ページ番号 -->
-            <span th:each="i : ${#numbers.sequence(1, page.maxPages)}">
-                <a th:href="@{/books/search(page=${i})}"
-                   th:classappend="${i == page.page} ? 'active'"
-                   th:text="${i}">
-                </a>
-            </span>
+			<!-- ▼ ページネーション -->
+			<div class="pagination" th:if="${page.maxPages > 1}">
 
-            <!-- 次へ -->
-            <a th:if="${page.page < page.maxPages}"
-               th:href="@{/books/search(page=${page.page + 1})}">
-                次へ ＞
-            </a>
-        </div>
+				<!-- 前へ -->
+				<a th:if="${page.page > 1}" th:href="@{/books/search(page=${page.page - 1})}">
+					＜ 前へ
+				</a>
 
-    </section>
+				<!-- ページ番号 -->
+				<span th:each="i : ${#numbers.sequence(1, page.maxPages)}">
+					<a th:href="@{/books/search(page=${i})}" th:classappend="${i == page.page} ? 'active'"
+						th:text="${i}">
+					</a>
+				</span>
 
-</div>
+				<!-- 次へ -->
+				<a th:if="${page.page < page.maxPages}" th:href="@{/books/search(page=${page.page + 1})}">
+					次へ ＞
+				</a>
+			</div>
 
-<footer th:replace="layout/fragments/footer :: footer"></footer>
+		</section>
+
+	</div>
+
+	<footer th:replace="layout/fragments/footer :: footer"></footer>
 
 </body>
+
 </html>

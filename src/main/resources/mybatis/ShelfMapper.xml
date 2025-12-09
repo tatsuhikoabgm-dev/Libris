@@ -18,7 +18,7 @@
 
 
 
-	<select id="findShelfBooksByUserId" resultMap="UserBooksWithBooksMap">
+	<select id="findShelfBooksByUserId" resultType="UserBooksWithBooksEntity">
 	
 		select ub.id as ub_id,b.id as b_id,b.thumbnail_link as b_thumbnail_link
 		from user_books ub

@@ -15,6 +15,7 @@ public class GoogleBooksImageLinksDto {
 	
 	private String smallThumbnail;
 	private String thumbnail;
+	private String small;
 	
 	
 }

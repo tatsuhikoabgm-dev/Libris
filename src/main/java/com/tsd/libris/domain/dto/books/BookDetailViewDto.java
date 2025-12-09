@@ -14,6 +14,7 @@ public class BookDetailViewDto {
 	 */
 	
 	private String googleVolumeId;
+	private Long id;
 	private String title;
 	private String authors;
 	private String publishedDate;

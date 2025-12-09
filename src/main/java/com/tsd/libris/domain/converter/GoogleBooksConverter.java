@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.tsd.libris.domain.api.books.GoogleBooksApiDto;
+import com.tsd.libris.domain.api.books.GoogleBooksIndustryIdentifierDto;
 import com.tsd.libris.domain.api.books.GoogleBooksItemDto;
 import com.tsd.libris.domain.api.books.GoogleBooksVolumeInfoDto;
+import com.tsd.libris.domain.dto.books.BookDetailViewDto;
 import com.tsd.libris.domain.dto.books.BookSearchResultDto;
 
 /*外部APIのネストしたDTOをフラットな内部DTOに変換するぞっ！！
@@ -62,5 +64,69 @@ public class GoogleBooksConverter {
 				}).toList();//.stream()
 		
 	}//toSearchResultDto
+	
+	
+	
+	/*書籍詳細画面用
+	 * 
+	 */
+	
+	
+	public BookDetailViewDto toDetailDto(GoogleBooksItemDto results) {
+		
+		BookDetailViewDto dto = new BookDetailViewDto();
+		
+		
+			
+			
+			Optional.ofNullable(results.getVolumeInfo())
+			.ifPresent( v -> {
+				
+				String authors = Optional.ofNullable(v.getAuthors())
+						.map(a -> String.join(",", a))
+						.orElse("著者情報なし");
+				
+				String isbn = Optional.ofNullable(v.getIndustryIdentifiers())
+						.flatMap( list -> list.stream()
+																	.filter(l -> l.getType().equals("ISBN_13"))
+																	.map(GoogleBooksIndustryIdentifierDto::getIdentifier)
+																	.findFirst()
+										)
+						.or( () -> Optional.ofNullable(v.getIndustryIdentifiers()) 
+								.flatMap(list -> list.stream()
+																			.filter(l -> l.getType().equals("ISBN_10"))
+																			.map(GoogleBooksIndustryIdentifierDto::getIdentifier)
+																			.findFirst()
+												)
+							 ).orElse("ISBNなし");
+						
+				
+				String thumbnailLink = Optional.ofNullable(v.getImageLinks())
+																	.map( i -> {
+																							if(i.getThumbnail() != null) return i.getThumbnail();
+																							if(i.getSmallThumbnail() != null) return i.getSmallThumbnail();
+																							return "/img/noimage.png";
+																							}
+																			)
+																	.orElse("/img/noimage.png");
+				
+				dto.setGoogleVolumeId(results.getId());
+				dto.setTitle(v.getTitle());
+				dto.setAuthors(authors);
+				dto.setPublisher(v.getPublisher());
+				dto.setPublishedDate(v.getPublishedDate());
+				dto.setIsbn(isbn);
+				dto.setDescription(v.getDescription());
+				dto.setThumbnailLink(thumbnailLink);
+				dto.setPreviewLink(v.getPreviewLink());
+				
+			});
+		
+		return dto;
+		
+		
+	}//toDetailDto
+	
+	
 	
 }
