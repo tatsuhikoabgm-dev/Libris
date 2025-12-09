@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>本棚</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #f5f5f7;
+            color: #333;
+        }
+
+        /* ヘッダー */
+        .header {
+            padding: 18px 40px 8px;
+        }
+        .header a {
+            font-size: 24px;
+            text-decoration: none;
+            color: #5c2d91;
+            font-weight: 600;
+        }
+
+        .page-wrap {
+            width: 90%;
+            margin: 0 auto 40px;
+        }
+
+        /* タイトル */
+        .shelf-title {
+            margin: 4px 0 14px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .shelf-title span.icon {
+            color: #4b9ce2;
+            margin-right: 4px;
+        }
+
+        /* ▼ タブ（中央寄せ + 大きめフォント） */
+        .tabs-container {
+            position: sticky;
+            top: 70px;
+            z-index: 50;
+            background: #fafafa;
+            padding: 14px 0;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 6px 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            background: none;
+            color: #444;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: .2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: #222;
+        }
+
+        .tab-active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+        }
+
+        /* スクロール領域（タブより下だけスクロール） */
+        .scroll-area {
+            height: calc(100vh - 180px);
+            overflow-y: auto;
+            padding-top: 18px;
+        }
+
+        /* ▼ 本のグリッド（横のスキマ 0） */
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 150px); /* 5列固定 */
+            column-gap: 0;       /* ← 横のスキマ無し！ */
+            row-gap: 28px;       /* 縦だけ少し余白 */
+            justify-content: center;
+        }
+
+        /* ガラス風カード（サムネぴったりサイズ） */
+        .glass-card {
+            width: 150px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.20);
+        }
+
+        .glass-card img {
+            display: block;
+            width: 100%;
+            height: 220px;           /* 比率をそろえるため固定 */
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <a href="/">☆ Libris ☆</a>
+</div>
+
+<div class="page-wrap">
+
+    <!-- ユーザー名 -->
+    <h2 class="shelf-title">
+        <span class="icon">📚</span>
+        <span th:text="${page.displayName} + 'さんの本棚'"></span>
+    </h2>
+
+    <!-- ▼▼ タブ ▼▼ -->
+    <div class="tabs-container">
+
+        <form method="get">
+            <input type="hidden" name="status" value="ALL">
+            <button class="tab-btn"
+                    th:classappend="${param.status == null || param.status[0] == 'ALL'} ? ' tab-active'">
+                すべて
+            </button>
+        </form>
+
+        <form method="get">
+            <input type="hidden" name="status" value="WANT">
+            <button class="tab-btn"
+                    th:classappend="${param.status[0] == 'WANT'} ? ' tab-active'">
+                欲しい
+            </button>
+        </form>
+
+        <form method="get">
+            <input type="hidden" name="status" value="PENDING">
+            <button class="tab-btn"
+                    th:classappend="${param.status[0] == 'PENDING'} ? ' tab-active'">
+                積読
+            </button>
+        </form>
+
+        <form method="get">
+            <input type="hidden" name="status" value="READING">
+            <button class="tab-btn"
+                    th:classappend="${param.status[0] == 'READING'} ? ' tab-active'">
+                読んでる
+            </button>
+        </form>
+
+        <form method="get">
+            <input type="hidden" name="status" value="COMPLETED">
+            <button class="tab-btn"
+                    th:classappend="${param.status[0] == 'COMPLETED'} ? ' tab-active'">
+                読了
+            </button>
+        </form>
+
+    </div>
+    <!-- ▲▲ タブ ▲▲ -->
+
+
+    <!-- 本棚スクロールエリア -->
+    <div class="scroll-area">
+
+        <div class="book-grid">
+
+            <div th:each="book : ${page.books}" class="glass-card">
+                <a th:href="@{'/books/detail/' + ${book.bookId}}">
+                    <img th:src="${book.thumbnailLink}"
+                         alt="thumbnail">
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -15,7 +15,7 @@ public class ShelfListPageDto {
 	 * 
 	 */
 	
-	private String title;
+	private String displayName;
 	private List<ShelfBookSummaryDto> books;
 
 }

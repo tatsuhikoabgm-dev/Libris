@@ -13,7 +13,8 @@ public interface ShelfMapper {
 
 	
 	List<UserBooksWithBooksEntity> findShelfBooksByUserId(@Param("userId") Long userId);
-	List<UserBooksWithBooksEntity> findShelfBooksByUserIdAndStatus(@Param("userId") Long userId,@Param("status") UserBookReadingStatus status);
+	List<UserBooksWithBooksEntity> findShelfBooksByUserIdAndStatus(@Param("userId") Long userId,
+																																	@Param("status") UserBookReadingStatus status);
 	
 	
 	
