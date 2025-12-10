@@ -13,7 +13,7 @@ public class ShelfBookDetailDto {
 	 * 
 	 */
 	
-	private String bookId;
+	private Long bookId;
 	private String title;
 	private String authors;
 	private String publishedDate;

@@ -16,7 +16,7 @@ public class ReviewEditForm {
 	 */
 	
 	private Long id;
-	private String rating;
+	private Integer rating;
 	private String review;
 	
 }

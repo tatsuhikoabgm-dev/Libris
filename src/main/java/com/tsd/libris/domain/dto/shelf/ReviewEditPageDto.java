@@ -14,8 +14,8 @@ public class ReviewEditPageDto {
 	 */
 	
 	private ShelfBookDetailDto book;
-	private ReviewEditForm form;
 	private boolean hasReview;
+//	private ReviewEditForm form;
 	
 	
 }

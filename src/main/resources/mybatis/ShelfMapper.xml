@@ -24,7 +24,8 @@
 		from user_books ub
 		join books b
 		on ub.book_id = b.id
-		where ub.user_id = #{userId};
+		where ub.user_id = #{userId}
+		order by  ub.updated_at desc;
 	
 	</select>
 
@@ -35,7 +36,8 @@
 		join books b
 		on ub.book_id = b.id
 		where ub.user_id = #{userId}
-		and ub.status = #{status};
+		and ub.status = #{status}
+		order by  ub.updated_at desc;
 	
 	</select>
 
