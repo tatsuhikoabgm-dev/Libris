@@ -13,44 +13,54 @@
         }
 
         /* ========= ヘッダー（書籍検索と同じ） ========= */
-        .nav {
-            width: 100%;
-            background-color: #3b2b23;
-            padding: 14px 26px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 18px;
-        }
+		.nav {
+		    width: 100%;
+		    background-color: #3b2b23;
+		    color: white;
+		}
 
-        .nav-left {
-            display: flex;
-            gap: 24px;
-            align-items: center;
-        }
+		/* NAV 内側の最大幅コンテナ */
+		.nav-inner {
+		    max-width: 1380px;
+		    margin: 0 auto;
+		    padding: 14px 24px;
 
-        .nav-title {
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		}
 
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            opacity: 0.8;
-        }
+		/* 左側 */
+		.nav-left {
+		    display: flex;
+		    gap: 24px;
+		    align-items: center;
+		}
 
-        .nav-link:hover {
-            opacity: 1;
-        }
+		.nav-title {
+		    font-size: 28px;
+		    font-weight: bold;
+		    letter-spacing: 2px;
+		}
 
-        .nav-right {
-            display: flex;
-            gap: 20px;
-        }
+		/* リンク */
+		.nav-link {
+		    color: white;
+		    text-decoration: none;
+		    font-size: 18px;
+		    opacity: 0.85;
+		    transition: opacity .15s;
+		}
+
+		.nav-link:hover {
+		    opacity: 1;
+		}
+
+		/* 右側 */
+		.nav-right {
+		    display: flex;
+		    gap: 20px;
+		}
 
         /* ========= コンテナ ========= */
         .content-wrapper {
@@ -67,35 +77,36 @@
         }
 
         /* ========= タブ ========= */
-        .tabs-container {
-            background: #fafafa;
-            padding: 14px 0;
-            border-bottom: 1px solid #e5e5e5;
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            position: static;   /* ← sticky 無効化 */
-        }
+		.tabs-container {
+		    background: #fafafa;
+		    padding: 16px 0 6px;
+		    border-bottom: 1px solid #e5e5e5;
 
-        .tab-btn {
-            padding: 6px 12px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            background: none;
-            color: #555;
-            cursor: pointer;
-            transition: .2s;
-        }
+		    display: flex;
+		    justify-content: center;
+		    gap: 36px;
+		}
 
-        .tab-btn:hover {
-            color: #222;
-        }
+		.tab-btn {
+		    display: inline-block;  /* ← これが超重要！！ */
+		    padding: 6px 12px 12px;
+		    font-size: 16px;
+		    font-weight: 600;
+		    border: none;
+		    background: none;
+		    color: #555;
+		    cursor: pointer;
+		    transition: .2s;
+		}
 
-        .tab-active {
-            color: #2563eb;
-            border-bottom: 3px solid #2563eb;
-        }
+		.tab-btn:hover {
+		    color: #222;
+		}
+
+		.tab-active {
+		    color: rgb(255, 128, 64);
+		    border-bottom: 3px solid rgb(255, 128, 64);
+		}
 
         /* ========= 本棚グリッド ========= */
         .book-grid {
@@ -141,19 +152,20 @@
 
 <!-- ▼ ナビゲーション（書籍検索画面と同じデザイン） -->
 <div class="nav">
-    <div class="nav-left">
-        <span class="nav-title">☆ Libris ☆</span>
+    <div class="nav-inner">
+        <div class="nav-left">
+            <span class="nav-title">☆ Libris ☆</span>
 
-        <a href="/books/search" class="nav-link">書籍検索</a>
-        <a href="/shelf/list" class="nav-link">本棚</a>
-    </div>
+            <a href="/books/search" class="nav-link">書籍検索</a>
+            <a href="/shelf/list" class="nav-link">本棚</a>
+        </div>
 
-    <div class="nav-right">
-        <a href="/mypage" class="nav-link">マイページ</a>
-        <a href="/logout" class="nav-link">ログアウト</a>
+        <div class="nav-right">
+            <a href="/mypage" class="nav-link">マイページ</a>
+            <a href="/logout" class="nav-link">ログアウト</a>
+        </div>
     </div>
 </div>
-
 
 <!-- ===== 本棚コンテンツ ===== -->
 <div class="content-wrapper">
@@ -161,58 +173,64 @@
     <!-- ユーザー名 -->
     <h2 th:text="${page.displayName} + ' さんの本棚'"></h2>
 
-    <!-- ▼▼ タブ ▼▼ -->
-    <div class="tabs-container">
+	<!-- ▼▼ タブ ▼▼ -->
+	<div class="tabs-container">
 
-        <form method="get">
-            <input type="hidden" name="status" value="ALL">
-            <button class="tab-btn"
-                    th:classappend="${status=='ALL'} ? ' tab-active'">
-                すべて
-            </button>
-        </form>
+	    <form method="get">
+	        <input type="hidden" name="status" value="ALL">
+	        <button type="submit"
+	                th:classappend="${status=='ALL'} ? ' tab-active'"
+	                class="tab-btn">
+	            すべて
+	        </button>
+	    </form>
 
-        <form method="get">
-            <input type="hidden" name="status" value="WANT">
-            <button class="tab-btn"
-                    th:classappend="${status=='WANT'} ? ' tab-active'">
-                欲しい
-            </button>
-        </form>
+	    <form method="get">
+	        <input type="hidden" name="status" value="WANT">
+	        <button type="submit"
+	                th:classappend="${status=='WANT'} ? ' tab-active'"
+	                class="tab-btn">
+	            欲しい
+	        </button>
+	    </form>
 
-        <form method="get">
-            <input type="hidden" name="status" value="PENDING">
-            <button class="tab-btn"
-                    th:classappend="${status=='PENDING'} ? ' tab-active'">
-                積読
-            </button>
-        </form>
+	    <form method="get">
+	        <input type="hidden" name="status" value="PENDING">
+	        <button type="submit"
+	                th:classappend="${status=='PENDING'} ? ' tab-active'"
+	                class="tab-btn">
+	            積読
+	        </button>
+	    </form>
 
-        <form method="get">
-            <input type="hidden" name="status" value="READING">
-            <button class="tab-btn"
-                    th:classappend="${status=='READING'} ? ' tab-active'">
-                読んでる
-            </button>
-        </form>
+	    <form method="get">
+	        <input type="hidden" name="status" value="READING">
+	        <button type="submit"
+	                th:classappend="${status=='READING'} ? ' tab-active'"
+	                class="tab-btn">
+	            読んでる
+	        </button>
+	    </form>
 
-        <form method="get">
-            <input type="hidden" name="status" value="COMPLETED">
-            <button class="tab-btn"
-                    th:classappend="${status=='COMPLETED'} ? ' tab-active'">
-                読了
-            </button>
-        </form>
+	    <form method="get">
+	        <input type="hidden" name="status" value="COMPLETED">
+	        <button type="submit"
+	                th:classappend="${status=='COMPLETED'} ? ' tab-active'"
+	                class="tab-btn">
+	            読了
+	        </button>
+	    </form>
 
-    </div>
-    <!-- ▲▲ タブ ▲▲ -->
+	</div>
+	<!-- ▲▲ タブ ▲▲ -->
+
 
 
     <!-- ▼▼ 本棚グリッド ▼▼ -->
     <div class="book-grid">
 
         <div class="book-card" th:each="book : ${page.books}">
-            <a th:href="@{'/shelf/edit/' + ${book.id}}">
+            <a th:href="@{'/shelf/edit/' + ${book.uuid}}">
                 <img th:src="${book.thumbnailLink}"
                      class="book-thumb"
                      alt="thumbnail">

@@ -5,6 +5,56 @@
     <title>本棚の編集</title>
 
     <style>
+		
+		/* ========= ヘッダー（書籍検索と同じ） ========= */
+		.nav {
+		    width: 100%;
+		    background-color: #3b2b23;
+		    color: white;
+		}
+
+		/* NAV 内側の最大幅コンテナ */
+		.nav-inner {
+		    max-width: 1380px;
+		    margin: 0 auto;
+		    padding: 14px 24px;
+
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		}
+
+		/* 左側 */
+		.nav-left {
+		    display: flex;
+		    gap: 24px;
+		    align-items: center;
+		}
+
+		.nav-title {
+		    font-size: 28px;
+		    font-weight: bold;
+		    letter-spacing: 2px;
+		}
+
+		/* リンク */
+		.nav-link {
+		    color: white;
+		    text-decoration: none;
+		    font-size: 18px;
+		    opacity: 0.85;
+		    transition: opacity .15s;
+		}
+
+		.nav-link:hover {
+		    opacity: 1;
+		}
+
+		/* 右側 */
+		.nav-right {
+		    display: flex;
+		    gap: 20px;
+		}
         body {
             background: #ECE9E6;
             margin: 0;
@@ -167,6 +217,23 @@
 </head>
 
 <body>
+	
+	<!-- ▼ ナビゲーション（書籍検索画面と同じデザイン） -->
+	<div class="nav">
+	    <div class="nav-inner">
+	        <div class="nav-left">
+	            <span class="nav-title">☆ Libris ☆</span>
+
+	            <a href="/books/search" class="nav-link">書籍検索</a>
+	            <a href="/shelf/list" class="nav-link">本棚</a>
+	        </div>
+
+	        <div class="nav-right">
+	            <a href="/mypage" class="nav-link">マイページ</a>
+	            <a href="/logout" class="nav-link">ログアウト</a>
+	        </div>
+	    </div>
+	</div>
 
 <div class="page-container">
 
@@ -191,7 +258,7 @@
 
                 <!-- ▼ ステータス変更 -->
                 <form th:action="@{/shelf/edit/status}" th:object="${formStatus}" method="post">
-                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{uuid}">
                     <div class="status-wrap">
                         <div class="status-title">ステータス変更</div>
                         <div class="status-row">
@@ -240,7 +307,7 @@
 
         <!-- ▼ 編集モード -->
         <form th:action="@{/shelf/edit/review}" th:object="${formReview}" method="post">
-            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{uuid}">
 
             <div id="review-edit" style="display:none;">
 

@@ -12,13 +12,15 @@ import com.tsd.libris.domain.enums.UserBookReadingStatus;
 @Mapper
 public interface UserBookMapper {
 
-	UserBooksEntity findById(@Param("id")Long id);
+	UserBooksEntity findById(@Param("uuid")String uuid);
 	UserBooksEntity findByUserIdAndBookId(@Param("userId") Long userId,@Param("bookId") Long bookId);
 	List<UserBooksWithUserEntity> findReviewsByBookId(@Param("bookId")Long bookId);
-	UserBooksEntity findReviewById(@Param("id")Long id);
-	String findUserBookStatus(@Param("id")Long id);
+	UserBooksEntity findReviewById(@Param("uuid")String uuid);
+	String findUserBookStatus(@Param("uuid")String uuid);
 	Integer insertUserBook(UserBooksEntity entity);
-	Integer updateUserBookStatus(Long id,UserBookReadingStatus status);
-	Integer updateUserBookReview(String review,Long id);
+	Integer updateUserBookStatus(String uuid,UserBookReadingStatus status);
+	Integer updateUserBookReview(UserBooksEntity entity);
+	
+	Integer uuid(@Param("id")Long id,@Param("uuid") String uuid);
 	
 }

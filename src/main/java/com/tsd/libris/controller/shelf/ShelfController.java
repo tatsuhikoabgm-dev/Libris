@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tsd.libris.domain.dto.shelf.ReviewEditForm;
 import com.tsd.libris.domain.dto.shelf.ShelfListPageDto;
 import com.tsd.libris.domain.dto.shelf.StatusEditForm;
 import com.tsd.libris.service.shelf.ShelfService;
@@ -27,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class ShelfController {
 	
 	private final ShelfService ss;
-	
+//	private final UserBookMapper ubm;
 	
 	/*本棚表示画面
 	 * 
@@ -41,19 +42,21 @@ public class ShelfController {
 		ShelfListPageDto dto = ss.getShelfPage(1L,"test",status);
 		model.addAttribute("page",dto);
 		System.out.println(dto);
+		model.addAttribute("status",status);
 		
 	    return "shelf/list";
 	}
 
 	
-	@GetMapping("/edit/{id}")
-	public String showEditForm(@PathVariable Long id,
+	@GetMapping("/edit/{uuid}")
+	public String showEditForm(@PathVariable String uuid,
 															Model model,
 															HttpSession session) {
+		System.out.println(uuid);
 		
-		model.addAttribute("page",ss.getEditShelfPage(id));
-		model.addAttribute("formStatus",ss.getStatusEditForm(id));
-		model.addAttribute("formReview",ss.getReviewEditForm(id));
+		model.addAttribute("page",ss.getEditShelfPage(uuid));
+		model.addAttribute("formStatus",ss.getStatusEditForm(uuid));
+		model.addAttribute("formReview",ss.getReviewEditForm(uuid));
 		
 		
 		return "shelf/edit";
@@ -64,13 +67,24 @@ public class ShelfController {
 	public String editUserBookStatus(@Valid @ModelAttribute StatusEditForm form,
 																		BindingResult result) {
 		
-		System.out.println(form.getId());
+		
 		ss.editUserBookStatus(form);
-//		ss.editUserReview(form);
 
-		return "redirect:/shelf/edit/" + form.getId();	
+		return "redirect:/shelf/edit/" + form.getUuid();	
 	}
 	
+	@PostMapping("/edit/review")
+	public String editUserReview(@Valid @ModelAttribute ReviewEditForm form,
+																	BindingResult result) {
+		
+		ss.editUserReview(form);
+		
+//		for(Long i =1L ; i <= 527L ;i++ ) {
+//			ubm.uuid(i, UUID.randomUUID().toString());
+//		}
+//		
+		return "redirect:/shelf/edit/" + form.getUuid();
+	}
 	
 	
 	

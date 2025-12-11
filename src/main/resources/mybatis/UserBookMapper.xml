@@ -7,7 +7,7 @@
 	
 	select *
 	from user_books
-	where id = #{id};
+	where uuid = #{uuid};
 	
 	</select>
 
@@ -38,7 +38,7 @@
 	
 		select *
 		from user_books
-		where id = #{id};
+		where uuid = #{uuid};
 	
 	
 	</select>
@@ -48,7 +48,7 @@
 	
 		select status
 		from user_books
-		where id = #{id};
+		where uuid = #{uuid};
 		
 	</select>
 	
@@ -56,12 +56,14 @@
 	<insert id="insertUserBook" parameterType="UserBooksEntity">
 	
 		insert into user_books(
+		uuid,
 		user_id,
 		book_id,
 		status,
 		rating,
 		review)
 		values(
+		#{uuid},
 		#{userId},
 		#{bookId},
 		#{status},
@@ -76,21 +78,32 @@
 		update user_books
 		set
 		status = #{status}
-		where id = #{id};
+		where uuid = #{uuid};
 	
 	</update>
 	
-	<update id="updateUserBookReview" >
+	<update id="updateUserBookReview"  parameterType="UserBooksEntity">
 	
 		update user_books
 		set
-		review = #{review}
-		where id = #{id};
+		review = #{review},
+		rating = #{rating} 
+		where uuid = #{uuid};
 	
 	</update>
 	
 	
-
+	<update id="uuid">
+	
+		update user_books
+		set
+		uuid = #{uuid} 
+		where id = #{id};
+	
+	
+	</update>
+	
+	
 
 
 </mapper>

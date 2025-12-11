@@ -36,13 +36,12 @@ public class ShelfService {
 //		System.out.println("Entity : " + sm.findShelfBooksByUserId(userId));
 		
 		if(status.equals("ALL")) {
-			System.out.println(sm.findShelfBooksByUserId(userId));
 			return sm.findShelfBooksByUserId(userId).stream()
-													.map( list -> new ShelfBookSummaryDto(list.getUbId(),list.getThumbnailLink())
+													.map( list -> new ShelfBookSummaryDto(list.getUuid(),list.getThumbnailLink())
 															).toList();
 		}
 		return sm.findShelfBooksByUserIdAndStatus(userId,UserBookReadingStatus.valueOf(status)).stream()
-													.map( list -> new ShelfBookSummaryDto(list.getUbId(),list.getThumbnailLink())
+													.map( list -> new ShelfBookSummaryDto(list.getUuid(),list.getThumbnailLink())
 															).toList();
 	
 	}
@@ -60,13 +59,13 @@ public class ShelfService {
 	/*本棚編集画面
 	 * 
 	 */
-	public ReviewEditPageDto getEditShelfPage(Long id) {
+	public ReviewEditPageDto getEditShelfPage(String uuid) {
 		
-		Long bookId = ubm.findById(id).getBookId();
+		Long bookId = ubm.findById(uuid).getBookId();
 		BooksEntity e = bm.findBookDetailByBookId(bookId);
 		boolean b = false;
 		
-		if(ubm.findReviewById(id).getReview() != null) b =true ;
+		if(ubm.findReviewById(uuid).getReview() != null) b =true ;
 		
 		ShelfBookDetailDto dto = new ShelfBookDetailDto(e.getId(),
 																	e.getTitle(),
@@ -86,22 +85,22 @@ public class ShelfService {
 	/*本棚編集画面
 	 * ステータス変更用フォーム
 	 */
-	 public StatusEditForm getStatusEditForm(Long id) {
+	 public StatusEditForm getStatusEditForm(String uuid) {
 		 
 		 
-		 return new StatusEditForm(id,
-				 UserBookReadingStatus.valueOf(ubm.findUserBookStatus(id)));
+		 return new StatusEditForm(uuid,
+				 UserBookReadingStatus.valueOf(ubm.findUserBookStatus(uuid)));
 		 }
 	 
 	
 	/*本棚編集画面
 	 * レビュー投稿用フォーム
 	 */
-	 public ReviewEditForm getReviewEditForm(Long id) {
+	 public ReviewEditForm getReviewEditForm(String uuid) {
 		 
-		 UserBooksEntity e = ubm.findReviewById(id);
+		 UserBooksEntity e = ubm.findReviewById(uuid);
 		 
-		 return new ReviewEditForm(id,
+		 return new ReviewEditForm(uuid,
 				 											e.getRating(),
 				 											e.getReview());
 	 }
@@ -114,7 +113,7 @@ public class ShelfService {
 	  */
 	 public void editUserBookStatus(StatusEditForm form) {
 		
-		 ubm.updateUserBookStatus(form.getId(),form.getStatus());
+		 Integer arart = ubm.updateUserBookStatus(form.getUuid(),form.getStatus());
 		 
 	 }
 	 
@@ -124,7 +123,13 @@ public class ShelfService {
 	  */
 	 public void editUserReview(ReviewEditForm form) {
 		 
-		 ubm.updateUserBookReview(form.getReview(),form.getId());
+		 System.out.println(form);
+		 UserBooksEntity e = new UserBooksEntity();
+		 e.setUuid(form.getUuid());
+		 e.setRating(form.getRating());
+		 e.setReview(form.getReview());
+		 System.out.println(e);
+		 Integer arart = ubm.updateUserBookReview(e);
 		 
 	 }
 	 

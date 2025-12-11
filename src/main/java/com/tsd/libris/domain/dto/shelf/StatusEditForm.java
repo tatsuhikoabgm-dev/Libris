@@ -17,6 +17,6 @@ public class StatusEditForm {
 	 * 必ずデフォルト値を入れて対応します
 	 */
 	
-	private Long id;
+	private String uuid;
 	private UserBookReadingStatus status;
 }
