@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tsd.libris.domain.dto.auth.SessionUser;
 import com.tsd.libris.domain.dto.books.BookSearchForm;
 import com.tsd.libris.domain.dto.books.BookSearchPageDto;
 import com.tsd.libris.domain.dto.books.UserBookRegisterForm;
@@ -100,7 +101,9 @@ public class BooksController {
 													Model model,
 													HttpSession session) {
 		
-		model.addAttribute("page",bs.getBookDetailPage(1L, googleVolumeId)); 
+		SessionUser sessionUser = (SessionUser)session.getAttribute("SESSION_USER");
+		
+		model.addAttribute("page",bs.getBookDetailPage(sessionUser.getUserId(), googleVolumeId)); 
 		model.addAttribute("form",new UserBookRegisterForm(googleVolumeId,null));
 		
 		return "/books/detail";
@@ -116,8 +119,8 @@ public class BooksController {
 								Model model,
 								HttpSession session
 								) {
-		System.out.println(form);
-		bs.saveUserBook(1L, form);
+		SessionUser sessionUser = (SessionUser)session.getAttribute("SESSION_USER");
+		bs.saveUserBook(sessionUser.getUserId(), form);
 		model.addAttribute("msg","☆" + form.getReadingStatus().getLabel() + "で登録しました☆");		
 		
 		return "redirect:/books/detail/" + form.getGoogleVolumeId();
