@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html xmlns:http://www.thymeleaf.org>
+<head>
+    <meta charset="UTF-8">
+    <title>本棚の編集</title>
+
+    <style>
+		
+		/* ========= ヘッダー（書籍検索と同じ） ========= */
+		.nav {
+		    width: 100%;
+		    background-color: #3b2b23;
+		    color: white;
+		}
+
+		/* NAV 内側の最大幅コンテナ */
+		.nav-inner {
+		    max-width: 1380px;
+		    margin: 0 auto;
+		    padding: 14px 24px;
+
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		}
+
+		/* 左側 */
+		.nav-left {
+		    display: flex;
+		    gap: 24px;
+		    align-items: center;
+		}
+
+		.nav-title {
+		    font-size: 28px;
+		    font-weight: bold;
+		    letter-spacing: 2px;
+		}
+
+		/* リンク */
+		.nav-link {
+		    color: white;
+		    text-decoration: none;
+		    font-size: 18px;
+		    opacity: 0.85;
+		    transition: opacity .15s;
+		}
+
+		.nav-link:hover {
+		    opacity: 1;
+		}
+
+		/* 右側 */
+		.nav-right {
+		    display: flex;
+		    gap: 20px;
+		}
+        body {
+            background: #ECE9E6;
+            margin: 0;
+            font-family: "Noto Sans JP", sans-serif;
+            color: #34251F;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 35px;
+        }
+
+        /* ▼ 2カラム完全固定 */
+        .book-area {
+            display: flex;
+            width: 100%;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .thumbnail {
+            width: 260px;
+            height: auto;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            flex-shrink: 0;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .title {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            margin-top: 14px;
+        }
+
+        /* ▼ ガラスセレクト */
+        .select-modern {
+            appearance: none;
+            padding: 10px 40px 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.15);
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            font-size: 15px;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%2334251F' height='22' viewBox='0 0 24 24' width='22' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        /* ▼ ボタン */
+        .btn-primary {
+            padding: 10px 18px;
+            background: #34251F;
+            color: white;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        .btn-secondary {
+            padding: 10px 18px;
+            background: #8a7f78;
+            color: white;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-secondary:hover {
+            background: #6d625c;
+        }
+
+        /* ▼ ステータス右寄せ */
+        .status-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-top: 20px;
+        }
+
+        .status-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .status-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* ▼ レビュー表示 */
+        .review-display {
+            line-height: 1.7;
+        }
+
+        .review-rating {
+            font-size: 20px;
+            color: #E4B200;
+            margin-bottom: 8px;
+        }
+
+        /* ▼ レビュー入力 */
+        .review-box {
+            width: 100%;
+            height: 130px;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* ▼ ボタン右寄せ */
+        .review-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* ▼ 説明ビューン */
+        .description-toggle {
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #description-panel {
+            display: none;
+            padding: 20px;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+
+<body>
+	
+	<!-- ▼ ナビゲーション（書籍検索画面と同じデザイン） -->
+	<div class="nav">
+	    <div class="nav-inner">
+	        <div class="nav-left">
+	            <span class="nav-title">☆ Libris ☆</span>
+
+	            <a href="/books/search" class="nav-link">書籍検索</a>
+	            <a href="/shelf/list" class="nav-link">本棚</a>
+	        </div>
+
+	        <div class="nav-right">
+	            <a href="/mypage" class="nav-link">マイページ</a>
+	            <a href="/logout" class="nav-link">ログアウト</a>
+	        </div>
+	    </div>
+	</div>
+
+<div class="page-container">
+
+    <!-- ▼ 書籍情報 -->
+    <div class="card">
+        <div class="book-area">
+
+            <img class="thumbnail" th:src="${page.book.thumbnailLink}">
+
+            <div class="book-info">
+
+                <h2 th:text="${page.book.title}"></h2>
+
+                <div><b>著者：</b> <span th:text="${page.book.authors}"></span></div>
+                <div><b>出版日：</b> <span th:text="${page.book.publishedDate}"></span></div>
+                <div><b>出版社：</b> <span th:text="${page.book.publisher}"></span></div>
+                <div><b>ISBN：</b> <span th:text="${page.book.isbn}"></span></div>
+
+                <div style="margin-top:10px;">
+                    <a th:href="${page.book.previewLink}" target="_blank">Google Booksで見る</a>
+                </div>
+
+                <!-- ▼ ステータス変更 -->
+                <form th:action="@{/shelf/edit/status}" th:object="${formStatus}" method="post">
+                    <input type="hidden" th:field="*{uuid}">
+                    <div class="status-wrap">
+                        <div class="status-title">ステータス変更</div>
+                        <div class="status-row">
+                            <select th:field="*{status}" class="select-modern" id="status-select">
+                                <option value="WANT">欲しい</option>
+                                <option value="PENDING">積読</option>
+                                <option value="READING">読んでる</option>
+                                <option value="COMPLETED">読了</option>
+                            </select>
+                            <button type="submit" class="btn-primary" id="status-submit" disabled>変更する</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ▼ レビュー -->
+    <div class="card">
+        <h3>レビュー</h3>
+
+        <!-- ▼ 表示モード -->
+        <div id="review-display" class="review-display">
+
+            <!-- レビューあり -->
+            <div th:if="${formReview.review != null}">
+                <div class="review-rating">評価： ★ <span th:text="${formReview.rating}"></span></div>
+
+                <div class="info-label">レビュー内容</div>
+                <div th:text="${formReview.review}"></div>
+
+                <button class="btn-primary" onclick="switchToEdit()">編集する</button>
+            </div>
+
+            <!-- レビューなし -->
+            <div th:if="${formReview.review == null}">
+                <div style="color:#777; margin-bottom:10px;">
+                    ※ レビューはまだ投稿されていません
+                </div>
+                <button class="btn-primary" onclick="switchToEdit()">レビューを書く</button>
+            </div>
+        </div>
+
+
+        <!-- ▼ 編集モード -->
+        <form th:action="@{/shelf/edit/review}" th:object="${formReview}" method="post">
+            <input type="hidden" th:field="*{uuid}">
+
+            <div id="review-edit" style="display:none;">
+
+                <div class="info-label">評価（0〜5）</div>
+                <select th:field="*{rating}" class="select-modern" id="rating-select">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
+                <div class="info-label" style="margin-top:14px;">レビュー内容</div>
+                <textarea th:field="*{review}" class="review-box" id="review-text"></textarea>
+
+                <div class="review-buttons">
+                    <button type="submit" class="btn-primary" id="review-submit" disabled>保存する</button>
+                    <button type="button" class="btn-secondary" onclick="switchToDisplay()">キャンセル</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- ▼ 説明トグル -->
+    <div class="description-toggle" onclick="toggleDescription()">説明を表示する ▼</div>
+
+    <div id="description-panel">
+        <div class="info-label">説明</div>
+        <div th:utext="${page.book.description}"></div>
+    </div>
+
+    <div style="margin-top:20px;">
+        <a href="/shelf/list">← 本棚に戻る</a>
+    </div>
+
+</div>
+
+
+
+<script>
+/* ▼ レビュー切り替え */
+function switchToEdit() {
+    document.getElementById("review-display").style.display = "none";
+    document.getElementById("review-edit").style.display = "block";
+}
+function switchToDisplay() {
+    document.getElementById("review-edit").style.display = "none";
+    document.getElementById("review-display").style.display = "block";
+}
+
+/* ▼ ステータス：変更時だけボタン有効化 */
+document.addEventListener("DOMContentLoaded", () => {
+    const s = document.getElementById("status-select");
+    const b = document.getElementById("status-submit");
+    const original = s.value;
+
+    s.addEventListener("change", () => {
+        b.disabled = (s.value === original);
+    });
+});
+
+/* ▼ レビュー：変更時だけ保存ボタン有効化 */
+document.addEventListener("DOMContentLoaded", () => {
+    const rate = document.getElementById("rating-select");
+    const text = document.getElementById("review-text");
+    const btn = document.getElementById("review-submit");
+
+    const origRate = rate.value;
+    const origText = text.value;
+
+    const check = () => {
+        const changed = (rate.value !== origRate) || (text.value !== origText);
+        btn.disabled = !changed;
+    };
+
+    rate.addEventListener("change", check);
+    text.addEventListener("input", check);
+});
+
+/* ▼ 説明ビューン */
+function toggleDescription() {
+    const panel = document.getElementById("description-panel");
+    const toggle = document.querySelector(".description-toggle");
+
+    if (panel.style.display === "none") {
+        panel.style.display = "block";
+        toggle.textContent = "説明を閉じる ▲";
+    } else {
+        panel.style.display = "none";
+        toggle.textContent = "説明を表示する ▼";
+    }
+}
+</script>
+
+</body>
+</html>

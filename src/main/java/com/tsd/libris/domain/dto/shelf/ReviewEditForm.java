@@ -15,8 +15,8 @@ public class ReviewEditForm {
 	 * 改善案件にします
 	 */
 	
-	private Long id;
-	private String rating;
+	private String uuid;
+	private Integer rating;
 	private String review;
 	
 }

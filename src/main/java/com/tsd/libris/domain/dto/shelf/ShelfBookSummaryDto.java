@@ -14,7 +14,7 @@ public class ShelfBookSummaryDto {
 	 */
 	
 	
-	private Long bookId;
+	private String uuid;
 	private String thumbnailLink;
 	
 	

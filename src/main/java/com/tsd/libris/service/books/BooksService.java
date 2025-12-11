@@ -1,6 +1,7 @@
 package com.tsd.libris.service.books;
 
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -287,6 +288,7 @@ public class BooksService {
  public void saveUserBookToShelf(Long userId,Long bookId,String status) {
 	
 	 Integer arart = ubm.insertUserBook(new UserBooksEntity(null,
+			 																		UUID.randomUUID().toString(),
 			 																		userId,
 			 																		bookId,
 			 																		UserBookReadingStatus.valueOf(status),

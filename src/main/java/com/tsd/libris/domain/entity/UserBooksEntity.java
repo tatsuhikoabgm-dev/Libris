@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class UserBooksEntity {
 
 	private Long id;
+	private String uuid;
 	private Long userId;
 	private Long bookId;
 	private UserBookReadingStatus status;

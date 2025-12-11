@@ -20,22 +20,24 @@
 
 	<select id="findShelfBooksByUserId" resultType="UserBooksWithBooksEntity">
 	
-		select ub.id as ub_id,b.id as b_id,b.thumbnail_link as b_thumbnail_link
-		from user_books ub
-		join books b
-		on ub.book_id = b.id
-		where ub.user_id = #{userId};
-	
-	</select>
-
-	<select id="findShelfBooksByUserIdAndStatus" resultMap="UserBooksWithBooksMap">
-	
-		select ub.id as ub_id,b.id as b_id,b.thumbnail_link as b_thumbnail_link
+		select ub.uuid as uuid,b.id as b_id,b.thumbnail_link as thumbnail_link
 		from user_books ub
 		join books b
 		on ub.book_id = b.id
 		where ub.user_id = #{userId}
-		and ub.status = #{status};
+		order by  ub.updated_at desc;
+	
+	</select>
+
+	<select id="findShelfBooksByUserIdAndStatus" resultType="UserBooksWithBooksEntity">
+	
+		select ub.uuid as uuid,b.id as b_id,b.thumbnail_link as thumbnail_link
+		from user_books ub
+		join books b
+		on ub.book_id = b.id
+		where ub.user_id = #{userId}
+		and ub.status = #{status}
+		order by  ub.updated_at desc;
 	
 	</select>
 

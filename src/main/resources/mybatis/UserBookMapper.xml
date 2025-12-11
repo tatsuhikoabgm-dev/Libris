@@ -3,6 +3,15 @@
 <mapper namespace="com.tsd.libris.mapper.userbooks.UserBookMapper">
 
 
+	<select id="findById">
+	
+	select *
+	from user_books
+	where uuid = #{uuid};
+	
+	</select>
+
+
 	<select id="findByUserIdAndBookId" resultType="UserBooksEntity">
 	
 		select *
@@ -24,16 +33,22 @@
 		where book_id = #{bookId}
 		AND review_updated_at is not null;
 	</select>
+	
+	<select id="findReviewById" resultType="UserBooksEntity">
+	
+		select *
+		from user_books
+		where uuid = #{uuid};
+	
+	
+	</select>
 
 
 	<select id="findUserBookStatus" resultType="String">
 	
 		select status
 		from user_books
-		where
-		user_id = #{userId}
-		and
-		book_id = #{bookId};
+		where uuid = #{uuid};
 		
 	</select>
 	
@@ -41,12 +56,14 @@
 	<insert id="insertUserBook" parameterType="UserBooksEntity">
 	
 		insert into user_books(
+		uuid,
 		user_id,
 		book_id,
 		status,
 		rating,
 		review)
 		values(
+		#{uuid},
 		#{userId},
 		#{bookId},
 		#{status},
@@ -56,26 +73,37 @@
 	</insert>
 	
 	
-	<update id="updateUserBookStatus" parameterType="UserBooksEntity">	
+	<update id="updateUserBookStatus" >	
 	
 		update user_books
 		set
 		status = #{status}
-		where id = #{id};
+		where uuid = #{uuid};
 	
 	</update>
 	
-	<update id="updateUserBookReview" parameterType="UserBooksEntity">
+	<update id="updateUserBookReview"  parameterType="UserBooksEntity">
 	
 		update user_books
 		set
-		review = #{review}
-		where id = #{id};
+		review = #{review},
+		rating = #{rating} 
+		where uuid = #{uuid};
 	
 	</update>
 	
 	
-
+	<update id="uuid">
+	
+		update user_books
+		set
+		uuid = #{uuid} 
+		where id = #{id};
+	
+	
+	</update>
+	
+	
 
 
 </mapper>
