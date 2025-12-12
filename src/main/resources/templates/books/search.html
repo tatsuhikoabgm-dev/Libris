@@ -128,6 +128,32 @@
 		    transform: translateY(-4px);
 		    transition: 0.15s ease;
 		}
+		/* ▼ ログアウトボタンをリンクと同じ見た目にする */
+		.logout-form {
+		    margin: 0;
+		    padding: 0;
+		}
+
+		.logout-btn {
+		    background: none;
+		    border: none;
+		    color: white;
+		    font-size: 18px;
+		    padding: 0;
+		    cursor: pointer;
+		    font-family: inherit; /* リンクとフォント統一 */
+		}
+
+		/* ホバーもリンクと同じ */
+		.logout-btn:hover {
+		    opacity: 0.8;
+		}
+
+		/* nav-link の inline 表示に合わせる */
+		.nav-right form {
+		    display: inline-block;
+		}
+
 
 
 		
@@ -147,11 +173,15 @@
 	        </div>
 
 	        <div class="nav-right">
-	            <a href="/mypage" class="nav-link">マイページ</a>
-	            <a href="/logout" class="nav-link">ログアウト</a>
+	            <a href="/user/mypage" class="nav-link">マイページ</a>
+
+	            <form action="/auth/logout" method="post" class="logout-form">
+	                <button type="submit" class="nav-link logout-btn">ログアウト</button>
+	            </form>
 	        </div>
 	    </div>
 	</div>
+
 
 	<div class="container">
 

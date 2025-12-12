@@ -119,6 +119,7 @@ public class BooksController {
 								Model model,
 								HttpSession session
 								) {
+		
 		SessionUser sessionUser = (SessionUser)session.getAttribute("SESSION_USER");
 		bs.saveUserBook(sessionUser.getUserId(), form);
 		model.addAttribute("msg","☆" + form.getReadingStatus().getLabel() + "で登録しました☆");		

@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tsd.libris.domain.dto.user.LoginForm;
 import com.tsd.libris.service.auth.AuthService;
 
 import lombok.RequiredArgsConstructor;
+
 
 
 
@@ -40,13 +42,10 @@ public class AuthController {
 											Model model,
 											HttpSession session) {
 		
-		if(result.hasErrors()) {
-			model.addAttribute("loginForm",form);
-			return "/auth/login";
-		}
 		
 		if(as.authenticate(form)==null) {
 			model.addAttribute("loginForm",form);
+			model.addAttribute("errorMessage","ログインIDまたはパスワードが違います。");
 			return "/auth/login";
 		}
 		
@@ -55,5 +54,16 @@ public class AuthController {
 		return "redirect:/books/search";
 	}
 	
-
+	@PostMapping("/logout")
+	public String logout(HttpSession session,
+												RedirectAttributes ra) {
+		
+		session.invalidate();
+		ra.addFlashAttribute("msg","ログアウトしました");
+		
+		return "redirect:/auth/login";
+	}
+	
+	
+	
 }

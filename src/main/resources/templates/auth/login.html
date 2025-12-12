@@ -99,6 +99,13 @@
             font-size: 14px;
             text-align: center;
         }
+		
+		.info-msg {
+		    margin-top: 14px;
+		    color: red;
+		    font-size: 18px;
+		    text-align: center;
+		}
 
         .register-link {
             margin-top: 20px;
@@ -133,14 +140,20 @@
     <div class="login-card">
 
         <div class="login-title">ログイン</div>
-
+		
+		<div th:if="${msg}" class="info-msg" th:text="${msg}"></div>
+		
         <form th:action="@{/auth/login}" method="post" th:object="${loginForm}">
 
             <label class="form-label">ログインID</label>
             <input type="text" th:field="*{loginId}" class="form-input">
+			<div th:errors="*{loginId}" class="error-msg"></div>
+
 
             <label class="form-label" style="margin-top: 16px;">パスワード</label>
             <input type="password" th:field="*{password}" class="form-input">
+			<div th:errors="*{password}" class="error-msg"></div>
+
 
             <button class="login-btn" type="submit">ログイン</button>
 

@@ -18,15 +18,17 @@ public class AuthService {
 	
 	public SessionUser authenticate(LoginForm form) {
 		
+		if(form.getLoginId() == null || form.getLoginId().isBlank()) return null;
+		if(form.getPassword() == null ||  form.getPassword().isBlank()) return null;
+		
 		UsersEntity e = um.findByLoginId(form.getLoginId());
 		
-//		System.out.println(e);
 		if(e == null) return null;
 		
 		if(BCrypt.checkpw(form.getPassword(),e.getPasswordHash())) {
 			return new SessionUser(e.getUserId(),e.getAuthority(),e.getDisplayName());
 		}
-		System.out.println("111");
+
 		return null;
 			
 	}//authenticate
