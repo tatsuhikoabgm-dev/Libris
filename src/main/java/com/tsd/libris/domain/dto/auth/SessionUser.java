@@ -1,5 +1,7 @@
 package com.tsd.libris.domain.dto.auth;
 
+import com.tsd.libris.domain.enums.UserAuthority;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,7 @@ public class SessionUser {
 	
 	
 	Long userId;
-	String authority;
+	UserAuthority authority;
 	String displayName;
 	
 	
