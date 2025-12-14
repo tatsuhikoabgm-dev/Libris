@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Welcome | Libris</title>
+
+<style>
+/* ===== BASE ===== */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: "Hiragino Sans", sans-serif;
+}
+
+body {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(255,255,255,0.85) 0%,
+            rgba(255,255,255,0.92) 60%,
+            rgba(255,255,255,0.98) 100%
+        ),
+        url("/images/gyoen_sky.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* ===== HERO ===== */
+.hero {
+    height: calc(100vh - 72px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== CARD ===== */
+.welcome-card {
+    background: #ffffff;
+    width: 720px;
+    padding: 56px 64px;
+    border-radius: 20px;
+    box-shadow: 0 20px 48px rgba(0,0,0,.18);
+    text-align: center;
+
+    animation: fadeUp 1.0s ease-out;
+}
+
+/* ===== TEXT ===== */
+.welcome-title {
+    font-size: 34px;
+    font-weight: bold;
+    color: #3B2B23;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+}
+
+.welcome-sub {
+    font-size: 15px;
+    color: #6B5A50;
+    line-height: 1.9;
+    margin-bottom: 40px;
+}
+
+/* ===== BUTTON ===== */
+.action-area {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn {
+    min-width: 220px;
+    padding: 16px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+.btn-primary {
+    background: #6B4F3F;
+    color: #fff;
+}
+.btn-primary:hover {
+    background: #5a4032;
+}
+
+.btn-secondary {
+    background: #F3F1EE;
+    color: #3B2B23;
+}
+.btn-secondary:hover {
+    background: #E6E3DF;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    margin-top: 36px;
+    font-size: 13px;
+    color: #8B7D75;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="welcome-card">
+
+        <!-- タイトル（表示名 or 読書家さん） -->
+        <div class="welcome-title"
+             th:text="${session.SESSION_USER.displayName != null && !#strings.isEmpty(session.SESSION_USER.displayName)
+                      ? session.SESSION_USER.displayName + 'さん、ようこそ。'
+                      : '読書家さん、ようこそ。'}">
+        </div>
+
+        <div class="welcome-sub">
+            あなたの読書の時間へ、ようこそ。<br>
+            <strong>今日は、どんな一冊と出会いますか？</strong>
+        </div>
+
+        <div class="action-area">
+            <form th:action="@{/books/search}" method="get">
+                <button type="submit" class="btn btn-primary">
+                    📖 本を探す
+                </button>
+            </form>
+
+            <form th:action="@{/shelf}" method="get">
+                <button type="submit" class="btn btn-secondary">
+                    🗂 本棚を見る
+                </button>
+            </form>
+        </div>
+
+        <div class="footer">
+            © 2025 Libris / たつひこシステム開発（TSD）✨
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

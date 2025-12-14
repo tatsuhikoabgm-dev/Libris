@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>会員登録確認 | Libris</title>
+
+<style>
+body {
+    margin: 0;
+    background: #f3f2f2;
+    font-family: "Hiragino Sans", sans-serif;
+}
+
+/* ===== NAV ===== */
+.nav {
+    background: #3b2b23;
+    color: #fff;
+}
+.nav-inner {
+    max-width: 1380px;
+    margin: auto;
+    padding: 14px 24px;
+}
+.nav-title {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* ===== CARD ===== */
+.wrapper {
+    margin: 60px auto;
+    display: flex;
+    justify-content: center;
+}
+.card {
+    background: #fff;
+    width: 720px;
+    padding: 40px 56px;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.08);
+}
+.title {
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 32px;
+    font-weight: bold;
+    color: #3b2b23;
+}
+
+/* ===== CONFIRM ===== */
+.confirm-row {
+    margin-bottom: 22px;
+}
+.label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #3b2b23;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* ★ input と同等サイズの表示欄 */
+.value {
+    background: #ffffff;
+    padding: 0 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+
+    height: 48px;                 /* ← 登録画面input相当 */
+    display: flex;
+    align-items: center;
+}
+
+/* 未入力表示用 */
+.value.empty {
+    color: #999;
+}
+
+/* ===== BUTTON ===== */
+.btn-area {
+    display: flex;
+    gap: 16px;
+    margin-top: 36px;
+}
+.btn {
+    flex: 1;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+.btn-back {
+    background: #e0e0e0;
+}
+.btn-back:hover {
+    background: #cfcfcf;
+}
+.btn-submit {
+    background: #2563eb;
+    color: #fff;
+}
+.btn-submit:hover {
+    background: #1e4ebc;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-inner">
+    <span class="nav-title">☆ Libris ☆</span>
+  </div>
+</div>
+
+<div class="wrapper">
+<div class="card">
+
+<div class="title">入力内容の確認</div>
+
+<form th:action="@{/user/register/complete}" method="post">
+
+    <!-- メール -->
+    <div class="confirm-row">
+        <label class="label">メールアドレス</label>
+        <div class="value" th:text="${confirm.email}"></div>
+    </div>
+
+    <!-- 表示名 -->
+    <div class="confirm-row">
+        <label class="label">表示名</label>
+
+        <!-- 入力あり -->
+        <div class="value"
+             th:if="${confirm.displayName != null and !#strings.isEmpty(confirm.displayName)}"
+             th:text="${confirm.displayName}">
+        </div>
+
+        <!-- 未入力 -->
+        <div class="value empty"
+             th:if="${confirm.displayName == null or #strings.isEmpty(confirm.displayName)}">
+            未入力
+        </div>
+    </div>
+
+    <!-- ログインID -->
+    <div class="confirm-row">
+        <label class="label">ログインID</label>
+        <div class="value" th:text="${confirm.loginId}"></div>
+    </div>
+
+    <!-- パスワード（伏字） -->
+    <div class="confirm-row">
+        <label class="label">パスワード</label>
+        <div class="value" th:text="${confirm.password}"></div>
+    </div>
+
+    <!-- ボタン -->
+    <div class="btn-area">
+        <button type="submit"
+                formaction="/user/register/back"
+                class="btn btn-back">
+            修正する
+        </button>
+
+        <button type="submit" class="btn btn-submit">
+            登録する
+        </button>
+    </div>
+
+</form>
+
+</div>
+</div>
+
+</body>
+</html>

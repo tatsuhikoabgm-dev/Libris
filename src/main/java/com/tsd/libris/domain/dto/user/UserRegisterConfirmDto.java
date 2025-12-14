@@ -14,20 +14,9 @@ public class UserRegisterConfirmDto {
 	 * バリデーションはかけません。
 	 */
 	
-	private String lastMame;
-	private String firstName;
-	private String lastNameKana;
-	private String firstNameKana;
-	private String postalCode;
-	private String prefecture;
-	private String city;
-	private String town;
-	private String addressNumber;
-	private String building;
-	private String birthday;
-	private String phoneNumber;
 	private String email;
 	private String displayName;
 	private String loginId;
+	private String password;
 
 }

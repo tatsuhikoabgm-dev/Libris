@@ -8,9 +8,21 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
-public class ApplicationConfig implements WebMvcConfigurer {
+import lombok.RequiredArgsConstructor;
 
+@Configuration
+@RequiredArgsConstructor
+public class ApplicationConfig implements WebMvcConfigurer {
+	
+	
+	private final LoginIntercepter loginInterceptor;
+//
+//	@Override
+//	public void  addInterceptors(InterceptorRegistry registry) {
+//		
+//		registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
+//	}
+//	
 	
 	 @Override
    public Validator getValidator() {
@@ -24,8 +36,6 @@ public class ApplicationConfig implements WebMvcConfigurer {
        var messageSource = new ResourceBundleMessageSource();
        messageSource.setBasename("validation");
        return messageSource;
-   
- 
    
    }
    

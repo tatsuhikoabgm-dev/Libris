@@ -31,6 +31,7 @@ public class AuthController {
 	public String showLoginForm(Model model){
 		
 		model.addAttribute("loginForm",new LoginForm());
+	
 		
 		return "/auth/login";
 	}
