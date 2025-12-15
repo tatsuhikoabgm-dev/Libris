@@ -7,8 +7,10 @@ import org.springframework.validation.BindingResult;
 import com.tsd.libris.domain.dto.auth.SessionUser;
 import com.tsd.libris.domain.dto.user.UserRegisterConfirmDto;
 import com.tsd.libris.domain.dto.user.UserRegisterForm;
+import com.tsd.libris.domain.entity.UserProfilesEntity;
 import com.tsd.libris.domain.entity.UsersEntity;
 import com.tsd.libris.mapper.user.UserMapper;
+import com.tsd.libris.mapper.user.UserProfilesMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserMapper um;
+	private final UserProfilesMapper upm;
 	
 	/*初回入力での確認欄一致チェック
 	 * 
@@ -71,11 +74,11 @@ public class UserService {
 	}
 	
 	/*ユーザー情報をテーブルにINSERT
-	 * 
+	 * usersとuser_profileにINSERTだからね！！
 	 */
 	public Long registerUser(UserRegisterForm form) {
 		
-		UsersEntity entity = new UsersEntity(null,
+		UsersEntity ue = new UsersEntity(null,
 											form.getLoginId(),
 											hashPassword(form.getPassword()),
 											null,
@@ -84,10 +87,20 @@ public class UserService {
 											null,
 											null);
 		
-		um.insertUser(entity);
+		um.insertUser(ue);
 		
-		return entity.getUserId();
-	}
+		//項目多すぎてしかたなくsetterにしたｗ
+		UserProfilesEntity upe = new UserProfilesEntity();
+		upe.setUserId(ue.getUserId());
+		upe.setEmail(form.getEmail());
+		
+		upm.insertProfile(upe);
+		
+		return ue.getUserId();
+		
+	}//registerUser
+	
+	
 	
 	/*会員登録後にsessionを入れるよ
 	 * 
@@ -101,12 +114,7 @@ public class UserService {
 		return new SessionUser(e.getUserId(),
 								e.getAuthority(),
 								e.getDisplayName());
-	}
-	
-	
-	
-	
-	
+	}//createSessionUser
 	
 	
 	

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: libris
 -- ------------------------------------------------------
--- Server version	8.0.23
+-- Server version	8.4.7
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,17 +24,17 @@ DROP TABLE IF EXISTS `user_profiles`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_profiles` (
   `user_id` bigint NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  `first_name` varchar(50) NOT NULL,
-  `last_name_kana` varchar(50) NOT NULL,
-  `first_name_kana` varchar(50) NOT NULL,
-  `postal_code` varchar(10) NOT NULL,
-  `prefecture` varchar(50) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `town` varchar(50) NOT NULL,
-  `address_number` varchar(50) NOT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name_kana` varchar(50) DEFAULT NULL,
+  `first_name_kana` varchar(50) DEFAULT NULL,
+  `postal_code` varchar(10) DEFAULT NULL,
+  `prefecture` varchar(50) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `town` varchar(50) DEFAULT NULL,
+  `address_number` varchar(50) DEFAULT NULL,
   `building` varchar(50) DEFAULT NULL,
-  `birthday` date NOT NULL,
+  `birthday` date DEFAULT NULL,
   `phone_number` varchar(15) DEFAULT NULL,
   `email` varchar(191) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -63,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-12-11 13:53:04
+-- Dump completed on 2025-12-15 14:40:59

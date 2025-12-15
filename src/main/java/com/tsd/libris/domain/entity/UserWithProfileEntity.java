@@ -1,4 +1,7 @@
-package com.tsd.libris.domain.dto.user;
+package com.tsd.libris.domain.entity;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +10,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserMypageDto {
-	
-	//表示用のためバリデーションはかけません
-	
-	private String lastMame;
+public class UserWithProfileEntity {
+
+	//users
+	private Long userId;
+	private String loginId;
+	private String displayName;
+	//user_profile
+	private String lastName;
 	private String firstName;
 	private String lastNameKana;
 	private String firstNameKana;
@@ -21,10 +27,10 @@ public class UserMypageDto {
 	private String town;
 	private String addressNumber;
 	private String building;
-	private String birthday;
+	private LocalDate birthday;
 	private String phoneNumber;
 	private String email;
-	private String displayName;
-	private String loginId;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 
 }

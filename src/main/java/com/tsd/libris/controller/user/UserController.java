@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.tsd.libris.domain.dto.user.UserRegisterConfirmDto;
 import com.tsd.libris.domain.dto.user.UserRegisterForm;
 import com.tsd.libris.service.User.UserService;
-import com.tsd.libris.service.auth.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 	
 	private final UserService us;
-	private final AuthService as;
 	
 	/*会員登録画面
 	 * 登録フォームの表示
@@ -110,6 +108,11 @@ public class UserController {
 		return "/user/register/welcome";
 	}
 	
-	
 
+	
+	
+	
+	
+	
+	
 }

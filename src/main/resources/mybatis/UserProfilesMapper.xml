@@ -3,11 +3,29 @@
 <mapper namespace="com.tsd.libris.mapper.user.UserProfilesMapper">
 
 
-	<select id="findUserProfileByUserId" resultType="UserProfilesEntity">
+	<select id="findUserProfileByUserId" resultType="UserWithProfileEntity">
 	
-		select *
-		from user_profiles
-		where user_id = #{userId};
+		select
+		u.user_id as user_id,
+		u.login_id as login_id,
+        u.display_name as display_name,
+        up.last_name,
+        up.first_name,
+        up.last_name_kana,
+        up.first_name_kana,
+        up.postal_code,
+        up.prefecture,
+        up.city,
+        up.town,
+        up.address_number,
+        up.building,
+        up.birthday,
+        up.phone_number,
+        up.email
+		from users u
+		join user_profiles up
+		on u.user_id = up.user_id
+		where u.user_id = #{userId};
 	
 	</select>
 	
@@ -15,33 +33,9 @@
 	
 		insert into user_profiles( 
 		user_id,
-		last_name,
-		first_name,
-		last_name_kana,
-		first_name_kana,
-		postal_code,
-		prefecture,
-		city,
-		town,
-		address_number,
-		building,
-		birthday,
-		phone_number,
 		email)
 		values(
 		#{userId},
-		#{lastName},
-		#{firstName},
-		#{lastNameKana},
-		#{firstNameKana},
-		#{postalCode},
-		#{prefecture},
-		#{city},
-		#{town},
-		#{addressNumber},
-		#{building},
-		#{birthday},
-		#{phoneNumber},
 		#{email});
 	
 	</insert>
@@ -63,7 +57,6 @@
 	
 	
 	</update>
-
 
 
 

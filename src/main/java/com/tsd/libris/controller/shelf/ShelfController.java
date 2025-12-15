@@ -44,7 +44,6 @@ public class ShelfController {
 		
 		ShelfListPageDto dto = ss.getShelfPage(sessionUser.getUserId(),sessionUser.getDisplayName(),status);
 		model.addAttribute("page",dto);
-		System.out.println(dto);
 		model.addAttribute("status",status);
 		
 	    return "shelf/list";

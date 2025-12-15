@@ -4,14 +4,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.tsd.libris.domain.entity.UserProfilesEntity;
+import com.tsd.libris.domain.entity.UserWithProfileEntity;
 
 @Mapper
 public interface UserProfilesMapper {
 
 	
-	UserProfilesEntity findUserProfileByUserId(@Param("userId") Long userId);
+	UserWithProfileEntity findUserProfileByUserId(@Param("userId") Long userId);
 	Integer insertProfile(UserProfilesEntity entity);
 	Integer updateProfile(UserProfilesEntity entity);
-	
 	
 }

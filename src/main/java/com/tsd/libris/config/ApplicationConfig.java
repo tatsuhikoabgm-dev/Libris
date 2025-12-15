@@ -16,13 +16,13 @@ public class ApplicationConfig implements WebMvcConfigurer {
 	
 	
 	private final LoginIntercepter loginInterceptor;
-//
+
 //	@Override
 //	public void  addInterceptors(InterceptorRegistry registry) {
 //		
 //		registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
 //	}
-//	
+	
 	
 	 @Override
    public Validator getValidator() {
