@@ -19,6 +19,8 @@ import com.tsd.libris.domain.dto.user.mypage.MypageRegisterForm;
 import com.tsd.libris.domain.dto.user.mypage.MypageRegisterForm.RegisterType;
 import com.tsd.libris.domain.dto.validation.AccountUpdate;
 import com.tsd.libris.domain.dto.validation.ProfileRegister;
+import com.tsd.libris.domain.entity.UsersEntity;
+import com.tsd.libris.mapper.user.UserMapper;
 import com.tsd.libris.service.User.MypageService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class MypageController {
 
 	private final MypageService ms;
 	private final SmartValidator sv; 
+	private final UserMapper um;
 	
 	/*マイページの表示
 	 * 
@@ -103,9 +106,15 @@ public class MypageController {
 		SessionUser su = (SessionUser)session.getAttribute("SESSION_USER");
 		MypageEditForm form = (MypageEditForm)session.getAttribute("SESSION_MYPAGE_EDIT");
 
-		
+		//UPDATE
 		ms.updateProfile(form,su.getUserId());
+		//sessionのフォーム削除
 		session.removeAttribute("SESSION_MYPAGE_EDIT");
+		//新しいユーザー情報の取得
+		UsersEntity e = um.findByUserId(su.getUserId());
+		//sessionに新しいユーザー情報をセット
+		session.setAttribute("SESSION_USER", new SessionUser(e.getUserId(),e.getAuthority(),e.getDisplayName()));
+		
 		ra.addFlashAttribute("successMessage","変更が完了しました！");
 		
 		return "redirect:/mypage";
@@ -153,10 +162,8 @@ public class MypageController {
 		if(form.getRegisterType() == RegisterType.ACCOUNT) {
 			sv.validate(form,result,AccountUpdate.class);
 			ms.validateRegister(form, result);
-			System.out.println(form);
 		}else if(form.getRegisterType() == RegisterType.PROFILE) {
 			sv.validate(form, result,ProfileRegister.class);
-			System.out.println(form);
 		}
 		
 		if(result.hasErrors()) {
@@ -173,11 +180,34 @@ public class MypageController {
 	
 	@PostMapping("/register/complete")
 	public String registerMypage(HttpSession session,
-																RedirectAttributes ra){
+								RedirectAttributes ra){
 		
+		MypageRegisterForm form = (MypageRegisterForm)session.getAttribute("SESSION_MYPAGE_REGISTER");
+		SessionUser su = (SessionUser)session.getAttribute("SESSION_USER");
 		
-		
+		if(form.getRegisterType() == RegisterType.ACCOUNT) {
+			
+			//UPDATE
+			ms.updateAccount(su.getUserId(), form);
+			//新しいユーザー情報の取得
+			UsersEntity e = um.findByUserId(su.getUserId());
+			//sessionに新しいユーザー情報をセット
+			session.setAttribute("SESSION_USER", new SessionUser(e.getUserId(),e.getAuthority(),e.getDisplayName()));
+			session.removeAttribute("SESSION_MYPAGE_REGISTER");
+			ra.addFlashAttribute("successMessage","登録が完了しました");
+			return "redirect:/mypage";
+		}
+		//else if(form.getRegisterType() == RegisterType.PROFILE) {
+		//UPDATE
+		ms.registerProfile(su.getUserId(), form);
+		//新しいユーザー情報の取得
+		UsersEntity e = um.findByUserId(su.getUserId());
+		//sessionに新しいユーザー情報をセット
+		session.setAttribute("SESSION_USER", new SessionUser(e.getUserId(),e.getAuthority(),e.getDisplayName()));
+		session.removeAttribute("SESSION_MYPAGE_REGISTER");
+		ra.addFlashAttribute("successMessage","変更が完了しました");
 		return "redirect:/mypage";
+		//}
 	}
 	
 	

@@ -185,6 +185,33 @@ public class MypageService {
 	
 	
 	
+	//マイページ初回登録用
+	public void updateAccount(Long userId,MypageRegisterForm form) {
+		
+		um.updateUser(new UsersEntity(userId,
+										null,null,null,form.getDisplayName(),null,null,null));
+		
+		upm.updateEmail(userId,form.getEmail());
+	}
+	
+	//マイページ初回登録用
+	public void registerProfile(Long userId,MypageRegisterForm form) {
+		
+		upm.updateProfileForRegister(new UserProfilesEntity(userId,
+													form.getLastName(),
+													form.getFirstName(),
+													form.getLastNameKana(),
+													form.getFirstNameKana(),
+													form.getPostalCode(),
+													form.getPrefecture(),
+													form.getCity(),
+													form.getTown(),
+													form.getAddressNumber(),
+													form.getBuilding(),
+													form.getBirthday(),
+													form.getPhoneNumber(),
+													null,null,null));
+	}
 	
 	
 
