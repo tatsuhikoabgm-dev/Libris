@@ -15,61 +15,7 @@ import lombok.NoArgsConstructor;
 public class UserRegisterForm {
 	
 	//UX向上のためとりあえず機能を体験させられるだけの最低限に変更
-//	@NotBlank
-//	@Size(max=50)
-//	private String lastName;
-//	
-//	@NotBlank
-//	@Size(max=50)
-//	private String firstName;
-//	
-//	//文字化けの可能性を回避するため全角カタカナの仕様
-//	@NotBlank
-//	@Size(max=50)
-//	@Pattern(regexp = "^[\\u30A0-\\u30FFー]+$")
-//	private String lastNameKana;
-//	
-//	//文字化けの可能性を回避するため全角カタカナの仕様
-//	@NotBlank
-//	@Size(max=50)
-//	@Pattern(regexp = "^[\\u30A0-\\u30FFー]+$")
-//	private String firstNameKana;
-//	
-//	//ハイフンなし
-//	//サービスでハイフンとるなら桁数かえてもよし
-//	@NotBlank
-//	@Pattern(regexp="[0-9]{7}")
-//	private String postalCode;
-//	
-//	@NotBlank
-//	@Size(max=50)
-//	private String prefecture;
-//	
-//	@NotBlank
-//	@Size(max=50)
-//	private String city;
-//	
-//	@NotBlank
-//	@Size(max=50)
-//	private String town;
-//	
-//	@NotBlank
-//	@Size(max=50)
-//	private String addressNumber;
-//	
-//	@Size(max=100)
-//	private String building;
-//	
-//	@NotNull
-//	@Past
-//	private LocalDate birthday;
-//	
-//	//ハイフンなし
-//	//サービスでハイフンとるなら桁数かえてもよし
-//	@NotBlank
-//	@Pattern(regexp = "^[0-9]{10,11}$")
-//	private String phoneNumber;
-//	
+
 	@NotBlank(message = "入力してください")
 	@Email(message = "入力形式に誤りがあります")
 	@Size(max=191, message = "１９１文字以内で入力してください")

@@ -259,13 +259,13 @@ body{
         <div class="item">
           <div class="label">メール（確認） <span class="req">必須</span></div>
           <input class="input" th:field="*{emailConfirm}">
-          <div class="field-error" th:errors="*{emailConfirm}"></div>
+          <div class="field-error" th:if="${!#fields.hasErrors('email')}" th:errors="*{emailConfirm}"></div>
         </div>
 
       </div>
 
       <div class="actions">
-        <a href="/mypage/" class="btn btn-secondary">戻る</a>
+        <a href="/mypage" class="btn btn-secondary">戻る</a>
         <button class="btn btn-primary">変更を確認</button>
       </div>
 
