@@ -1,8 +1,10 @@
 package com.tsd.libris.service.User;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.tsd.libris.domain.dto.user.PasswordChangeForm;
 import com.tsd.libris.domain.dto.user.mypage.MypageDto;
 import com.tsd.libris.domain.dto.user.mypage.MypageEditConfirmDto;
 import com.tsd.libris.domain.dto.user.mypage.MypageEditForm;
@@ -213,6 +215,28 @@ public class MypageService {
 													null,null,null));
 	}
 	
+	//パスワードの確認欄の一致チェック
+	public boolean validatePassword(PasswordChangeForm form) {
+		
+		return form.getPassword().equals(form.getPasswordConfirm());
+		
+	}
+	
+	//現在のパスワードチェック
+	public boolean matchesPassword(Long userId,PasswordChangeForm form) {
+		
+		String ph = um.findByUserId(userId).getPasswordHash();
+		return BCrypt.checkpw(form.getOldPassword(), ph);
+		
+	}
+	
+	//パスワードのUPDATE
+	public void changePassword(Long userId,PasswordChangeForm form) {
+		
+		String passwordHash = BCrypt.hashpw(form.getPassword(), BCrypt.gensalt());
+		um.updatePassword(userId,passwordHash);
+		
+	}
 	
 
 }

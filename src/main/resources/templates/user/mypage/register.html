@@ -215,6 +215,17 @@
 		.nav-right form {
 			display: inline-block;
 		}
+		/* ===== MESSAGE ===== */
+		.msg{
+		  border:1px solid #F2C98B;
+		  background:#FFF7E6;
+		  color:#8A4B0E;
+		  padding:12px 14px;
+		  border-radius:10px;
+		  margin:14px 0 18px;
+		  font-size:14px;
+		}
+		.msg strong{ font-weight:800; }
 	</style>
 </head>
 
@@ -243,6 +254,11 @@
 		<div class="page-title">マイページ登録</div>
 		<div class="page-sub">
 			会員情報の登録・表示名やメールアドレスの変更ができます。
+		</div>
+
+		<!-- ★ここがベスト -->
+		<div class="msg success" th:if="${successMessage}">
+			<strong th:text="${successMessage}"></strong>
 		</div>
 
 		<!-- ================== カード① マイページ登録 ================== -->
@@ -373,12 +389,19 @@
 				<div class="actions">
 					<button type="submit" class="btn btn-primary">変更内容を確認</button>
 				</div>
-
 			</form>
+			<div class="actions password-action">
+				<form th:action="@{/mypage/password}" method="get">
+					<input type="hidden" name="returnTo" value="register" />
+					<button type="submit" class="btn btn-outline">
+						パスワード変更
+					</button>
+				</form>
+			</div>
 		</div>
 
 	</div>
 
 </body>
 
-</html>
+</html>ml>

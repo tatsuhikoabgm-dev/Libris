@@ -203,6 +203,7 @@ body{
 
     <form th:action="@{/mypage/register}" method="get">
       <button type="submit" class="btn btn-secondary">戻る</button>
+	  <input type="hidden" name="fromConfirm" value="true">
     </form>
 
     <form th:action="@{/mypage/register/complete}" method="post">

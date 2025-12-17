@@ -13,6 +13,6 @@ public interface UserMapper {
 	UsersEntity findByUserId(@Param("userId") Long userId);
 	Integer insertUser(UsersEntity entity);
 	Integer updateUser(UsersEntity entity);
-	Integer updatePassword(UsersEntity entity);
+	Integer updatePassword(@Param("userId")Long UserId,@Param("passwordHash")String passwordHash);
 
 }

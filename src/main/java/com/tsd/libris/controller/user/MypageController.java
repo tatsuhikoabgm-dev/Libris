@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tsd.libris.domain.dto.auth.SessionUser;
+import com.tsd.libris.domain.dto.user.PasswordChangeForm;
 import com.tsd.libris.domain.dto.user.mypage.MypageEditForm;
 import com.tsd.libris.domain.dto.user.mypage.MypageRegisterForm;
 import com.tsd.libris.domain.dto.user.mypage.MypageRegisterForm.RegisterType;
@@ -42,13 +44,13 @@ public class MypageController {
 	 */
 	@GetMapping("")
 	public String showMyPage(Model model,
-							HttpSession session) {
+														HttpSession session) {
 		
 		SessionUser su =(SessionUser)session.getAttribute("SESSION_USER");
 		
 		if(!ms.existsProfileByUserId(su.getUserId()))
-			return "redirect:/mypage/register";
-		
+				return "redirect:/mypage/register";
+			
 		model.addAttribute("mypage",ms.getUserInfo(su.getUserId()));
 		
 		return "/user/mypage/mypage";
@@ -105,6 +107,10 @@ public class MypageController {
 		
 		SessionUser su = (SessionUser)session.getAttribute("SESSION_USER");
 		MypageEditForm form = (MypageEditForm)session.getAttribute("SESSION_MYPAGE_EDIT");
+		
+		
+		if(form == null)
+			return "redirect:/mypage";
 
 		//UPDATE
 		ms.updateProfile(form,su.getUserId());
@@ -136,16 +142,22 @@ public class MypageController {
 	 */
 	
 	@GetMapping("/register")
-	public String showMypageRegisterForm(Model model,
+	public String showMypageRegisterForm(@RequestParam(required = false) String fromConfirm,
+																				Model model,
 																				HttpSession session){
 		
 		SessionUser su = (SessionUser)session.getAttribute("SESSION_USER");
 		
-		if(session.getAttribute("SESSION_MYPAGE_REGISTER") == null) {
-		model.addAttribute("mypageRegisterForm",ms.getMypageRegisterForm(su.getUserId()));
-		}else {
-		model.addAttribute("mypageRegisterForm",(MypageRegisterForm)session.getAttribute("SESSION_MYPAGE_REGISTER"));
+		if("true".equals(fromConfirm)) {
+			MypageRegisterForm sessionForm = (MypageRegisterForm)session.getAttribute("SESSION_MYPAGE_REGISTER");
+			if(sessionForm != null) {
+				model.addAttribute("mypageRegisterForm",sessionForm);
+				return "user/mypage/register";
+			}else{
+				return "redirect:/mypage";
+			}
 		}
+		model.addAttribute("mypageRegisterForm",ms.getMypageRegisterForm(su.getUserId()));
 		
 		return "user/mypage/register";
 	}
@@ -177,7 +189,7 @@ public class MypageController {
 		return "/user/mypage/register-confirm";
 	}
 	
-	
+	//更新処理
 	@PostMapping("/register/complete")
 	public String registerMypage(HttpSession session,
 								RedirectAttributes ra){
@@ -185,36 +197,73 @@ public class MypageController {
 		MypageRegisterForm form = (MypageRegisterForm)session.getAttribute("SESSION_MYPAGE_REGISTER");
 		SessionUser su = (SessionUser)session.getAttribute("SESSION_USER");
 		
+		if(form == null)
+			return "redirect:/mypage";
+		
 		if(form.getRegisterType() == RegisterType.ACCOUNT) {
 			
-			//UPDATE
 			ms.updateAccount(su.getUserId(), form);
-			//新しいユーザー情報の取得
+			
+		}else if(form.getRegisterType() == RegisterType.PROFILE) {
+			
+			ms.registerProfile(su.getUserId(), form);
+		}
+		
+		//新しいユーザー情報の取得
 			UsersEntity e = um.findByUserId(su.getUserId());
 			//sessionに新しいユーザー情報をセット
 			session.setAttribute("SESSION_USER", new SessionUser(e.getUserId(),e.getAuthority(),e.getDisplayName()));
 			session.removeAttribute("SESSION_MYPAGE_REGISTER");
-			ra.addFlashAttribute("successMessage","登録が完了しました");
+			ra.addFlashAttribute("successMessage","変更が完了しました");
 			return "redirect:/mypage";
-		}
-		//else if(form.getRegisterType() == RegisterType.PROFILE) {
-		//UPDATE
-		ms.registerProfile(su.getUserId(), form);
-		//新しいユーザー情報の取得
-		UsersEntity e = um.findByUserId(su.getUserId());
-		//sessionに新しいユーザー情報をセット
-		session.setAttribute("SESSION_USER", new SessionUser(e.getUserId(),e.getAuthority(),e.getDisplayName()));
-		session.removeAttribute("SESSION_MYPAGE_REGISTER");
-		ra.addFlashAttribute("successMessage","変更が完了しました");
-		return "redirect:/mypage";
-		//}
 	}
 	
 	
+
+	//*********************パスワード変更*********************
+	
+	@GetMapping("/password")
+	public String showePasswordForm(@RequestParam String returnTo ,Model model) {
+
+		model.addAttribute("passwordChangeForm",new PasswordChangeForm());
+		model.addAttribute("returnTo",returnTo);
+		return "/user/mypage/password";
+	}
 	
 	
-	
-	
+	@PostMapping("/password")
+	public String changePassword(@RequestParam String returnTo,
+																@Valid@ModelAttribute PasswordChangeForm form,
+																BindingResult result,
+																HttpSession session,
+																Model model,
+																RedirectAttributes ra){
+		
+		SessionUser su = (SessionUser)session.getAttribute("SESSION_USER");
+		
+		if(!ms.matchesPassword(su.getUserId(), form))
+			result.rejectValue("oldPassword", null, "パスワードが誤っています");
+		
+		if(!ms.validatePassword(form))
+			result.rejectValue("passwordConfirm", null, "パスワードが一致していません");
+
+		if(result.hasErrors())
+			return "/user/mypage/password";
+		
+		
+		ms.changePassword(su.getUserId(), form);
+		ra.addFlashAttribute("successMessage","パスワードを変更しました");
+		
+		/*/mypageで登録済み判定してリダイレクトしてるからFlashが渡せなくて・・・
+		 * マジで超ドはまったんだけど
+		 * 結局しょっぱなからhidden繋げてここまで至るｗ
+		 * だせぇｗｗ
+		 */
+		return "mypage".equals(returnTo)
+        														? "redirect:/mypage"
+        														: "redirect:/mypage/register";
+		
+	}
 	
 	
 	
