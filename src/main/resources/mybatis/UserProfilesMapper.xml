@@ -51,10 +51,38 @@
 		town = #{town},
 		address_number = #{addressNumber},
 		building = #{building},
-		phone_number = #{phoneNumber},
-		email = #{email}
+		phone_number = #{phoneNumber}
 		where user_id = #{userId};
 	
+	
+	</update>
+	
+	<update id="updateProfileForRegister" parameterType="UserProfilesEntity">
+	
+		update user_profiles
+		set
+		last_name = #{lastName},
+		first_name = #{firstName},
+		last_name_kana = #{lastNameKana},
+		first_name_kana = #{firstNameKana},		
+		postal_code = #{postalCode},
+		prefecture =  #{prefecture},
+		city = #{city},
+		town = #{town},
+		address_number = #{addressNumber},
+		building = #{building},
+		phone_number = #{phoneNumber}
+		where user_id = #{userId};
+	
+	</update>
+	
+	
+	<update id="updateEmail">
+	
+	update user_profiles
+	set
+	email = #{email}
+	where user_id = #{userId}
 	
 	</update>
 

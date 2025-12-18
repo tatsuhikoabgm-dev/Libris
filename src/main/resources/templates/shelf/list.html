@@ -4,207 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <title>本棚</title>
+	
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/nav.css}">
+	<link rel="stylesheet" th:href="@{/css/list.css}">
 
-    <style>
-        body {
-            margin: 0;
-            background: #f3f2f2;
-            font-family: "Hiragino Sans", sans-serif;
-        }
 
-        /* ========= ヘッダー（書籍検索と同じ） ========= */
-		.nav {
-		    width: 100%;
-		    background-color: #3b2b23;
-		    color: white;
-		}
-
-		/* NAV 内側の最大幅コンテナ */
-		.nav-inner {
-		    max-width: 1380px;
-		    margin: 0 auto;
-		    padding: 14px 24px;
-
-		    display: flex;
-		    justify-content: space-between;
-		    align-items: center;
-		}
-
-		/* 左側 */
-		.nav-left {
-		    display: flex;
-		    gap: 24px;
-		    align-items: center;
-		}
-
-		.nav-title {
-		    font-size: 28px;
-		    font-weight: bold;
-		    letter-spacing: 2px;
-		}
-
-		/* リンク */
-		.nav-link {
-		    color: white;
-		    text-decoration: none;
-		    font-size: 18px;
-		    opacity: 0.85;
-		    transition: opacity .15s;
-		}
-
-		.nav-link:hover {
-		    opacity: 1;
-		}
-
-		/* 右側 */
-		.nav-right {
-		    display: flex;
-		    gap: 20px;
-		}
-
-        /* ========= コンテナ ========= */
-        .content-wrapper {
-            width: 100%;
-            max-width: 1380px;
-            margin: auto;
-            padding-top: 24px;
-        }
-
-        h2 {
-            text-align: center;
-            font-size: 26px;
-            margin-bottom: 12px;
-        }
-
-        /* ========= タブ ========= */
-		.tabs-container {
-		    background: #fafafa;
-		    padding: 16px 0 6px;
-		    border-bottom: 1px solid #e5e5e5;
-
-		    display: flex;
-		    justify-content: center;
-		    gap: 36px;
-		}
-
-		.tab-btn {
-		    display: inline-block;  /* ← これが超重要！！ */
-		    padding: 6px 12px 12px;
-		    font-size: 16px;
-		    font-weight: 600;
-		    border: none;
-		    background: none;
-		    color: #555;
-		    cursor: pointer;
-		    transition: .2s;
-		}
-
-		.tab-btn:hover {
-		    color: #222;
-		}
-
-		.tab-active {
-		    color: rgb(255, 128, 64);
-		    border-bottom: 3px solid rgb(255, 128, 64);
-		}
-
-        /* ========= 本棚グリッド ========= */
-        .book-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 36px 24px; /* 行36px / 列24px */
-            margin-top: 32px;
-            padding-bottom: 80px;
-            justify-items: center;
-        }
-
-        /* カード */
-        .book-card {
-            width: 180px;
-            height: auto;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(14px);
-            border-radius: 14px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            padding: 12px;
-            transition: .2s;
-            display: flex;
-            justify-content: center;
-        }
-
-        .book-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
-        }
-
-        /* サムネイル画像 */
-        .book-thumb {
-            width: 160px;
-            height: 240px;
-            object-fit: cover; /* ← 画像が切れず綺麗になる */
-            border-radius: 8px;
-        }
-		/* ▼ ログアウトボタンをリンクと同じ見た目にする */
-		.logout-form {
-		    margin: 0;
-		    padding: 0;
-		}
-
-		.logout-btn {
-		    background: none;
-		    border: none;
-		    color: white;
-		    font-size: 18px;
-		    padding: 0;
-		    cursor: pointer;
-		    font-family: inherit; /* リンクとフォント統一 */
-		}
-
-		/* ホバーもリンクと同じ */
-		.logout-btn:hover {
-		    opacity: 0.8;
-		}
-
-		/* nav-link の inline 表示に合わせる */
-		.nav-right form {
-		    display: inline-block;
-		}
-
-    </style>
 </head>
 
 
 <body>
 
-<!-- ▼ ナビゲーション（書籍検索画面と同じデザイン） -->
-<div class="nav">
-    <div class="nav-inner">
-        <div class="nav-left">
-            <span class="nav-title">☆ Libris ☆</span>
-
-            <a href="/books/search" class="nav-link">書籍検索</a>
-            <a href="/shelf/list" class="nav-link">本棚</a>
-        </div>
-
-        <div class="nav-right">
-            <a href="/mypage/" class="nav-link">マイページ</a>
-
-            <form action="/auth/logout" method="post" class="logout-form">
-                <button type="submit" class="nav-link logout-btn">ログアウト</button>
-            </form>
-        </div>
-    </div>
-</div>
+	<div th:replace="layout/fragments/nav :: nav"></div>
 
 
 <!-- ===== 本棚コンテンツ ===== -->
 <div class="content-wrapper">
 
     <!-- ユーザー名 -->
-    <h2 th:text="${page.displayName} + ' さんの本棚'"></h2>
+    <h2 th:text="|${page.displayName} さんの本棚|"></h2>
 
 	<!-- ▼▼ タブ ▼▼ -->
-	<div class="tabs-container">
+	<div class="tabs-container" role="tablist">
+
 
 	    <form method="get">
 	        <input type="hidden" name="status" value="ALL">
@@ -254,6 +76,10 @@
 	</div>
 	<!-- ▲▲ タブ ▲▲ -->
 
+	<!-- ▼▼ 本棚が空のとき ▼▼ -->
+	<div class="empty-message" th:if="${#lists.isEmpty(page.books)}">
+	    本棚にまだ本がありません
+	</div>
 
 
     <!-- ▼▼ 本棚グリッド ▼▼ -->

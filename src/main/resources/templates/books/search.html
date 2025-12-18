@@ -4,195 +4,29 @@
 <head>
 	<meta charset="UTF-8">
 	<title>書籍検索</title>
-	<link rel="stylesheet" th:href="@{/css/style.css}">
 
-	<style>
-		/* ========= ヘッダー（書籍検索と同じ） ========= */
-			.nav {
-			    width: 100%;
-			    background-color: #3b2b23;
-			    color: white;
-			}
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/nav.css}">
+	<link rel="stylesheet" th:href="@{/css/search.css}">
 
-			/* NAV 内側の最大幅コンテナ */
-			.nav-inner {
-			    max-width: 1380px;
-			    margin: 0 auto;
-			    padding: 14px 24px;
-
-			    display: flex;
-			    justify-content: space-between;
-			    align-items: center;
-			}
-
-			/* 左側 */
-			.nav-left {
-			    display: flex;
-			    gap: 24px;
-			    align-items: center;
-			}
-
-			.nav-title {
-			    font-size: 28px;
-			    font-weight: bold;
-			    letter-spacing: 2px;
-			}
-
-			/* リンク */
-			.nav-link {
-			    color: white;
-			    text-decoration: none;
-			    font-size: 18px;
-			    opacity: 0.85;
-			    transition: opacity .15s;
-			}
-
-			.nav-link:hover {
-			    opacity: 1;
-			}
-
-			/* 右側 */
-			.nav-right {
-			    display: flex;
-			    gap: 20px;
-			}
-		.two-columns {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 15px 25px;
-		}
-
-		.error-msg {
-			color: red;
-			font-weight: 700;
-			margin-bottom: 10px;
-		}
-
-		.result-grid {
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
-			gap: 20px 25px;
-			margin-top: 25px;
-		}
-
-
-		.result-card img {
-			width: 85px;
-			height: 115px;
-			object-fit: cover;
-			border-radius: 8px;
-			margin-right: 15px;
-			flex-shrink: 0;
-		}
-
-		.result-info div {
-			margin-bottom: 5px;
-		}
-
-		/* ページネーション */
-		.pagination {
-			margin-top: 30px;
-			text-align: center;
-		}
-
-		.pagination a {
-			margin: 0 6px;
-			text-decoration: none;
-			color: #34251F;
-			font-weight: 700;
-		}
-
-		.pagination a.active {
-			color: #D5BDAE;
-			text-decoration: underline;
-		}
-
-		@media (max-width: 768px) {
-			.result-grid {
-				grid-template-columns: 1fr;
-			}
-		}
-
-		.result-card {
-			display: flex;
-			background: white;
-			padding: 15px;
-			border-radius: 12px;
-			box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.09);
-			align-items: flex-start;
-		}
-
-		.result-card:hover {
-		    cursor: pointer;
-		    box-shadow: 0 6px 18px rgba(0,0,0,0.22);
-		    transform: translateY(-4px);
-		    transition: 0.15s ease;
-		}
-		/* ▼ ログアウトボタンをリンクと同じ見た目にする */
-		.logout-form {
-		    margin: 0;
-		    padding: 0;
-		}
-
-		.logout-btn {
-		    background: none;
-		    border: none;
-		    color: white;
-		    font-size: 18px;
-		    padding: 0;
-		    cursor: pointer;
-		    font-family: inherit; /* リンクとフォント統一 */
-		}
-
-		/* ホバーもリンクと同じ */
-		.logout-btn:hover {
-		    opacity: 0.8;
-		}
-
-		/* nav-link の inline 表示に合わせる */
-		.nav-right form {
-		    display: inline-block;
-		}
-
-
-
-		
-	</style>
 </head>
 
 <body>
 
-	<!-- ▼ ナビゲーション（書籍検索画面と同じデザイン） -->
-	<div class="nav">
-	    <div class="nav-inner">
-	        <div class="nav-left">
-	            <span class="nav-title">☆ Libris ☆</span>
-
-	            <a href="/books/search" class="nav-link">書籍検索</a>
-	            <a href="/shelf/list" class="nav-link">本棚</a>
-	        </div>
-
-	        <div class="nav-right">
-	            <a href="/mypage/" class="nav-link">マイページ</a>
-
-	            <form action="/auth/logout" method="post" class="logout-form">
-	                <button type="submit" class="nav-link logout-btn">ログアウト</button>
-	            </form>
-	        </div>
-	    </div>
-	</div>
+	<div th:replace="layout/fragments/nav :: nav"></div>
 
 
 	<div class="container">
 
 		<!-- ▼ 検索フォーム -->
 		<section>
-			<div class="card" style="max-width: 900px; margin: 0 auto;">
+			<div  class="card search-card">
 
 				<h1 class="page-title" style="text-align:center">書籍検索</h1>
 
 				<!-- バリデーションエラー -->
-				<div th:if="${errorMessage != null}" class="error-msg" th:text="${errorMessage}"></div>
+				<div th:if="${errorMessage}" class="message message-error" th:text="${errorMessage}"></div>
+
 
 				<form th:action="@{/books/search}" method="post" th:object="${form}">
 
@@ -241,7 +75,7 @@
 					</div>
 
 					<div style="text-align:center; margin-top:20px;">
-						<button type="submit">検索</button>
+						<button type="submit" btn btn-primary>検索</button>
 					</div>
 
 				</form>
@@ -267,8 +101,9 @@
 			<!-- ▼ 結果カード -->
 			<div class="result-grid">
 
-				<a th:each="b : ${books}" th:href="@{/books/detail/{googleVolumeId}(googleVolumeId=${b.googleVolumeId})}"
-					class="result-card" style="text-decoration:none; color:inherit; display:flex;">
+				<a th:each="b : ${books}"
+					th:href="@{/books/detail/{googleVolumeId}(googleVolumeId=${b.googleVolumeId})}" class="result-card"
+					style="text-decoration:none; color:inherit; display:flex;">
 
 					<img th:src="${b.thumbnailLink}" alt="thumbnail">
 

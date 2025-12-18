@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tsd.libris.domain.dto.auth.SessionUser;
 import com.tsd.libris.domain.dto.shelf.ReviewEditForm;
@@ -65,18 +66,22 @@ public class ShelfController {
 	
 	@PostMapping("/edit/status")
 	public String editUserBookStatus(@Valid @ModelAttribute StatusEditForm form,
-																		BindingResult result) {
+																		BindingResult result,
+																		RedirectAttributes ra) {
 		
 		ss.editUserBookStatus(form);
+		ra.addFlashAttribute("successMessage","本棚を変更しました！");
 
 		return "redirect:/shelf/edit/" + form.getUuid();	
 	}
 	
 	@PostMapping("/edit/review")
 	public String editUserReview(@Valid @ModelAttribute ReviewEditForm form,
-																	BindingResult result) {
+																	BindingResult result,
+																	RedirectAttributes ra) {
 		
 		ss.editUserReview(form);
+		ra.addFlashAttribute("successMessage","レビューを投稿しました！");
 			
 		return "redirect:/shelf/edit/" + form.getUuid();
 	}

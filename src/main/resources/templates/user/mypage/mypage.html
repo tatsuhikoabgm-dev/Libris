@@ -285,9 +285,10 @@ body{
   </div>
 
   <!-- 変更完了メッセージ（param.msg or flash msg想定） -->
-  <div class="msg" th:if="${param.msg != null}">
-    <strong th:text="${param.msg}">ユーザー情報の変更が完了しました。</strong>
+  <div class="msg success" th:if="${successMessage}">
+    <strong th:text="${successMessage}"></strong>
   </div>
+
 
   <div class="card">
     <div class="section-title">会員情報</div>
@@ -370,9 +371,11 @@ body{
         <button type="submit" class="btn btn-secondary">会員情報の編集</button>
       </form>
 
-      <form th:action="@{/mypage/password}" method="get">
-        <button type="submit" class="btn btn-primary">パスワード変更</button>
-      </form>
+	  <form th:action="@{/mypage/password}" method="get">
+	    <input type="hidden" name="returnTo" value="mypage" />
+	    <button type="submit" class="btn btn-primary">パスワード変更</button>
+	  </form>
+
     </div>
 
     <div class="footer">© 2025 Libris / たつひこシステム開発（TSD）✨</div>

@@ -17,19 +17,16 @@ public class PasswordChangeForm {
 	 *解析に７年かかるらしい
 	 */
 	
-	@NotBlank
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,16}$",
-	message = 
-	"パスワードは大文字・小文字・数字を含む８～１６文字の半角英数字で入力してください")
+	@NotBlank(message = "入力してください")
 	private String oldPassword;
 	
-	@NotBlank
+	@NotBlank(message = "入力してください")
 	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,16}$",
 	message = 
 	"パスワードは大文字・小文字・数字を含む８～１６文字の半角英数字で入力してください")
 	private String password;
 	
-	@NotBlank
+	@NotBlank(message = "入力してください")
 	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,16}$",
 	message = 
 	"パスワードは大文字・小文字・数字を含む８～１６文字の半角英数字で入力してください")

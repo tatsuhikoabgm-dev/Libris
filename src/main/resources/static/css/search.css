@@ -1,0 +1,91 @@
+/* ==================================================
+   書籍検索ページ専用 CSS
+   ================================================== */
+
+/* ===== レイアウト ===== */
+
+.two-columns {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 15px 25px;
+}
+
+
+/* ===== レイアウト ===== */
+
+.search-card {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+
+/* ===== 検索結果グリッド ===== */
+
+.result-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px 25px;
+	margin-top: 25px;
+}
+
+@media (max-width: 768px) {
+	.result-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ===== 検索結果カード ===== */
+
+.result-card {
+	display: flex;
+	align-items: flex-start;
+
+	background: white;
+	padding: 15px;
+	border-radius: 12px;
+
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.09);
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.result-card:hover {
+	cursor: pointer;
+	transform: translateY(-4px);
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+/* ===== サムネイル ===== */
+
+.result-card img {
+	width: 85px;
+	height: 115px;
+	object-fit: cover;
+	border-radius: 8px;
+	margin-right: 15px;
+	flex-shrink: 0;
+}
+
+/* ===== 書籍情報 ===== */
+
+.result-info div {
+	margin-bottom: 5px;
+}
+
+/* ===== ページネーション ===== */
+
+.pagination {
+	margin-top: 30px;
+	text-align: center;
+}
+
+.pagination a {
+	margin: 0 6px;
+	text-decoration: none;
+	color: #34251F;
+	font-weight: 700;
+}
+
+.pagination a.active {
+	color: #D5BDAE;
+	text-decoration: underline;
+}

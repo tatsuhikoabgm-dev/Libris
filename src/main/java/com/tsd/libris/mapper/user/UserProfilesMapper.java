@@ -13,5 +13,7 @@ public interface UserProfilesMapper {
 	UserWithProfileEntity findUserProfileByUserId(@Param("userId") Long userId);
 	Integer insertProfile(UserProfilesEntity entity);
 	Integer updateProfile(UserProfilesEntity entity);
+	Integer updateEmail(@Param("userId") Long userId,@Param("email") String email);
+	Integer updateProfileForRegister(UserProfilesEntity entity);
 	
 }

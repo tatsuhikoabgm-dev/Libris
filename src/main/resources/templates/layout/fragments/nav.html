@@ -1,10 +1,47 @@
-<div class="navbar" th:fragment="nav">
-    <div>
-        <a th:href="@{/books/search}">書籍検索</a>
-        <a th:href="@{/shelf}">本棚</a>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav class="nav" th:fragment="nav">
+    <div class="nav-inner">
+
+        <!-- ===== 左側 ===== -->
+        <div class="nav-left">
+            <span class="nav-title">☆ Libris ☆</span>
+
+			<a th:href="@{/books/search}"
+			   class="nav-link"
+			   th:classappend="${currentPath.startsWith('/books')} ? ' active'">
+			   書籍検索
+			</a>
+
+
+			<a th:href="@{/shelf/list}"
+			   class="nav-link"
+			   th:classappend="${currentPath.startsWith('/shelf')} ? ' active'">
+			   本棚
+			</a>
+
+        </div>
+
+        <!-- ===== 右側 ===== -->
+        <div class="nav-right">
+			<a th:href="@{/mypage}"
+			   class="nav-link"
+			   th:classappend="${currentPath.startsWith('/mypage')} ? ' active'">
+			   マイページ
+			</a>
+
+
+            <form th:action="@{/auth/logout}" method="post" class="logout-form">
+                <button type="submit" class="nav-link logout-btn">
+                    ログアウト
+                </button>
+            </form>
+        </div>
+
     </div>
-    <div>
-        <a th:href="@{/mypage}">マイページ</a>
-        <a th:href="@{/logout}">ログアウト</a>
-    </div>
-</div>
+</nav>
+
+</body>
+</html>

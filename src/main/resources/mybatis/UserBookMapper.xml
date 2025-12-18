@@ -31,7 +31,9 @@
 		join users u
 		on ub.user_id = u.user_id
 		where book_id = #{bookId}
-		AND review_updated_at is not null;
+		AND review_updated_at is not null
+		order by review_updated_at desc;
+		
 	</select>
 	
 	<select id="findReviewById" resultType="UserBooksEntity">
@@ -87,7 +89,8 @@
 		update user_books
 		set
 		review = #{review},
-		rating = #{rating} 
+		rating = #{rating},
+		review_updated_at = now()
 		where uuid = #{uuid};
 	
 	</update>
