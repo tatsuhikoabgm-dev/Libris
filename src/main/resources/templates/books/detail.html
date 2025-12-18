@@ -4,259 +4,19 @@
     <meta charset="UTF-8">
     <title>書籍詳細</title>
 
-    <style>
-		/* ========= ヘッダー（書籍検索と同じ） ========= */
-			.nav {
-			    width: 100%;
-			    background-color: #3b2b23;
-			    color: white;
-			}
-
-			/* NAV 内側の最大幅コンテナ */
-			.nav-inner {
-			    max-width: 1380px;
-			    margin: 0 auto;
-			    padding: 14px 24px;
-
-			    display: flex;
-			    justify-content: space-between;
-			    align-items: center;
-			}
-
-			/* 左側 */
-			.nav-left {
-			    display: flex;
-			    gap: 24px;
-			    align-items: center;
-			}
-
-			.nav-title {
-			    font-size: 28px;
-			    font-weight: bold;
-			    letter-spacing: 2px;
-			}
-
-			/* リンク */
-			.nav-link {
-			    color: white;
-			    text-decoration: none;
-			    font-size: 18px;
-			    opacity: 0.85;
-			    transition: opacity .15s;
-			}
-
-			.nav-link:hover {
-			    opacity: 1;
-			}
-
-			/* 右側 */
-			.nav-right {
-			    display: flex;
-			    gap: 20px;
-			}
-        body {
-            background: #EBE9EA;
-            font-family: "Noto Sans JP", sans-serif;
-            color: #34251F;
-            margin: 0;
-        }
-
-        .container {
-            max-width: 1050px;
-            margin: 30px auto;
-        }
-
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 14px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            margin-bottom: 35px;
-        }
-
-        .book-area {
-            display: flex;
-            gap: 30px;
-        }
-
-        .thumbnail {
-            width: 260px;
-            height: 360px;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-        }
-
-        .book-info {
-            flex: 1;
-            position: relative;
-        }
-
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            column-gap: 20px;
-            row-gap: 15px;
-            margin-top: 15px;
-        }
-
-        .info-label {
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-
-		.form-box {
-		    display: flex;
-		    gap: 10px;
-		    align-items: center;
-		    margin-top: 20px;
-		    justify-content: flex-end;
-		}
-		
-		.form-box select {
-		    width: 120px;
-		    height: 36px;
-		    padding: 6px 8px;
-		    border-radius: 6px;
-		    border: 1px solid #aaa;
-		}
-
-
-        select {
-            padding: 6px 8px;
-            border-radius: 6px;
-            border: 1px solid #aaa;
-        }
-
-        .btn-dark {
-            padding: 7px 14px;
-            background: #34251F;
-            color: white;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-dark:hover {
-            background: #1e1714;
-        }
-
-        /* レビュー：新デザイン */
-        .review-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .review-card {
-            padding: 15px 18px;
-            border-radius: 10px;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 15px;
-            border: 1px solid #eee;
-        }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .review-user {
-            font-weight: 700;
-            font-size: 1.05rem;
-            color: #34251F;
-        }
-
-        .review-stars {
-            font-size: 1.1rem;
-            color: #D5BDAE;
-        }
-
-        .review-comment {
-            margin-top: 10px;
-            color: #444;
-            line-height: 1.6;
-        }
-
-        .review-date {
-            margin-top: 8px;	
-            font-size: 0.85rem;
-            color: #888;
-        }
-
-        .no-review {
-            color: #666;
-            padding: 5px 0;
-        }
-
-        .back {
-            text-align: center;
-            margin-top: 20px;
-        }
-		/* ▼ ログアウトボタンをリンクと同じ見た目にする */
-		.logout-form {
-		    margin: 0;
-		    padding: 0;
-		}
-
-		.logout-btn {
-		    background: none;
-		    border: none;
-		    color: white;
-		    font-size: 18px;
-		    padding: 0;
-		    cursor: pointer;
-		    font-family: inherit; /* リンクとフォント統一 */
-		}
-
-		/* ホバーもリンクと同じ */
-		.logout-btn:hover {
-		    opacity: 0.8;
-		}
-
-		/* nav-link の inline 表示に合わせる */
-		.nav-right form {
-		    display: inline-block;
-		}
-
-
-    </style>
-
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/detail.css}">
+    <link rel="stylesheet" th:href="@{/css/nav.css}">
 </head>
 
 <body>
 
-	<!-- ▼ ナビゲーション（書籍検索画面と同じデザイン） -->
-	<div class="nav">
-	    <div class="nav-inner">
-	        <div class="nav-left">
-	            <span class="nav-title">☆ Libris ☆</span>
-
-	            <a href="/books/search" class="nav-link">書籍検索</a>
-	            <a href="/shelf/list" class="nav-link">本棚</a>
-	        </div>
-
-	        <div class="nav-right">
-	            <a href="/mypage" class="nav-link">マイページ</a>
-
-	            <form action="/auth/logout" method="post" class="logout-form">
-	                <button type="submit" class="nav-link logout-btn">ログアウト</button>
-	            </form>
-	        </div>
-	    </div>
-	</div>
+	<div th:replace="layout/fragments/nav :: nav"></div>
 
 
 <div class="container">
+	
+	<div th:if="${successMessage}" class="message message-success" th:text="${successMessage}"></div>
 
     <!-- 書籍情報カード -->
     <div class="card">
@@ -311,7 +71,7 @@
                             <option value="PENDING">積読</option>
                         </select>
 
-                        <button type="submit" class="btn-dark">本棚に登録</button>
+                        <button type="submit" class="btn btn-primary">本棚に登録</button>
                     </form>
                 </div>
 

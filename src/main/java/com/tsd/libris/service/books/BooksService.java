@@ -154,8 +154,6 @@ public class BooksService {
 		BooksEntity entity = bm.findByGoogleVolumeId(googleVolumeId);
 		
 		if(entity != null) {
-			
-		
 		return new BookDetailViewDto(entity.getGoogleVolumeId()
 									,entity.getId()
 									,entity.getTitle()

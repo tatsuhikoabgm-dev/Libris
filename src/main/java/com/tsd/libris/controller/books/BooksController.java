@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tsd.libris.domain.dto.auth.SessionUser;
 import com.tsd.libris.domain.dto.books.BookSearchForm;
@@ -116,13 +117,13 @@ public class BooksController {
 	@PostMapping("/register")
 	public String saveUserBook(@ModelAttribute("form") UserBookRegisterForm form,
 								BindingResult result,
-								Model model,
+								RedirectAttributes ra,
 								HttpSession session
 								) {
 		
 		SessionUser sessionUser = (SessionUser)session.getAttribute("SESSION_USER");
 		bs.saveUserBook(sessionUser.getUserId(), form);
-		model.addAttribute("msg","☆" + form.getReadingStatus().getLabel() + "で登録しました☆");		
+		ra.addFlashAttribute("successMessage","☆本棚に登録しました☆");		
 		
 		return "redirect:/books/detail/" + form.getGoogleVolumeId();
 	}

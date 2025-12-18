@@ -1,0 +1,17 @@
+/* ===== FOOTER ===== */
+.footer {
+    margin-top: 60px;
+    padding: 20px 0;
+    background: #f3f2f2;
+    color: #8B7D75;
+}
+
+.footer-inner {
+    max-width: 1380px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-text {
+    font-size: 12px;
+}
