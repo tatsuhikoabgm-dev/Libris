@@ -1,0 +1,202 @@
+/* ==================================================
+   MyPage (mypage.css)
+   - base.css / nav.css の上に読み込む前提
+   - マイページ専用レイアウト＆コンポーネントのみ
+   ================================================== */
+
+/* ===== Theme (MyPage only / ※カード含むUI用) ===== */
+:root {
+  --mypage-primary: #3B2B23;
+  --mypage-text: #34251F;
+  --mypage-muted: #6B5A50;
+  --mypage-line: #E7E2DD;
+  --mypage-card: #FFFFFF;
+}
+
+/* ===== Button Color (MyPage only / 完全分離) ===== */
+/* ※ card や他UIに一切影響しない */
+:root {
+  --btn-primary-bg: #5A4032;
+  --btn-primary-hover: rgb(78, 55, 44);
+
+  --btn-secondary-bg: rgb(136, 111, 91);
+  --btn-secondary-hover: rgb(120, 98, 80);
+
+  --btn-text-light: #FFFFFF;
+  --btn-text-dark: #3B2B23;
+}
+
+/* ===== Layout ===== */
+.wrapper {
+  max-width: 1100px;
+  margin: 26px auto 60px;
+  padding: 0 20px;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--mypage-primary);
+  letter-spacing: 1px;
+}
+
+.page-sub {
+  font-size: 13px;
+  color: var(--mypage-muted);
+  margin-top: 6px;
+}
+
+/* ===== Card ===== */
+.card {
+  background: var(--mypage-card);
+  border: 1px solid var(--mypage-line);
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+  padding: 22px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--mypage-primary);
+  margin: 2px 0 14px;
+}
+
+/* ===== Grid ===== */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 16px;
+}
+
+@media (max-width: 820px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* ===== Items ===== */
+.item {
+  border: 1px solid var(--mypage-line);
+  background: #FBFAF9;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--mypage-muted);
+  margin-bottom: 6px;
+}
+
+.value {
+  font-size: 15px;
+  color: var(--mypage-text);
+  font-weight: 600;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.value.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  letter-spacing: 0.2px;
+}
+
+/* ===== Address ===== */
+.address-wide {
+  grid-column: 1 / -1;
+}
+
+.address-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  align-items: center;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--mypage-line);
+  background: #FFFFFF;
+  color: var(--mypage-muted);
+}
+
+.address-empty {
+  margin-top: 8px;
+}
+
+/* ===== Actions ===== */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+/* mypage-register.css */
+.register-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+
+/* ===== Buttons (MyPage only) ===== */
+.btn {
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 190px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-text-light);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: var(--btn-primary-hover);
+}
+
+.btn-secondary {
+  background: var(--btn-secondary-bg);
+  color: var(--btn-text-light); /* ← 白にする */
+  border: none;
+}
+
+.btn-secondary:hover {
+  background: var(--btn-secondary-hover);
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  color: #8B7D75;
+  font-size: 12px;
+  margin-top: 18px;
+}

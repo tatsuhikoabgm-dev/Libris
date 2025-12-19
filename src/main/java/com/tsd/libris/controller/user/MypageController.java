@@ -215,7 +215,7 @@ public class MypageController {
 			session.setAttribute("SESSION_USER", new SessionUser(e.getUserId(),e.getAuthority(),e.getDisplayName()));
 			session.removeAttribute("SESSION_MYPAGE_REGISTER");
 			ra.addFlashAttribute("successMessage","変更が完了しました");
-			return "redirect:/mypage";
+			return "redirect:/mypage/register";
 	}
 	
 	

@@ -1,3 +1,7 @@
+:root {
+  --danger: #D14343;
+}
+
 body {
     background: #EBE9EA;
     color: #34251F;

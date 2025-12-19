@@ -1,218 +1,98 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8" />
-<title>変更内容の確認 | Libris</title>
+  <meta charset="UTF-8" />
+  <title>変更内容の確認 | Libris</title>
 
-<style>
-:root{
-  --primary:#3B2B23;
-  --accent:#2563EB;
-  --surface:#F7F5F3;
-  --text:#34251F;
-  --muted:#6B5A50;
-  --line:#E7E2DD;
-  --card:#FFFFFF;
-}
-
-*{ box-sizing:border-box; }
-body{
-  margin:0;
-  font-family:"Hiragino Sans", sans-serif;
-  background:var(--surface);
-  color:var(--text);
-}
-
-/* ===== NAV ===== */
-.nav{ background:var(--primary); color:#fff; }
-.nav-inner{
-  max-width:1380px;
-  margin:0 auto;
-  padding:14px 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.nav-left{ display:flex; gap:24px; align-items:center; }
-.nav-title{ font-size:28px; font-weight:bold; letter-spacing:2px; }
-.nav-link{ color:#fff; text-decoration:none; font-size:18px; opacity:.85; }
-.nav-link:hover{ opacity:1; }
-
-/* ===== LAYOUT ===== */
-.wrapper{
-  max-width:1100px;
-  margin:26px auto 60px;
-  padding:0 20px;
-}
-.page-title{
-  font-size:26px;
-  font-weight:800;
-  color:var(--primary);
-}
-.page-sub{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:6px;
-}
-
-/* ===== CARD ===== */
-.card{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  box-shadow:0 10px 26px rgba(0,0,0,.08);
-  padding:22px;
-}
-.section-title{
-  font-size:16px;
-  font-weight:800;
-  color:var(--primary);
-  margin-bottom:14px;
-}
-
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px 16px;
-}
-.item{
-  background:#FBFAF9;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px 14px;
-}
-.item.wide{ grid-column:1 / -1; }
-
-.label{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:6px;
-}
-.value{
-  font-size:15px;
-  font-weight:600;
-  line-height:1.5;
-  word-break:break-word;
-}
-.value.mono{
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-}
-
-/* ===== ACTIONS ===== */
-.actions{
-  display:flex;
-  gap:12px;
-  margin-top:22px;
-  justify-content:flex-end;
-}
-.btn{
-  border:none;
-  border-radius:10px;
-  padding:12px 18px;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
-}
-.btn-primary{ background:var(--accent); color:#fff; }
-.btn-secondary{ background:#EDEAE7; color:var(--primary); }
-
-/* ===== FOOTER ===== */
-.footer{
-  text-align:center;
-  color:#8B7D75;
-  font-size:12px;
-  margin-top:18px;
-}
-</style>
+  <link rel="stylesheet" th:href="@{/css/base.css}">
+  <link rel="stylesheet" th:href="@{/css/nav.css}">
+  <link rel="stylesheet" th:href="@{/css/mypage-confirm.css}">
 </head>
 
 <body>
 
-<div class="nav">
-  <div class="nav-inner">
-    <div class="nav-left">
-      <span class="nav-title">☆ Libris ☆</span>
-      <a href="/books/search" class="nav-link">書籍検索</a>
-      <a href="/shelf/list" class="nav-link">本棚</a>
-    </div>
-    <div>
-      <a href="/mypage/" class="nav-link">マイページ</a>
-    </div>
-  </div>
-</div>
+  <div th:replace="layout/fragments/nav :: nav"></div>
 
-<div class="wrapper">
+  <div class="confirm-wrapper">
 
-  <div class="page-title">変更内容の確認</div>
-  <div class="page-sub">
-    以下の内容で変更します。問題なければ「変更を確定」を押してください。
-  </div>
+    <h1 class="confirm-title">変更内容の確認</h1>
+    <p class="confirm-sub">
+      以下の内容で変更します。問題なければ「変更を確定」を押してください。
+    </p>
 
-  <div class="card">
-    <div class="section-title">会員情報</div>
+    <div class="confirm-card">
+      <h2 class="confirm-section">会員情報</h2>
 
-    <div class="grid">
+      <div class="confirm-grid">
 
-      <div class="item">
-        <div class="label">氏名</div>
-        <div class="value" th:text="${confirm.lastName + ' ' + confirm.firstName}"></div>
-      </div>
-
-      <div class="item">
-        <div class="label">氏名（カナ）</div>
-        <div class="value" th:text="${confirm.lastNameKana + ' ' + confirm.firstNameKana}"></div>
-      </div>
-
-      <div class="item wide">
-        <div class="label">生年月日</div>
-        <div class="value" th:text="${confirm.birthday}"></div>
-      </div>
-
-      <div class="item wide">
-        <div class="label">住所</div>
-        <div class="value">
-          <span th:text="'〒' + ${confirm.postalCode}"></span><br>
-          <span th:text="${confirm.prefecture}"></span>
-          <span th:text="${confirm.city}"></span>
-          <span th:text="${confirm.town}"></span>
-          <span th:text="${confirm.addressNumber}"></span><br>
-          <span th:text="${confirm.building}"></span>
+        <!-- 1行目 -->
+        <div class="confirm-item">
+          <div class="label">氏名</div>
+          <div class="value"
+               th:text="${confirm.lastName + ' ' + confirm.firstName}"></div>
         </div>
-      </div>
 
-      <div class="item">
-        <div class="label">電話番号</div>
-        <div class="value mono" th:text="${confirm.phoneNumber}"></div>
-      </div>
-
-      <div class="item">
-        <div class="label">表示名</div>
-        <div class="value"
-             th:text="${#strings.isEmpty(confirm.displayName) ? '読書家さん' : confirm.displayName}">
+        <div class="confirm-item">
+          <div class="label">氏名（カナ）</div>
+          <div class="value"
+               th:text="${confirm.lastNameKana + ' ' + confirm.firstNameKana}"></div>
         </div>
+
+        <!-- 2行目：住所（2列分） -->
+        <div class="confirm-item wide">
+          <div class="label">住所</div>
+          <div class="value address">
+            <span th:text="'〒' + ${confirm.postalCode}"></span>
+            <span th:text="${confirm.prefecture}"></span>
+            <span th:text="${confirm.city}"></span>
+            <span th:text="${confirm.town}"></span>
+            <span th:text="${confirm.addressNumber}"></span>
+            <span th:text="${confirm.building}"></span>
+          </div>
+        </div>
+
+        <!-- 3行目 -->
+        <div class="confirm-item">
+          <div class="label">生年月日</div>
+          <div class="value" th:text="${confirm.birthday}"></div>
+        </div>
+
+        <div class="confirm-item">
+          <div class="label">電話番号</div>
+          <div class="value mono" th:text="${confirm.phoneNumber}"></div>
+        </div>
+
+        <!-- 4行目 -->
+        <div class="confirm-item">
+          <div class="label">メールアドレス</div>
+          <div class="value mono" th:text="${confirm.email}"></div>
+        </div>
+
+        <div class="confirm-item">
+          <div class="label">表示名</div>
+          <div class="value"
+               th:text="${#strings.isEmpty(confirm.displayName) ? '未設定' : confirm.displayName}">
+          </div>
+        </div>
+
       </div>
 
-      <div class="item wide">
-        <div class="label">メールアドレス</div>
-        <div class="value mono" th:text="${confirm.email}"></div>
+      <div class="confirm-actions">
+        <form th:action="@{/mypage/edit}" method="get">
+          <button class="btn btn-secondary">修正する</button>
+        </form>
+
+        <form th:action="@{/mypage/edit/complete}" method="post">
+          <button class="btn btn-primary">変更を確定</button>
+        </form>
       </div>
 
+      <div class="confirm-footer">
+        © 2025 Libris / たつひこシステム開発（TSD）✨
+      </div>
     </div>
-
-    <div class="actions">
-      <form action="/mypage/edit" method="get">
-        <button class="btn btn-secondary">修正する</button>
-      </form>
-
-      <form action="/mypage/edit/complete" method="post">
-        <button class="btn btn-primary">変更を確定</button>
-      </form>
-    </div>
-
-    <div class="footer">© 2025 Libris / たつひこシステム開発（TSD）✨</div>
   </div>
-</div>
 
 </body>
 </html>

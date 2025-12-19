@@ -4,250 +4,17 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>マイページ登録 | Libris</title>
-
-	<style>
-		/* ===== THEME ===== */
-		:root {
-			--primary: #3B2B23;
-			--accent: #2563EB;
-			--surface: #F7F5F3;
-			--text: #34251F;
-			--muted: #6B5A50;
-			--line: #E7E2DD;
-			--card: #FFFFFF;
-		}
-
-		/* ===== BASE ===== */
-		* {
-			box-sizing: border-box;
-		}
-
-		body {
-			margin: 0;
-			font-family: "Hiragino Sans", sans-serif;
-			background: var(--surface);
-			color: var(--text);
-		}
-
-		/* ===== LAYOUT ===== */
-		.wrapper {
-			max-width: 1100px;
-			margin: 28px auto 60px;
-			padding: 0 20px;
-		}
-
-		.page-title {
-			font-size: 26px;
-			font-weight: 800;
-			margin-bottom: 6px;
-		}
-
-		.page-sub {
-			font-size: 13px;
-			color: var(--muted);
-			margin-bottom: 20px;
-		}
-
-		/* ===== CARD ===== */
-		.card {
-			background: var(--card);
-			border: 1px solid var(--line);
-			border-radius: 18px;
-			box-shadow: 0 10px 26px rgba(0, 0, 0, .08);
-			padding: 22px;
-			margin-bottom: 28px;
-		}
-
-		.section-title {
-			font-size: 16px;
-			font-weight: 800;
-			margin-bottom: 14px;
-		}
-
-		/* ===== FORM ===== */
-		.form-grid {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 14px 16px;
-		}
-
-		@media(max-width:820px) {
-			.form-grid {
-				grid-template-columns: 1fr;
-			}
-		}
-
-		.form-item {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.form-item.wide {
-			grid-column: 1 / -1;
-		}
-
-		label {
-			font-size: 12px;
-			color: var(--muted);
-			margin-bottom: 6px;
-		}
-
-		input {
-			padding: 10px 12px;
-			border-radius: 10px;
-			border: 1px solid var(--line);
-			font-size: 14px;
-		}
-
-		input:focus {
-			outline: none;
-			border-color: var(--accent);
-		}
-
-		/* ===== ERROR ===== */
-		.error {
-			color: #b3261e;
-			font-size: 12px;
-			margin-top: 4px;
-		}
-
-		/* ===== ACTIONS ===== */
-		.actions {
-			display: flex;
-			justify-content: flex-end;
-			margin-top: 18px;
-		}
-
-		.btn {
-			border: none;
-			border-radius: 10px;
-			padding: 12px 18px;
-			font-size: 14px;
-			font-weight: 700;
-			cursor: pointer;
-		}
-
-		.btn-primary {
-			background: var(--accent);
-			color: #fff;
-		}
-
-		/* ===== NOTE ===== */
-		.note {
-			font-size: 12px;
-			color: var(--muted);
-			margin-bottom: 12px;
-		}
-
-		/* ========= ヘッダー（書籍検索と同じ） ========= */
-		.nav {
-			width: 100%;
-			background-color: #3b2b23;
-			color: white;
-		}
-
-		/* NAV 内側の最大幅コンテナ */
-		.nav-inner {
-			max-width: 1380px;
-			margin: 0 auto;
-			padding: 14px 24px;
-
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-
-		/* 左側 */
-		.nav-left {
-			display: flex;
-			gap: 24px;
-			align-items: center;
-		}
-
-		.nav-title {
-			font-size: 28px;
-			font-weight: bold;
-			letter-spacing: 2px;
-		}
-
-		/* リンク */
-		.nav-link {
-			color: white;
-			text-decoration: none;
-			font-size: 18px;
-			opacity: 0.85;
-			transition: opacity .15s;
-		}
-
-		.nav-link:hover {
-			opacity: 1;
-		}
-
-		/* 右側 */
-		.nav-right {
-			display: flex;
-			gap: 20px;
-		}
-
-		/* ▼ ログアウトボタンをリンクと同じ見た目にする */
-		.logout-form {
-			margin: 0;
-			padding: 0;
-		}
-
-		.logout-btn {
-			background: none;
-			border: none;
-			color: white;
-			font-size: 18px;
-			padding: 0;
-			cursor: pointer;
-			font-family: inherit;
-			/* リンクとフォント統一 */
-		}
-
-		/* ホバーもリンクと同じ */
-		.logout-btn:hover {
-			opacity: 0.8;
-		}
-
-		/* nav-link の inline 表示に合わせる */
-		.nav-right form {
-			display: inline-block;
-		}
-		/* ===== MESSAGE ===== */
-		.msg{
-		  border:1px solid #F2C98B;
-		  background:#FFF7E6;
-		  color:#8A4B0E;
-		  padding:12px 14px;
-		  border-radius:10px;
-		  margin:14px 0 18px;
-		  font-size:14px;
-		}
-		.msg strong{ font-weight:800; }
-	</style>
+	
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/nav.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage-register.css}">
 </head>
 
 <body>
+	
+	<div th:replace="layout/fragments/nav :: nav"></div>
 
-	<!-- ▼ ナビゲーション（書籍検索画面と同じデザイン） -->
-	<div class="nav">
-		<div class="nav-inner">
-			<div class="nav-left">
-				<span class="nav-title">☆ Libris ☆</span>
-
-				<a href="/books/search" class="nav-link">書籍検索</a>
-				<a href="/shelf/list" class="nav-link">本棚</a>
-			</div>
-
-			<div class="nav-right">
-				<form action="/auth/logout" method="post" class="logout-form">
-					<button type="submit" class="nav-link logout-btn">ログアウト</button>
-				</form>
-			</div>
-		</div>
-	</div>
 
 	<div class="wrapper">
 
@@ -256,8 +23,7 @@
 			会員情報の登録・表示名やメールアドレスの変更ができます。
 		</div>
 
-		<!-- ★ここがベスト -->
-		<div class="msg success" th:if="${successMessage}">
+		<div class="message-success" th:if="${successMessage}">
 			<strong th:text="${successMessage}"></strong>
 		</div>
 
@@ -347,7 +113,7 @@
 
 				</div>
 
-				<div class="actions">
+				<div class="register-actions">
 					<button type="submit" class="btn btn-primary">登録内容を確認</button>
 				</div>
 
@@ -360,7 +126,7 @@
 			<div class="note">
 			</div>
 
-			<form th:action="@{/mypage/register/confirm}" th:object="${mypageRegisterForm}" method="post">
+			<form th:action="@{/mypage/register/confirm}" th:object="${mypageRegisterForm}" method="post" id="accountForm">
 				<input type="hidden" name="registerType" value="ACCOUNT" />
 
 
@@ -387,7 +153,7 @@
 				</div>
 
 				<div class="actions">
-					<button type="submit" class="btn btn-primary">変更内容を確認</button>
+					<button type="submit" class="btn btn-primary" id="accountSubmitBtn" disabled>変更内容を確認</button>
 				</div>
 			</form>
 			<div class="actions password-action">
@@ -401,7 +167,30 @@
 		</div>
 
 	</div>
+	<script>
+	  document.addEventListener('DOMContentLoaded', () => {
+	    const form = document.getElementById('accountForm');
+	    const submitBtn = document.getElementById('accountSubmitBtn');
+
+	    // 初期値を保存
+	    const initialValues = Array.from(form.elements)
+	      .filter(el => el.tagName === 'INPUT')
+	      .map(el => el.value);
+
+	    form.addEventListener('input', () => {
+	      const currentValues = Array.from(form.elements)
+	        .filter(el => el.tagName === 'INPUT')
+	        .map(el => el.value);
+
+	      const isChanged = currentValues.some(
+	        (val, idx) => val !== initialValues[idx]
+	      );
+
+	      submitBtn.disabled = !isChanged;
+	    });
+	  });
+	</script>
 
 </body>
 
-</html>ml>
+</html>

@@ -1,174 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>ログイン | Libris</title>
-
-    <style>
-        body {
-            margin: 0;
-            background: #f3f2f2;
-            font-family: "Hiragino Sans", sans-serif;
-        }
-
-        /* ===== NAV（本棚と共通デザイン） ===== */
-        .nav {
-            width: 100%;
-            background-color: #3b2b23;
-            color: white;
-        }
-        .nav-inner {
-            max-width: 1380px;
-            margin: 0 auto;
-            padding: 14px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .nav-title {
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        /* ===== ログインカード ===== */
-        .login-wrapper {
-            margin-top: 80px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .login-card {
-            background: white;
-            width: 380px;
-            padding: 32px 40px;
-            border-radius: 16px;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-        }
-
-        .login-title {
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 24px;
-            font-weight: bold;
-            color: #3b2b23;
-        }
-
-        .form-label {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            display: block;
-            color: #3b2b23;
-        }
-
-        .form-input {
-            width: 100%;
-            height: 42px;
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 15px;
-            box-sizing: border-box;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: #2563eb;
-        }
-
-        .login-btn {
-            width: 100%;
-            background-color: #2563eb;
-            color: white;
-            padding: 12px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-
-        .login-btn:hover {
-            background-color: #1e4ebc;
-        }
-
-        .error-msg {
-            margin-top: 14px;
-            color: red;
-            font-size: 14px;
-            text-align: center;
-        }
-		
-		.info-msg {
-		    margin-top: 14px;
-		    color: red;
-		    font-size: 18px;
-		    text-align: center;
-		}
-
-        .register-link {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .register-link a {
-            color: #2563eb;
-            text-decoration: none;
-            font-size: 15px;
-        }
-
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
-
+  <meta charset="UTF-8">
+  <title>ログイン | Libris</title>
+  <link rel="stylesheet" th:href="@{/css/auth.css}">
 </head>
 
 <body>
 
-<!-- NAV -->
-<div class="nav">
-    <div class="nav-inner">
-        <span class="nav-title">☆ Libris ☆</span>
-        <div></div>
-    </div>
+<!-- 背景プレビュー（必要な時だけ） -->
+<!--
+<div class="preview-bg">
+  <div class="preview-track">
+    <img src="/img/preview/preview-search.png">
+    <img src="/img/preview/preview-detail.png">
+    <img src="/img/preview/preview-shelf.png">
+    <img src="/img/preview/preview-edit.png">
+  </div>
 </div>
+-->
 
-<!-- ログインカード -->
-<div class="login-wrapper">
-    <div class="login-card">
+<div class="auth-wrapper">
+  <div class="auth-card auth-card--normal">
 
-        <div class="login-title">ログイン</div>
-		
-		<div th:if="${msg}" class="info-msg" th:text="${msg}"></div>
-		
-        <form th:action="@{/auth/login}" method="post" th:object="${loginForm}">
+    <div class="auth-title">ログイン</div>
 
-            <label class="form-label">ログインID</label>
-            <input type="text" th:field="*{loginId}" class="form-input">
-			<div th:errors="*{loginId}" class="error-msg"></div>
+    <div th:if="${msg}" class="message message--success" th:text="${msg}"></div>
+	<div th:if="${errorMessage}" class="message message--error" th:text="${errorMessage}"></div>
 
+    <form th:action="@{/auth/login}"
+          method="post"
+          th:object="${loginForm}">
 
-            <label class="form-label" style="margin-top: 16px;">パスワード</label>
-            <input type="password" th:field="*{password}" class="form-input">
-			<div th:errors="*{password}" class="error-msg"></div>
+      <div class="form-group">
+        <label class="form-label">ログインID</label>
+        <input type="text" th:field="*{loginId}" class="form-input">
+        <div th:errors="*{loginId}" class="error-msg"></div>
+      </div>
 
+      <div class="form-group">
+        <label class="form-label">パスワード</label>
+        <input type="password" th:field="*{password}" class="form-input" id="loginPassword">
+        <div th:errors="*{password}" class="error-msg" ></div>
+      </div>
+	  <label class="show-password">
+	    <input type="checkbox" onclick="toggleLoginPassword()">
+	    パスワードを表示する
+	  </label>
 
-            <button class="login-btn" type="submit">ログイン</button>
+      <button type="submit" class="auth-btn">
+        ログイン
+      </button>
+    </form>
 
-        </form>
-
-        <!-- エラー表示 -->
-        <div th:if="${errorMessage}" class="error-msg" th:text="${errorMessage}"></div>
-
-        <!-- 新規登録リンク -->
-        <div class="register-link">
-            <a href="/user/register">☆新規登録はこちらから☆</a>
-        </div>
-
+    <div class="register-link">
+      <a href="/user/register">☆新規登録はこちらから☆</a>
     </div>
+
+  </div>
 </div>
+<script>
+  function toggleLoginPassword() {
+    const pw = document.getElementById("loginPassword");
+    pw.type = pw.type === "password" ? "text" : "password";
+  }
+</script>
 
 </body>
 </html>

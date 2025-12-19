@@ -1,219 +1,243 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8" />
-<title>登録内容確認 | Libris</title>
+	<meta charset="UTF-8" />
+	<title>登録内容確認 | Libris</title>
 
-<style>
-/* ===== THEME ===== */
-:root{
-  --primary:#3B2B23;
-  --accent:#2563EB;
-  --surface:#F7F5F3;
-  --text:#34251F;
-  --muted:#6B5A50;
-  --line:#E7E2DD;
-  --card:#FFFFFF;
-}
+	<style>
+		/* ===== THEME ===== */
+		:root {
+			--primary: #3B2B23;
+			--accent: #2563EB;
+			--surface: #F7F5F3;
+			--text: #34251F;
+			--muted: #6B5A50;
+			--line: #E7E2DD;
+			--card: #FFFFFF;
+		}
 
-/* ===== BASE ===== */
-*{ box-sizing:border-box; }
-body{
-  margin:0;
-  font-family:"Hiragino Sans", sans-serif;
-  background:var(--surface);
-  color:var(--text);
-}
+		/* ===== BASE ===== */
+		* {
+			box-sizing: border-box;
+		}
 
-/* ===== LAYOUT ===== */
-.wrapper{
-  max-width:1100px;
-  margin:28px auto 60px;
-  padding:0 20px;
-}
-.page-title{
-  font-size:26px;
-  font-weight:800;
-  margin-bottom:6px;
-}
-.page-sub{
-  font-size:13px;
-  color:var(--muted);
-  margin-bottom:24px;
-}
+		body {
+			margin: 0;
+			font-family: "Hiragino Sans", sans-serif;
+			background: var(--surface);
+			color: var(--text);
+		}
 
-/* ===== CARD ===== */
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:18px;
-  box-shadow:0 10px 26px rgba(0,0,0,.08);
-  padding:22px;
-  margin-bottom:28px;
-}
-.section-title{
-  font-size:16px;
-  font-weight:800;
-  margin-bottom:14px;
-}
+		/* ===== LAYOUT ===== */
+		.wrapper {
+			max-width: 1100px;
+			margin: 28px auto 60px;
+			padding: 0 20px;
+		}
 
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px 16px;
-}
-@media(max-width:820px){
-  .grid{ grid-template-columns:1fr; }
-}
-.item{
-  border:1px solid var(--line);
-  background:#FBFAF9;
-  border-radius:12px;
-  padding:12px 14px;
-}
-.item.wide{ grid-column:1 / -1; }
+		.page-title {
+			font-size: 26px;
+			font-weight: 800;
+			margin-bottom: 6px;
+		}
 
-.label{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:6px;
-}
-.value{
-  font-size:15px;
-  font-weight:600;
-  word-break:break-word;
-}
-.value.mono{
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-}
+		.page-sub {
+			font-size: 13px;
+			color: var(--muted);
+			margin-bottom: 24px;
+		}
 
-/* ===== ACTIONS ===== */
-.actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:12px;
-  margin-top:22px;
-  flex-wrap:wrap;
-}
-.btn{
-  border:none;
-  border-radius:10px;
-  padding:12px 18px;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
-  min-width:180px;
-}
-.btn-primary{
-  background:var(--accent);
-  color:#fff;
-}
-.btn-secondary{
-  background:#EDEAE7;
-  color:var(--primary);
-}
-</style>
+		/* ===== CARD ===== */
+		.card {
+			background: var(--card);
+			border: 1px solid var(--line);
+			border-radius: 18px;
+			box-shadow: 0 10px 26px rgba(0, 0, 0, .08);
+			padding: 22px;
+			margin-bottom: 28px;
+		}
+
+		.section-title {
+			font-size: 16px;
+			font-weight: 800;
+			margin-bottom: 14px;
+		}
+
+		/* ===== GRID ===== */
+		.grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 14px 16px;
+		}
+
+		@media(max-width:820px) {
+			.grid {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		.item {
+			border: 1px solid var(--line);
+			background: #FBFAF9;
+			border-radius: 12px;
+			padding: 12px 14px;
+		}
+
+		.item.wide {
+			grid-column: 1 / -1;
+		}
+
+		.label {
+			font-size: 12px;
+			color: var(--muted);
+			margin-bottom: 6px;
+		}
+
+		.value {
+			font-size: 15px;
+			font-weight: 600;
+			word-break: break-word;
+		}
+
+		.value.mono {
+			font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+		}
+
+		/* ===== ACTIONS ===== */
+		.actions {
+			display: flex;
+			justify-content: flex-end;
+			gap: 12px;
+			margin-top: 22px;
+			flex-wrap: wrap;
+		}
+
+		.btn {
+			border: none;
+			border-radius: 10px;
+			padding: 12px 18px;
+			font-size: 14px;
+			font-weight: 700;
+			cursor: pointer;
+			min-width: 180px;
+		}
+
+		.btn-primary {
+			background: var(--accent);
+			color: #fff;
+		}
+
+		.btn-secondary {
+			background: #EDEAE7;
+			color: var(--primary);
+		}
+	</style>
+
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/nav.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage-register-confirm.css}">
 </head>
 
 <body>
 
-<div class="wrapper">
 
-  <div class="page-title">登録内容の確認</div>
-  <div class="page-sub">
-    入力内容をご確認のうえ、問題なければ登録を完了してください。
-  </div>
+	<div th:replace="layout/fragments/nav :: nav"></div>
 
-  <!-- ===================== PROFILE 確認 ===================== -->
-  <div class="card"
-       th:if="${form.registerType.name() == 'PROFILE'}">
+	<div class="wrapper">
 
-    <div class="section-title">マイページ登録内容</div>
+		<div class="page-title">登録内容の確認</div>
+		<div class="page-sub">
+			入力内容をご確認のうえ、問題なければ登録を完了してください。
+		</div>
 
-    <div class="grid">
-      <div class="item">
-        <div class="label">姓</div>
-        <div class="value" th:text="${form.lastName}"></div>
-      </div>
+		<!-- ===================== PROFILE 確認 ===================== -->
+		<div class="card" th:if="${form.registerType.name() == 'PROFILE'}">
 
-      <div class="item">
-        <div class="label">名</div>
-        <div class="value" th:text="${form.firstName}"></div>
-      </div>
+			<div class="section-title">マイページ登録内容</div>
 
-      <div class="item">
-        <div class="label">姓（カナ）</div>
-        <div class="value" th:text="${form.lastNameKana}"></div>
-      </div>
+			<div class="grid">
+				<div class="item">
+					<div class="label">姓</div>
+					<div class="value" th:text="${form.lastName}"></div>
+				</div>
 
-      <div class="item">
-        <div class="label">名（カナ）</div>
-        <div class="value" th:text="${form.firstNameKana}"></div>
-      </div>
+				<div class="item">
+					<div class="label">名</div>
+					<div class="value" th:text="${form.firstName}"></div>
+				</div>
 
-      <div class="item wide">
-        <div class="label">住所</div>
-        <div class="value">
-          <span th:text="'〒' + ${form.postalCode}"></span><br>
-          <span th:text="${form.prefecture}"></span>
-          <span th:text="${form.city}"></span>
-          <span th:text="${form.town}"></span>
-          <span th:text="${form.addressNumber}"></span>
-          <span th:if="${!#strings.isEmpty(form.building)}"
-                th:text="${form.building}"></span>
-        </div>
-      </div>
+				<div class="item">
+					<div class="label">姓（カナ）</div>
+					<div class="value" th:text="${form.lastNameKana}"></div>
+				</div>
 
-      <div class="item">
-        <div class="label">生年月日</div>
-        <div class="value" th:text="${form.birthday}"></div>
-      </div>
+				<div class="item">
+					<div class="label">名（カナ）</div>
+					<div class="value" th:text="${form.firstNameKana}"></div>
+				</div>
 
-      <div class="item">
-        <div class="label">電話番号</div>
-        <div class="value mono" th:text="${form.phoneNumber}"></div>
-      </div>
-    </div>
-  </div>
+				<div class="item wide">
+					<div class="label">住所</div>
+					<div class="value">
+						<span th:text="'〒' + ${form.postalCode}"></span><br>
+						<span th:text="${form.prefecture}"></span>
+						<span th:text="${form.city}"></span>
+						<span th:text="${form.town}"></span>
+						<span th:text="${form.addressNumber}"></span>
+						<span th:if="${!#strings.isEmpty(form.building)}" th:text="${form.building}"></span>
+					</div>
+				</div>
 
-  <!-- ===================== ACCOUNT 確認 ===================== -->
-  <div class="card"
-       th:if="${form.registerType.name() == 'ACCOUNT'}">
+				<div class="item">
+					<div class="label">生年月日</div>
+					<div class="value" th:text="${form.birthday}"></div>
+				</div>
 
-    <div class="section-title">表示名・メールアドレス変更内容</div>
+				<div class="item">
+					<div class="label">電話番号</div>
+					<div class="value mono" th:text="${form.phoneNumber}"></div>
+				</div>
+			</div>
+		</div>
 
-    <div class="grid">
-      <div class="item wide">
-        <div class="label">表示名</div>
-        <div class="value"
-             th:text="${#strings.isEmpty(form.displayName) ? '（未設定）' : form.displayName}">
-        </div>
-      </div>
+		<!-- ===================== ACCOUNT 確認 ===================== -->
+		<div class="card" th:if="${form.registerType.name() == 'ACCOUNT'}">
 
-      <div class="item wide">
-        <div class="label">メールアドレス</div>
-        <div class="value mono" th:text="${form.email}"></div>
-      </div>
-    </div>
-  </div>
+			<div class="section-title">表示名・メールアドレス変更内容</div>
 
-  <!-- ===================== ACTIONS ===================== -->
-  <div class="actions">
+			<div class="grid">
+				<div class="item wide">
+					<div class="label">表示名</div>
+					<div class="value" th:text="${#strings.isEmpty(form.displayName) ? '（未設定）' : form.displayName}">
+					</div>
+				</div>
 
-    <form th:action="@{/mypage/register}" method="get">
-      <button type="submit" class="btn btn-secondary">戻る</button>
-	  <input type="hidden" name="fromConfirm" value="true">
-    </form>
+				<div class="item wide">
+					<div class="label">メールアドレス</div>
+					<div class="value mono" th:text="${form.email}"></div>
+				</div>
+			</div>
+		</div>
 
-    <form th:action="@{/mypage/register/complete}" method="post">
-		<input type="hidden" name="registerType" th:value="${form.registerType}" />
-      <button type="submit" class="btn btn-primary">登録を完了する</button>
-    </form>
+		<!-- ===================== ACTIONS ===================== -->
+		<div class="actions">
 
-  </div>
+			<form th:action="@{/mypage/register}" method="get">
+				<button type="submit" class="btn btn-secondary">戻る</button>
+				<input type="hidden" name="fromConfirm" value="true">
+			</form>
 
-</div>
+			<form th:action="@{/mypage/register/complete}" method="post">
+				<input type="hidden" name="registerType" th:value="${form.registerType}" />
+				<button type="submit" class="btn btn-primary">登録を完了する</button>
+			</form>
+
+		</div>
+
+	</div>
 
 </body>
+
 </html>
