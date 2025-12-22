@@ -2,101 +2,98 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>本棚</title>
-	
-	<link rel="stylesheet" th:href="@{/css/base.css}">
-	<link rel="stylesheet" th:href="@{/css/nav.css}">
-	<link rel="stylesheet" th:href="@{/css/list.css}">
+  <meta charset="UTF-8">
+  <title>本棚</title>
 
-
+  <link rel="stylesheet" th:href="@{/css/base.css}">
+  <link rel="stylesheet" th:href="@{/css/nav.css}">
+  <link rel="stylesheet" th:href="@{/css/shelf-list.css}">
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
-
 
 <body>
 
-	<div th:replace="layout/fragments/nav :: nav"></div>
-
+<div th:replace="layout/fragments/nav :: nav"></div>
 
 <!-- ===== 本棚コンテンツ ===== -->
 <div class="content-wrapper">
 
-    <!-- ユーザー名 -->
-    <h2 th:text="|${page.displayName} さんの本棚|"></h2>
+  <h2 th:text="|${page.displayName} さんの本棚|"></h2>
 
-	<!-- ▼▼ タブ ▼▼ -->
-	<div class="tabs-container" role="tablist">
+  <!-- ▼▼ タブ ▼▼ -->
+  <div class="tabs-container" role="tablist">
 
+    <form method="get">
+      <input type="hidden" name="status" value="ALL">
+      <button type="submit"
+              th:classappend="${status=='ALL'} ? ' tab-active'"
+              class="tab-btn">
+        すべて
+      </button>
+    </form>
 
-	    <form method="get">
-	        <input type="hidden" name="status" value="ALL">
-	        <button type="submit"
-	                th:classappend="${status=='ALL'} ? ' tab-active'"
-	                class="tab-btn">
-	            すべて
-	        </button>
-	    </form>
+    <form method="get">
+      <input type="hidden" name="status" value="WANT">
+      <button type="submit"
+              th:classappend="${status=='WANT'} ? ' tab-active'"
+              class="tab-btn">
+        欲しい
+      </button>
+    </form>
 
-	    <form method="get">
-	        <input type="hidden" name="status" value="WANT">
-	        <button type="submit"
-	                th:classappend="${status=='WANT'} ? ' tab-active'"
-	                class="tab-btn">
-	            欲しい
-	        </button>
-	    </form>
+    <form method="get">
+      <input type="hidden" name="status" value="PENDING">
+      <button type="submit"
+              th:classappend="${status=='PENDING'} ? ' tab-active'"
+              class="tab-btn">
+        積読
+      </button>
+    </form>
 
-	    <form method="get">
-	        <input type="hidden" name="status" value="PENDING">
-	        <button type="submit"
-	                th:classappend="${status=='PENDING'} ? ' tab-active'"
-	                class="tab-btn">
-	            積読
-	        </button>
-	    </form>
+    <form method="get">
+      <input type="hidden" name="status" value="READING">
+      <button type="submit"
+              th:classappend="${status=='READING'} ? ' tab-active'"
+              class="tab-btn">
+        読んでる
+      </button>
+    </form>
 
-	    <form method="get">
-	        <input type="hidden" name="status" value="READING">
-	        <button type="submit"
-	                th:classappend="${status=='READING'} ? ' tab-active'"
-	                class="tab-btn">
-	            読んでる
-	        </button>
-	    </form>
+    <form method="get">
+      <input type="hidden" name="status" value="COMPLETED">
+      <button type="submit"
+              th:classappend="${status=='COMPLETED'} ? ' tab-active'"
+              class="tab-btn">
+        読了
+      </button>
+    </form>
 
-	    <form method="get">
-	        <input type="hidden" name="status" value="COMPLETED">
-	        <button type="submit"
-	                th:classappend="${status=='COMPLETED'} ? ' tab-active'"
-	                class="tab-btn">
-	            読了
-	        </button>
-	    </form>
+  </div>
+  <!-- ▲▲ タブ ▲▲ -->
 
-	</div>
-	<!-- ▲▲ タブ ▲▲ -->
+  <!-- ▼▼ 本棚グリッド ▼▼ -->
+  <div class="book-grid">
 
-	<!-- ▼▼ 本棚が空のとき ▼▼ -->
-	<div class="empty-message" th:if="${#lists.isEmpty(page.books)}">
-	    本棚にまだ本がありません
-	</div>
-
-
-    <!-- ▼▼ 本棚グリッド ▼▼ -->
-    <div class="book-grid">
-
-        <div class="book-card" th:each="book : ${page.books}">
-            <a th:href="@{'/shelf/edit/' + ${book.uuid}}">
-                <img th:src="${book.thumbnailLink}"
-                     class="book-thumb"
-                     alt="thumbnail">
-            </a>
-        </div>
-
+    <!-- ★ 空のとき -->
+    <div class="empty-message" th:if="${#lists.isEmpty(page.books)}">
+      本棚にまだ本がありません
     </div>
-    <!-- ▲▲ 本棚グリッド ▲▲ -->
+
+    <!-- ★ 本があるとき -->
+    <div class="book-card" th:each="book : ${page.books}">
+      <a th:href="@{'/shelf/edit/' + ${book.uuid}}">
+        <img th:src="${book.thumbnailLink}"
+             class="book-thumb"
+             alt="thumbnail">
+      </a>
+    </div>
+
+  </div>
+  <!-- ▲▲ 本棚グリッド ▲▲ -->
 
 </div>
+
+<div th:replace="layout/fragments/footer :: footer"></div>
 
 </body>
 </html>

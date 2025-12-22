@@ -5,8 +5,9 @@
     <title>書籍詳細</title>
 
     <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/detail.css}">
+    <link rel="stylesheet" th:href="@{/css/books-detail.css}">
     <link rel="stylesheet" th:href="@{/css/nav.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 
 <body>
@@ -117,6 +118,8 @@
     </div>
 
 </div>
+
+<div th:replace="layout/fragments/footer :: footer"></div>
 
 </body>
 </html>

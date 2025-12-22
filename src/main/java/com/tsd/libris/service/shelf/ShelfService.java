@@ -33,7 +33,6 @@ public class ShelfService {
 	 */
 	public List<ShelfBookSummaryDto> getShelfBooks(Long userId,String status){
 		
-//		System.out.println("Entity : " + sm.findShelfBooksByUserId(userId));
 		
 		if(status.equals("ALL")) {
 			return sm.findShelfBooksByUserId(userId).stream()
@@ -123,12 +122,10 @@ public class ShelfService {
 	  */
 	 public void editUserReview(ReviewEditForm form) {
 		 
-		 System.out.println(form);
 		 UserBooksEntity e = new UserBooksEntity();
 		 e.setUuid(form.getUuid());
 		 e.setRating(form.getRating());
 		 e.setReview(form.getReview());
-		 System.out.println(e);
 		 Integer arart = ubm.updateUserBookReview(e);
 		 
 	 }

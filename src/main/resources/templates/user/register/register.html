@@ -1,258 +1,112 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8">
-	<title>会員登録 | Libris</title>
+  <meta charset="UTF-8">
+  <title>会員登録 | Libris</title>
 
-	<style>
-		body {
-			margin: 0;
-			background: #f3f2f2;
-			font-family: "Hiragino Sans", sans-serif;
-		}
-
-		/* ===== NAV ===== */
-		.nav {
-			background: #3b2b23;
-			color: #fff;
-		}
-
-		.nav-inner {
-			max-width: 1380px;
-			margin: auto;
-			padding: 14px 24px;
-		}
-
-		.nav-title {
-			font-size: 28px;
-			font-weight: bold;
-			letter-spacing: 2px;
-		}
-
-		/* ===== CARD ===== */
-		.wrapper {
-			margin: 60px auto;
-			display: flex;
-			justify-content: center;
-		}
-
-		.card {
-			background: #fff;
-			width: 640px;
-			/* ← 横幅をスリムに */
-			padding: 40px 48px;
-			border-radius: 16px;
-			box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
-		}
-
-		.title {
-			font-size: 26px;
-			text-align: center;
-			margin-bottom: 32px;
-			font-weight: bold;
-			color: #3b2b23;
-		}
-
-		/* ===== FORM ===== */
-		.form-group {
-			margin-bottom: 22px;
-		}
-
-		.label {
-			font-size: 14px;
-			font-weight: 600;
-			margin-bottom: 6px;
-			display: block;
-			color: #3b2b23;
-		}
-
-		.hint {
-			font-size: 12px;
-			font-weight: normal;
-			color: #666;
-			margin-left: 6px;
-		}
-
-		.input {
-			width: 100%;
-			height: 42px;
-			padding: 8px 10px;
-			border-radius: 8px;
-			border: 1px solid #ccc;
-			font-size: 15px;
-			box-sizing: border-box;
-		}
-
-		.input:focus {
-			outline: none;
-			border-color: #2563eb;
-		}
-
-		/* 2カラム */
-		.row-2 {
-			display: flex;
-			gap: 16px;
-		}
-
-		.col {
-			flex: 1;
-		}
-
-		/* error */
-		.error {
-			color: #d32f2f;
-			font-size: 13px;
-			margin-top: 4px;
-		}
-
-		/* button */
-		.btn {
-			width: 100%;
-			background: #2563eb;
-			color: #fff;
-			padding: 14px;
-			font-size: 16px;
-			border: none;
-			border-radius: 8px;
-			margin-top: 32px;
-			cursor: pointer;
-		}
-
-		.btn:hover {
-			background: #1e4ebc;
-		}
-
-		.show-password {
-			font-size: 13px;
-			color: #444;
-			cursor: pointer;
-		}
-
-		.show-password input {
-			margin-right: 6px;
-		}
-		.info-message {
-		    margin: 16px 0 24px;
-		    padding: 12px 16px;
-		    background: #fff7e6;
-		    border: 1px solid #facc15;
-		    border-radius: 8px;
-		    color: #92400e;
-		    font-size: 14px;
-		}
-
-	</style>
+  <link rel="stylesheet" th:href="@{/css/auth.css}">
+  <link rel="stylesheet" th:href="@{/css/auth-register.css}">
 </head>
 
 <body>
 
-	<!-- NAV -->
-	<div class="nav">
-		<div class="nav-inner">
-			<span class="nav-title">☆ Libris ☆</span>
-		</div>
-	</div>
+<div class="auth-wrapper">
+  <div class="auth-card auth-card--wide">
 
-	<!-- CONTENT -->
-	<div class="wrapper">
-		<div class="card">
+    <div class="auth-title">会員登録</div>
 
-			<div class="title">会員登録</div>
-			
-			<div th:if="${msg}" class="info-message" th:text="${msg}"></div>
+    <div th:if="${msg}" class="message-success" th:text="${msg}"></div>
 
-			<form th:action="@{/user/register/confirm}" method="post" th:object="${userRegisterForm}">
+    <form th:action="@{/user/register/confirm}"
+          method="post"
+          th:object="${userRegisterForm}">
 
-				<!-- メール -->
-				<div class="form-group">
-					<label class="label">メールアドレス</label>
-					<input class="input" th:field="*{email}">
-					<div class="error" th:errors="*{email}"></div>
-				</div>
+      <!-- メール -->
+      <div class="form-group">
+        <label class="form-label">メールアドレス</label>
+        <input class="form-input" th:field="*{email}">
+        <div class="error-msg" th:errors="*{email}"></div>
+      </div>
 
-				<div class="form-group">
-					<label class="label">メールアドレス（確認）</label>
-					<input class="input" th:field="*{emailConfirm}">
-					<div class="error"
-					     th:if="${!#fields.hasErrors('email')}"
-					     th:errors="*{emailConfirm}">
-					</div>
+      <div class="form-group">
+        <label class="form-label">メールアドレス（確認）</label>
+        <input class="form-input" th:field="*{emailConfirm}">
+        <div class="error-msg"
+             th:if="${!#fields.hasErrors('email')}"
+             th:errors="*{emailConfirm}">
+        </div>
+      </div>
 
-				</div>
+      <!-- 表示名 -->
+      <div class="form-group">
+        <label class="form-label">表示名（任意）</label>
+        <input class="form-input" th:field="*{displayName}">
+        <div class="error-msg" th:errors="*{displayName}"></div>
+      </div>
 
+      <!-- ログインID -->
+      <div class="form-group">
+        <label class="form-label">
+          ログインID
+          <span class="form-hint">（4〜50文字の半角英数字）</span>
+        </label>
+        <input class="form-input" th:field="*{loginId}">
+        <div class="error-msg" th:errors="*{loginId}"></div>
+      </div>
 
+      <!-- パスワード -->
+      <div class="form-row-2">
 
-				<!-- 表示名 -->
-				<div class="form-group">
-					<label class="label">表示名（任意）</label>
-					<input class="input" th:field="*{displayName}">
-					<div class="error" th:errors="*{displayName}"></div>
-				</div>
+        <div class="form-col">
+          <label class="form-label">パスワード</label>
+          <input type="password" id="password"
+                 class="form-input"
+                 th:field="*{password}">
 
-				<!-- ログインID -->
-				<div class="form-group">
-					<label class="label">
-						ログインID
-						<span class="hint">（4〜50文字の半角英数字）</span>
-					</label>
-					<input class="input" th:field="*{loginId}">
-					<div class="error" th:errors="*{loginId}"></div>
-				</div>
+          <label class="show-password">
+            <input type="checkbox" onclick="togglePassword()">
+            パスワードを表示する
+          </label>
 
-				<!-- パスワード -->
-				<div class="row-2">
-					<div class="form-group col">
-						<label class="label">パスワード</label>
-						<input type="password" id="password" class="input" th:field="*{password}">
-						<!-- 表示切替 -->
-						<div class="form-group">
-							<label class="show-password">
-								<input type="checkbox" onclick="togglePassword()">
-								パスワードを表示する
-							</label>
-						</div>
-						<div class="hint">
-							英字と数字を組み合わせて8〜16文字で入力してください
-						</div>
-						<div class="error" th:errors="*{password}"></div>
-					</div>
+          <div class="form-hint">
+            英字と数字を組み合わせて8〜16文字
+          </div>
 
-					<div class="form-group col">
-						<label class="label">パスワード（確認）</label>
-						<input type="password" id="passwordConfirm" class="input" th:field="*{passwordConfirm}">
+          <div class="error-msg" th:errors="*{password}"></div>
+        </div>
 
+        <div class="form-col">
+          <label class="form-label">パスワード（確認）</label>
+          <input type="password" id="passwordConfirm"
+                 class="form-input"
+                 th:field="*{passwordConfirm}">
 
-						<div class="error"
-						     th:if="${!#fields.hasErrors('password')}"
-						     th:errors="*{passwordConfirm}">
-						</div>
+          <div class="error-msg"
+               th:if="${!#fields.hasErrors('password')}"
+               th:errors="*{passwordConfirm}">
+          </div>
+        </div>
 
-					</div>
-				</div>
+      </div>
 
+      <button type="submit" class="auth-btn">
+        確認画面へ
+      </button>
 
+    </form>
 
+  </div>
+</div>
 
-				<button class="btn" type="submit">確認画面へ</button>
-
-			</form>
-
-		</div>
-	</div>
-
-	<script>
-		function togglePassword() {
-			const password = document.getElementById("password");
-			const confirm = document.getElementById("passwordConfirm");
-
-			const type = password.type === "password" ? "text" : "password";
-			password.type = type;
-			confirm.type = type;
-		}
-	</script>
-
+<script>
+  function togglePassword() {
+    const pw = document.getElementById("password");
+    const cf = document.getElementById("passwordConfirm");
+    const type = pw.type === "password" ? "text" : "password";
+    pw.type = type;
+    cf.type = type;
+  }
+</script>
 
 </body>
-
 </html>

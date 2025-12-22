@@ -1,17 +1,24 @@
-/* ===== FOOTER ===== */
+/* =========================
+   Footer
+   ========================= */
+
 .footer {
-    margin-top: 60px;
-    padding: 20px 0;
-    background: #f3f2f2;
-    color: #8B7D75;
+  margin-top: 64px;                 /* メインコンテンツとの距離 */
+  padding: 24px 16px;
+  background-color: #3b2b23;        /* baseより一段薄い背景 */
+  border-top: 1px solid #e3e5e8;    /* 仕切り線 */
 }
 
 .footer-inner {
-    max-width: 1380px;
-    margin: 0 auto;
-    text-align: center;
+  max-width: 960px;                 /* mainと揃える */
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;          /* 中央寄せが無難 */
 }
 
 .footer-text {
-    font-size: 12px;
+  font-size: 0.85rem;
+  color: rgb(255, 255, 255);                   /* 控えめ */
+  letter-spacing: 0.02em;
+  text-align: center;
 }

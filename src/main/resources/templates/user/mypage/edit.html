@@ -1,279 +1,180 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8" />
-<title>マイページの編集 | Libris</title>
+	<meta charset="UTF-8" />
+	<title>マイページの編集 | Libris</title>
 
-<style>
-/* ===== THEME ===== */
-:root{
-  --primary:#3B2B23;
-  --accent:#2563EB;
-  --surface:#F7F5F3;
-  --text:#34251F;
-  --muted:#6B5A50;
-  --line:#E7E2DD;
-  --card:#FFFFFF;
-  --danger:#D14343;
-}
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/nav.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage-edit.css}">
+	<link rel="stylesheet" th:href="@{/css/footer.css}">
 
-/* ===== BASE ===== */
-*{ box-sizing:border-box; }
-body{
-  margin:0;
-  font-family:"Hiragino Sans", sans-serif;
-  background:var(--surface);
-  color:var(--text);
-}
-
-/* ===== NAV ===== */
-.nav{ background:var(--primary); color:#fff; }
-.nav-inner{
-  max-width:1380px; margin:0 auto; padding:14px 24px;
-  display:flex; justify-content:space-between; align-items:center;
-}
-.nav-left{ display:flex; gap:24px; align-items:center; }
-.nav-title{ font-size:28px; font-weight:bold; }
-.nav-link{ color:#fff; text-decoration:none; font-size:18px; opacity:.85; }
-.nav-link:hover{ opacity:1; }
-
-/* ===== LAYOUT ===== */
-.wrapper{ max-width:1100px; margin:26px auto 60px; padding:0 20px; }
-.page-title{ font-size:26px; font-weight:800; color:var(--primary); }
-.page-sub{ font-size:13px; color:var(--muted); margin-top:6px; }
-
-/* ===== CARD ===== */
-.card{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  box-shadow:0 10px 26px rgba(0,0,0,.08);
-  padding:22px;
-}
-.section-title{
-  font-size:16px;
-  font-weight:800;
-  color:var(--primary);
-  margin-bottom:14px;
-}
-
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px 16px;
-}
-.item{
-  background:#FBFAF9;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px 14px;
-}
-.item.wide{ grid-column:1 / -1; }
-
-.label{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:6px;
-}
-.req{
-  font-size:11px;
-  border:1px solid var(--line);
-  padding:2px 8px;
-  border-radius:999px;
-}
-
-/* ===== INPUT ===== */
-.input{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #D9D2CC;
-  font-size:15px;
-}
-.input:disabled{
-  background:#EFEDEB;
-  color:#7A6A62;
-}
-.input.is-error{ border-color:var(--danger); }
-
-.field-error{
-  margin-top:6px;
-  font-size:13px;
-  color:var(--danger);
-  font-weight:700;
-}
-
-/* ===== ACTIONS ===== */
-.actions{
-  display:flex;
-  gap:12px;
-  margin-top:18px;
-  justify-content:flex-end;
-}
-.btn{
-  border:none;
-  border-radius:10px;
-  padding:12px 18px;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
-}
-.btn-primary{ background:var(--accent); color:#fff; }
-.btn-secondary{ background:#EDEAE7; color:var(--primary); }
-
-/* ===== FOOTER ===== */
-.footer{
-  text-align:center;
-  color:#8B7D75;
-  font-size:12px;
-  margin-top:18px;
-}
-</style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<div class="nav">
-    <div class="nav-inner">
-        <div class="nav-left">
-            <span class="nav-title">☆ Libris ☆</span>
-
-            <a href="/books/search" class="nav-link">書籍検索</a>
-            <a href="/shelf/list" class="nav-link">本棚</a>
-        </div>
-
-        <div class="nav-right">
-            <form action="/auth/logout" method="post" class="logout-form">
-                <button type="submit" class="nav-link logout-btn">ログアウト</button>
-            </form>
-        </div>
-    </div>
-</div>
+	<div th:replace="layout/fragments/nav :: nav"></div>
 
 
-<div class="wrapper">
-  <div class="page-title">マイページの編集</div>
-  <div class="page-sub">編集不可の項目は表示のみとなります。</div>
+	<div class="wrapper">
+		<div class="page-title">マイページの編集</div>
+		<div class="page-sub">編集不可の項目は表示のみとなります。</div>
 
-  <div class="card">
-    <div class="section-title">会員情報</div>
+		<div class="card">
+			<div class="section-title">会員情報</div>
 
-    <form th:action="@{/mypage/edit/confirm}" th:object="${mypageEditForm}" method="post">
+			<form id="mypage-edit-form" th:action="@{/mypage/edit/confirm}" th:object="${mypageEditForm}" method="post">
 
-      <!-- グローバルエラー -->
-      <div class="field-error" th:if="${#fields.hasGlobalErrors()}"
-           th:each="e : ${#fields.globalErrors()}"
-           th:text="${e}">エラー</div>
+				<!-- グローバルエラー -->
+				<div class="field-error" th:if="${#fields.hasGlobalErrors()}" th:each="e : ${#fields.globalErrors()}"
+					th:text="${e}">エラー</div>
 
-      <div class="grid">
+				<div class="grid">
 
-        <!-- ===== 編集不可項目 ===== -->
-        <div class="item">
-          <div class="label">姓</div>
-          <input class="input" th:value="*{lastName}" disabled>
-          <input type="hidden" th:field="*{lastName}">
-        </div>
+					<!-- ===== 編集不可項目 ===== -->
+					<div class="item">
+						<div class="label">姓</div>
+						<input class="input" th:value="*{lastName}" disabled>
+						<input type="hidden" th:field="*{lastName}">
+					</div>
 
-        <div class="item">
-          <div class="label">名</div>
-          <input class="input" th:value="*{firstName}" disabled>
-          <input type="hidden" th:field="*{firstName}">
-        </div>
+					<div class="item">
+						<div class="label">名</div>
+						<input class="input" th:value="*{firstName}" disabled>
+						<input type="hidden" th:field="*{firstName}">
+					</div>
 
-        <div class="item">
-          <div class="label">姓（カナ）</div>
-          <input class="input" th:value="*{lastNameKana}" disabled>
-          <input type="hidden" th:field="*{lastNameKana}">
-        </div>
+					<div class="item">
+						<div class="label">姓（カナ）</div>
+						<input class="input" th:value="*{lastNameKana}" disabled>
+						<input type="hidden" th:field="*{lastNameKana}">
+					</div>
 
-        <div class="item">
-          <div class="label">名（カナ）</div>
-          <input class="input" th:value="*{firstNameKana}" disabled>
-          <input type="hidden" th:field="*{firstNameKana}">
-        </div>
+					<div class="item">
+						<div class="label">名（カナ）</div>
+						<input class="input" th:value="*{firstNameKana}" disabled>
+						<input type="hidden" th:field="*{firstNameKana}">
+					</div>
 
-        <div class="item wide">
-          <div class="label">生年月日</div>
-          <input class="input" th:value="*{birthday}" disabled>
-          <input type="hidden" th:field="*{birthday}">
-        </div>
+					<div class="item wide">
+						<div class="label">生年月日</div>
+						<input class="input" th:value="*{birthday}" disabled>
+						<input type="hidden" th:field="*{birthday}">
+					</div>
 
-        <!-- ===== 編集可能項目 ===== -->
-        <div class="item">
-          <div class="label">郵便番号 <span class="req">必須</span></div>
-          <input class="input" th:field="*{postalCode}"
-                 th:classappend="${#fields.hasErrors('postalCode')} ? ' is-error'">
-          <div class="field-error" th:errors="*{postalCode}"></div>
-        </div>
+					<!-- ===== 編集可能項目 ===== -->
+					<div class="item">
+						<div class="label">郵便番号 <span class="req">必須</span></div>
+						<input class="input" th:field="*{postalCode}"
+							th:classappend="${#fields.hasErrors('postalCode')} ? ' is-error'">
+						<div class="field-error" th:errors="*{postalCode}"></div>
+					</div>
 
-        <div class="item">
-          <div class="label">都道府県 <span class="req">必須</span></div>
-          <input class="input" th:field="*{prefecture}">
-          <div class="field-error" th:errors="*{prefecture}"></div>
-        </div>
+					<div class="item">
+						<div class="label">都道府県 <span class="req">必須</span></div>
+						<input class="input" th:field="*{prefecture}">
+						<div class="field-error" th:errors="*{prefecture}"></div>
+					</div>
 
-        <div class="item">
-          <div class="label">市区町村 <span class="req">必須</span></div>
-          <input class="input" th:field="*{city}">
-          <div class="field-error" th:errors="*{city}"></div>
-        </div>
+					<div class="item">
+						<div class="label">市区町村 <span class="req">必須</span></div>
+						<input class="input" th:field="*{city}">
+						<div class="field-error" th:errors="*{city}"></div>
+					</div>
 
-        <div class="item">
-          <div class="label">町名 <span class="req">必須</span></div>
-          <input class="input" th:field="*{town}">
-          <div class="field-error" th:errors="*{town}"></div>
-        </div>
+					<div class="item">
+						<div class="label">町名 <span class="req">必須</span></div>
+						<input class="input" th:field="*{town}">
+						<div class="field-error" th:errors="*{town}"></div>
+					</div>
 
-        <div class="item">
-          <div class="label">番地 <span class="req">必須</span></div>
-          <input class="input" th:field="*{addressNumber}">
-          <div class="field-error" th:errors="*{addressNumber}"></div>
-        </div>
+					<div class="item">
+						<div class="label">番地 <span class="req">必須</span></div>
+						<input class="input" th:field="*{addressNumber}">
+						<div class="field-error" th:errors="*{addressNumber}"></div>
+					</div>
 
-        <div class="item">
-          <div class="label">建物名 <span class="req">必須</span></div>
-          <input class="input" th:field="*{building}">
-          <div class="field-error" th:errors="*{building}"></div>
-        </div>
+					<div class="item">
+						<div class="label">建物名 <span class="req">必須</span></div>
+						<input class="input" th:field="*{building}">
+						<div class="field-error" th:errors="*{building}"></div>
+					</div>
 
-        <div class="item">
-          <div class="label">電話番号 <span class="req">必須</span></div>
-          <input class="input" th:field="*{phoneNumber}">
-          <div class="field-error" th:errors="*{phoneNumber}"></div>
-        </div>
+					<div class="item">
+						<div class="label">電話番号 <span class="req">必須</span></div>
+						<input class="input" th:field="*{phoneNumber}">
+						<div class="field-error" th:errors="*{phoneNumber}"></div>
+					</div>
 
-        <div class="item">
-          <div class="label">表示名</div>
-          <input class="input" th:field="*{displayName}">
-          <div class="field-error" th:errors="*{displayName}"></div>
-        </div>
+					<div class="item">
+						<div class="label">表示名</div>
+						<input class="input" th:field="*{displayName}">
+						<div class="field-error" th:errors="*{displayName}"></div>
+					</div>
 
-        <div class="item">
-          <div class="label">メール <span class="req">必須</span></div>
-          <input class="input" th:field="*{email}">
-          <div class="field-error" th:errors="*{email}"></div>
-        </div>
+					<div class="item">
+						<div class="label">メール <span class="req">必須</span></div>
+						<input class="input" th:field="*{email}">
+						<div class="field-error" th:errors="*{email}"></div>
+					</div>
 
-        <div class="item">
-          <div class="label">メール（確認） <span class="req">必須</span></div>
-          <input class="input" th:field="*{emailConfirm}">
-          <div class="field-error" th:if="${!#fields.hasErrors('email')}" th:errors="*{emailConfirm}"></div>
-        </div>
+					<div class="item">
+						<div class="label">メール（確認） <span class="req">必須</span></div>
+						<input class="input" th:field="*{emailConfirm}">
+						<div class="field-error" th:if="${!#fields.hasErrors('email')}" th:errors="*{emailConfirm}">
+						</div>
+					</div>
 
-      </div>
+				</div>
 
-      <div class="actions">
-        <a href="/mypage" class="btn btn-secondary">戻る</a>
-        <button class="btn btn-primary">変更を確認</button>
-      </div>
+				<div class="actions">
+					<a href="/mypage" class="btn btn-secondary">戻る</a>
+					<button type="submit" class="btn btn-primary" id="submitBtn" disabled>変更を確認</button>
+				</div>
 
-      <div class="footer">© 2025 Libris / たつひこシステム開発（TSD）✨</div>
 
-    </form>
-  </div>
-</div>
+			</form>
+		</div>
+	</div>
+	<div th:replace="layout/fragments/footer :: footer"></div>
+	
+	<script>
+	document.addEventListener('DOMContentLoaded', () => {
 
+	  const form = document.getElementById('mypage-edit-form');
+	  const submitBtn = document.getElementById('submitBtn');
+
+	  // 編集可能な input だけ対象
+	  const inputs = form.querySelectorAll(
+	    'input:not([disabled]):not([type="hidden"])'
+	  );
+
+	  // 初期値を保存
+	  const initialValues = {};
+	  inputs.forEach(input => {
+	    initialValues[input.name] = input.value;
+	  });
+
+	  const checkChanged = () => {
+	    const changed = Array.from(inputs).some(input => {
+	      return input.value !== initialValues[input.name];
+	    });
+
+	    submitBtn.disabled = !changed;
+	  };
+
+	  // 入力・変更を監視
+	  inputs.forEach(input => {
+	    input.addEventListener('input', checkChanged);
+	    input.addEventListener('change', checkChanged);
+	  });
+
+	});
+	</script>
+
+	
 </body>
+
 </html>

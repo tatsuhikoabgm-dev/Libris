@@ -1,0 +1,119 @@
+/* ==================================================
+   Welcome
+   ================================================== */
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	font-family: "Hiragino Sans", sans-serif;
+}
+
+/* スクロール禁止（welcomeのみ） */
+body {
+	overflow: hidden;
+}
+
+/* ===== BACKGROUND ===== */
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: -2;
+
+	background-image: url("/img/welcome.jpeg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+
+	filter: blur(1px) saturate(1.1);
+	transform: scale(1.05);
+}
+
+body::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+
+	background: radial-gradient(ellipse at center,
+			rgba(255, 255, 255, 0.75) 0%,
+			rgba(255, 255, 255, 0.85) 60%,
+			rgba(255, 255, 255, 0.95) 100%);
+}
+
+/* ===== HERO ===== */
+.hero {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ===== CARD ===== */
+.welcome-card {
+	background: rgba(255, 255, 255, 0.96);
+	width: 720px;
+	padding: 56px 64px;
+	border-radius: 20px;
+	box-shadow: 0 20px 48px rgba(0, 0, 0, .18);
+	text-align: center;
+
+	animation: fadeUp 1s ease-out forwards;
+}
+
+/* ===== TEXT ===== */
+.welcome-title {
+	font-size: 34px;
+	font-weight: 700;
+	color: #3B2B23;
+	letter-spacing: 2px;
+	margin-bottom: 14px;
+}
+
+.welcome-sub {
+	font-size: 15px;
+	color: #6B5A50;
+	line-height: 1.9;
+	margin-bottom: 40px;
+}
+
+/* ===== ACTION ===== */
+.action-area {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+}
+
+/* ボタンは auth の primary / secondary を使う前提 */
+.action-area .auth-btn {
+	min-width: 220px;
+	height: 48px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+	margin-top: 36px;
+	font-size: 13px;
+	color: #8B7D75;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(16px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.btn {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

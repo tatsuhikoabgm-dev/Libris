@@ -1,386 +1,145 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8" />
-<title>マイページ | Libris</title>
-
-<style>
-/* ===== THEME ===== */
-:root{
-  --primary:#3B2B23;
-  --accent:#2563EB;
-  --surface:#F7F5F3;
-  --text:#34251F;
-  --muted:#6B5A50;
-  --line:#E7E2DD;
-  --card:#FFFFFF;
-}
-
-/* ===== BASE ===== */
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
-body{
-  margin:0;
-  font-family:"Hiragino Sans", sans-serif;
-  color:var(--text);
-  background:var(--surface);
-}
-
-/* ========= ヘッダー（書籍検索と同じ） ========= */
-	.nav {
-	    width: 100%;
-	    background-color: #3b2b23;
-	    color: white;
-	}
-
-	/* NAV 内側の最大幅コンテナ */
-	.nav-inner {
-	    max-width: 1380px;
-	    margin: 0 auto;
-	    padding: 14px 24px;
-
-	    display: flex;
-	    justify-content: space-between;
-	    align-items: center;
-	}
-
-	/* 左側 */
-	.nav-left {
-	    display: flex;
-	    gap: 24px;
-	    align-items: center;
-	}
-
-	.nav-title {
-	    font-size: 28px;
-	    font-weight: bold;
-	    letter-spacing: 2px;
-	}
-
-	/* リンク */
-	.nav-link {
-	    color: white;
-	    text-decoration: none;
-	    font-size: 18px;
-	    opacity: 0.85;
-	    transition: opacity .15s;
-	}
-
-	.nav-link:hover {
-	    opacity: 1;
-	}
-
-	/* 右側 */
-	.nav-right {
-	    display: flex;
-	    gap: 20px;
-	}
+	<meta charset="UTF-8" />
+	<title>マイページ | Libris</title>
 	
-	/* ▼ ログアウトボタンをリンクと同じ見た目にする */
-	.logout-form {
-	    margin: 0;
-	    padding: 0;
-	}
+	<link rel="stylesheet" th:href="@{/css/base.css}">
+	<link rel="stylesheet" th:href="@{/css/nav.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage.css}">
+	<link rel="stylesheet" th:href="@{/css/footer.css}">
 
-	.logout-btn {
-	    background: none;
-	    border: none;
-	    color: white;
-	    font-size: 18px;
-	    padding: 0;
-	    cursor: pointer;
-	    font-family: inherit; /* リンクとフォント統一 */
-	}
-
-	/* ホバーもリンクと同じ */
-	.logout-btn:hover {
-	    opacity: 0.8;
-	}
-
-	/* nav-link の inline 表示に合わせる */
-	.nav-right form {
-	    display: inline-block;
-	}
-
-/* ===== LAYOUT ===== */
-.wrapper{
-  max-width:1100px;
-  margin:26px auto 60px;
-  padding:0 20px;
-}
-.page-head{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:16px;
-  margin-bottom:14px;
-}
-.page-title{
-  font-size:26px;
-  font-weight:800;
-  color:var(--primary);
-  letter-spacing:1px;
-}
-.page-sub{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:6px;
-}
-
-/* ===== MESSAGE ===== */
-.msg{
-  border:1px solid #F2C98B;
-  background:#FFF7E6;
-  color:#8A4B0E;
-  padding:12px 14px;
-  border-radius:10px;
-  margin:14px 0 18px;
-  font-size:14px;
-}
-.msg strong{ font-weight:800; }
-
-/* ===== CARD ===== */
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:18px;
-  box-shadow:0 10px 26px rgba(0,0,0,.08);
-  padding:22px 22px;
-}
-.section-title{
-  font-size:16px;
-  font-weight:800;
-  color:var(--primary);
-  margin:2px 0 14px;
-}
-
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:14px 16px;
-}
-@media (max-width: 820px){
-  .grid{ grid-template-columns: 1fr; }
-  .page-head{ align-items:flex-start; flex-direction:column; }
-}
-
-.item{
-  border:1px solid var(--line);
-  background:#FBFAF9;
-  border-radius:12px;
-  padding:12px 14px;
-}
-.label{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:6px;
-}
-.value{
-  font-size:15px;
-  color:var(--text);
-  font-weight:600;
-  line-height:1.5;
-  word-break:break-word;
-}
-.value.mono{
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  letter-spacing:.2px;
-}
-
-/* ===== ADDRESS ROW ===== */
-.address-wide{
-  grid-column:1 / -1;
-}
-.address-line{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px 10px;
-  align-items:center;
-}
-.badge{
-  display:inline-block;
-  font-size:12px;
-  padding:2px 8px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  background:#fff;
-  color:var(--muted);
-}
-
-/* ===== ACTIONS ===== */
-.actions{
-  display:flex;
-  gap:12px;
-  margin-top:18px;
-  justify-content:flex-end;
-  flex-wrap:wrap;
-}
-.btn{
-  border:none;
-  cursor:pointer;
-  border-radius:10px;
-  padding:12px 14px;
-  font-size:14px;
-  font-weight:700;
-  min-width:190px;
-  transition: transform .15s ease, opacity .15s ease;
-}
-.btn:hover{ transform: translateY(-1px); opacity:.98; }
-.btn-primary{
-  background:var(--accent);
-  color:#fff;
-}
-.btn-secondary{
-  background:#EDEAE7;
-  color:var(--primary);
-}
-.btn-primary:active,.btn-secondary:active{ transform: translateY(0); }
-
-/* ===== FOOTER ===== */
-.footer{
-  text-align:center;
-  color:#8B7D75;
-  font-size:12px;
-  margin-top:18px;
-}
-</style>
 </head>
 
 <body>
 
-	<!-- ▼ ナビゲーション（書籍検索画面と同じデザイン） -->
-	<div class="nav">
-	    <div class="nav-inner">
-	        <div class="nav-left">
-	            <span class="nav-title">☆ Libris ☆</span>
+	<div th:replace="layout/fragments/nav :: nav"></div>
 
-	            <a href="/books/search" class="nav-link">書籍検索</a>
-	            <a href="/shelf/list" class="nav-link">本棚</a>
-	        </div>
+	<div class="wrapper">
+		<div class="page-head">
+			<div>
+				<div class="page-title">マイページ</div>
+				<div class="page-sub">
+					会員情報の確認ができます。必要に応じて編集してください。
+				</div>
+			</div>
 
-	        <div class="nav-right">
-	            <form action="/auth/logout" method="post" class="logout-form">
-	                <button type="submit" class="nav-link logout-btn">ログアウト</button>
-	            </form>
-	        </div>
-	    </div>
-	</div>
-	
-<div class="wrapper">
-  <div class="page-head">
-    <div>
-      <div class="page-title">マイページ</div>
-      <div class="page-sub">
-        会員情報の確認ができます。必要に応じて編集してください。
-      </div>
-    </div>
-
-    <!-- 右上に軽く歓迎（表示名があれば表示名、なければ読書家さん） -->
-    <div class="page-sub" th:text="${session.SESSION_USER != null
+			<!-- 右上に軽く歓迎（表示名があれば表示名、なければ読書家さん） -->
+			<div class="page-sub" th:text="${session.SESSION_USER != null
       && session.SESSION_USER.displayName != null
       && !#strings.isEmpty(session.SESSION_USER.displayName)
       ? session.SESSION_USER.displayName + 'さん'
       : '読書家さん'}">読書家さん</div>
-  </div>
+		</div>
 
-  <!-- 変更完了メッセージ（param.msg or flash msg想定） -->
-  <div class="msg success" th:if="${successMessage}">
-    <strong th:text="${successMessage}"></strong>
-  </div>
+		<!-- 変更完了メッセージ（param.msg or flash msg想定） -->
+		<div class="message message-success" th:if="${successMessage}">
+			<strong th:text="${successMessage}"></strong>
+		</div>
 
 
-  <div class="card">
-    <div class="section-title">会員情報</div>
+		<div class="card">
+			<div class="section-title">会員情報</div>
 
-    <div class="grid">
-      <!-- 氏名 -->
-      <div class="item">
-        <div class="label">姓</div>
-        <div class="value" th:text="${#strings.isEmpty(mypage.lastName) ? '（未設定）' : mypage.lastName}">（未設定）</div>
-      </div>
-      <div class="item">
-        <div class="label">名</div>
-        <div class="value" th:text="${#strings.isEmpty(mypage.firstName) ? '（未設定）' : mypage.firstName}">（未設定）</div>
-      </div>
+			<div class="grid">
+				<!-- 氏名 -->
+				<div class="item">
+					<div class="label">姓</div>
+					<div class="value" th:text="${#strings.isEmpty(mypage.lastName) ? '（未設定）' : mypage.lastName}">（未設定）
+					</div>
+				</div>
+				<div class="item">
+					<div class="label">名</div>
+					<div class="value" th:text="${#strings.isEmpty(mypage.firstName) ? '（未設定）' : mypage.firstName}">
+						（未設定）</div>
+				</div>
 
-      <div class="item">
-        <div class="label">姓（カナ）</div>
-        <div class="value" th:text="${#strings.isEmpty(mypage.lastNameKana) ? '（未設定）' : mypage.lastNameKana}">（未設定）</div>
-      </div>
-      <div class="item">
-        <div class="label">名（カナ）</div>
-        <div class="value" th:text="${#strings.isEmpty(mypage.firstNameKana) ? '（未設定）' : mypage.firstNameKana}">（未設定）</div>
-      </div>
+				<div class="item">
+					<div class="label">姓（カナ）</div>
+					<div class="value"
+						th:text="${#strings.isEmpty(mypage.lastNameKana) ? '（未設定）' : mypage.lastNameKana}">（未設定）</div>
+				</div>
+				<div class="item">
+					<div class="label">名（カナ）</div>
+					<div class="value"
+						th:text="${#strings.isEmpty(mypage.firstNameKana) ? '（未設定）' : mypage.firstNameKana}">（未設定）</div>
+				</div>
 
-      <!-- 住所（まとめ表示） -->
-      <div class="item address-wide">
-        <div class="label">住所</div>
-        <div class="value">
-          <div class="address-line">
-            <span class="badge" th:text="${#strings.isEmpty(mypage.postalCode) ? '郵便番号：未設定' : '〒' + mypage.postalCode}">郵便番号：未設定</span>
-            <span th:text="${#strings.isEmpty(mypage.prefecture) ? '' : mypage.prefecture}"></span>
-            <span th:text="${#strings.isEmpty(mypage.city) ? '' : mypage.city}"></span>
-            <span th:text="${#strings.isEmpty(mypage.town) ? '' : mypage.town}"></span>
-            <span th:text="${#strings.isEmpty(mypage.addressNumber) ? '' : mypage.addressNumber}"></span>
-            <span th:text="${#strings.isEmpty(mypage.building) ? '' : mypage.building}"></span>
-          </div>
+				<!-- 住所（まとめ表示） -->
+				<div class="item address-wide">
+					<div class="label">住所</div>
+					<div class="value">
+						<div class="address-line">
+							<span class="badge"
+								th:text="${#strings.isEmpty(mypage.postalCode) ? '郵便番号：未設定' : '〒' + mypage.postalCode}">郵便番号：未設定</span>
+							<span th:text="${#strings.isEmpty(mypage.prefecture) ? '' : mypage.prefecture}"></span>
+							<span th:text="${#strings.isEmpty(mypage.city) ? '' : mypage.city}"></span>
+							<span th:text="${#strings.isEmpty(mypage.town) ? '' : mypage.town}"></span>
+							<span
+								th:text="${#strings.isEmpty(mypage.addressNumber) ? '' : mypage.addressNumber}"></span>
+							<span th:text="${#strings.isEmpty(mypage.building) ? '' : mypage.building}"></span>
+						</div>
 
-          <div class="page-sub" style="margin-top:8px;"
-               th:if="${#strings.isEmpty(mypage.prefecture)
+						<div class="page-sub address-empty" style="margin-top:8px;" th:if="${#strings.isEmpty(mypage.prefecture)
                     && #strings.isEmpty(mypage.city)
                     && #strings.isEmpty(mypage.town)
                     && #strings.isEmpty(mypage.addressNumber)
                     && #strings.isEmpty(mypage.building)
                     && #strings.isEmpty(mypage.postalCode)}">
-            （住所は未設定です）
-          </div>
-        </div>
-      </div>
+							（住所は未設定です）
+						</div>
+					</div>
+				</div>
 
-      <!-- 生年月日・電話 -->
-      <div class="item">
-        <div class="label">生年月日</div>
-        <div class="value" th:text="${#strings.isEmpty(mypage.birthday) ? '（未設定）' : mypage.birthday}">（未設定）</div>
-      </div>
-      <div class="item">
-        <div class="label">電話番号</div>
-        <div class="value mono" th:text="${#strings.isEmpty(mypage.phoneNumber) ? '（未設定）' : mypage.phoneNumber}">（未設定）</div>
-      </div>
+				<!-- 生年月日・電話 -->
+				<div class="item">
+					<div class="label">生年月日</div>
+					<div class="value" th:text="${#strings.isEmpty(mypage.birthday) ? '（未設定）' : mypage.birthday}">（未設定）
+					</div>
+				</div>
+				<div class="item">
+					<div class="label">電話番号</div>
+					<div class="value mono"
+						th:text="${#strings.isEmpty(mypage.phoneNumber) ? '（未設定）' : mypage.phoneNumber}">（未設定）</div>
+				</div>
 
-      <!-- メール・表示名 -->
-      <div class="item">
-        <div class="label">メールアドレス</div>
-        <div class="value mono" th:text="${#strings.isEmpty(mypage.email) ? '（未設定）' : mypage.email}">（未設定）</div>
-      </div>
-      <div class="item">
-        <div class="label">アプリ内表示名</div>
-        <div class="value" th:text="${#strings.isEmpty(mypage.displayName) ? '読書家さん' : mypage.displayName}">読書家さん</div>
-      </div>
+				<!-- メール・表示名 -->
+				<div class="item">
+					<div class="label">メールアドレス</div>
+					<div class="value mono" th:text="${#strings.isEmpty(mypage.email) ? '（未設定）' : mypage.email}">（未設定）
+					</div>
+				</div>
+				<div class="item">
+					<div class="label">アプリ内表示名</div>
+					<div class="value" th:text="${#strings.isEmpty(mypage.displayName) ? '読書家さん' : mypage.displayName}">
+						読書家さん</div>
+				</div>
 
-      <!-- ログインID -->
-      <div class="item address-wide">
-        <div class="label">ログインID</div>
-        <div class="value mono" th:text="${#strings.isEmpty(mypage.loginId) ? '（未設定）' : mypage.loginId}">（未設定）</div>
-      </div>
-    </div>
+				<!-- ログインID -->
+				<div class="item address-wide">
+					<div class="label">ログインID</div>
+					<div class="value mono" th:text="${#strings.isEmpty(mypage.loginId) ? '（未設定）' : mypage.loginId}">
+						（未設定）</div>
+				</div>
+			</div>
 
-    <!-- ボタン（設計PDF：会員情報編集／パスワード変更） -->
-    <div class="actions">
-      <form th:action="@{/mypage/edit}" method="get">
-        <button type="submit" class="btn btn-secondary">会員情報の編集</button>
-      </form>
+			<!-- ボタン（設計PDF：会員情報編集／パスワード変更） -->
+			<div class="actions">
+				<form th:action="@{/mypage/edit}" method="get">
+					<button type="submit" class="btn btn-secondary">会員情報の編集</button>
+				</form>
 
-	  <form th:action="@{/mypage/password}" method="get">
-	    <input type="hidden" name="returnTo" value="mypage" />
-	    <button type="submit" class="btn btn-primary">パスワード変更</button>
-	  </form>
+				<form th:action="@{/mypage/password}" method="get">
+					<input type="hidden" name="returnTo" value="mypage" />
+					<button type="submit" class="btn btn-primary">パスワード変更</button>
+				</form>
 
-    </div>
-
-    <div class="footer">© 2025 Libris / たつひこシステム開発（TSD）✨</div>
-  </div>
-</div>
-
+			</div>
+		</div>
+	</div>
+	<div th:replace="layout/fragments/footer :: footer"></div>
+	
 </body>
+
 </html>

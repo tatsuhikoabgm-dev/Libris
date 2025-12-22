@@ -1,194 +1,211 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	
+
 <head>
-    <meta charset="UTF-8">
-    <title>本棚の編集</title>
-	
-	<link rel="stylesheet" th:href="@{/css/base.css}">
-	<link rel="stylesheet" th:href="@{/css/nav.css}">
-	<link rel="stylesheet" th:href="@{/css/edit.css}">
+  <meta charset="UTF-8">
+  <title>本棚の編集 | Libris</title>
+
+  <link rel="stylesheet" th:href="@{/css/base.css}">
+  <link rel="stylesheet" th:href="@{/css/nav.css}">
+  <link rel="stylesheet" th:href="@{/css/shelf-edit.css}">
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 
 <body>
-	
-	<div th:replace="layout/fragments/nav :: nav"></div>
-	
 
+  <div th:replace="layout/fragments/nav :: nav"></div>
 
-<div class="page-container">
+  <div class="page-container">
 
-	<div th:if="${successMessage}" class="message message-success" th:text="${successMessage}"></div>
-	
+    <div th:if="${successMessage}" class="message message-success" th:text="${successMessage}"></div>
+
     <!-- ▼ 書籍情報 -->
     <div class="card">
-        <div class="book-area">
+      <div class="book-area">
 
-            <img class="thumbnail" th:src="${page.book.thumbnailLink}">
+        <img class="thumbnail" th:src="${page.book.thumbnailLink}">
 
-            <div class="book-info">
+        <div class="book-info">
 
-                <h2 th:text="${page.book.title}"></h2>
+          <h2 class="book-title" th:text="${page.book.title}"></h2>
 
-				<div class="book-meta">
-				    <div><b>著者：</b> <span th:text="${page.book.authors}"></span></div>
-				    <div><b>出版日：</b> <span th:text="${page.book.publishedDate}"></span></div>
-				    <div><b>ISBN：</b> <span th:text="${page.book.isbn}"></span></div>
-				    <div><b>出版社：</b> <span th:text="${page.book.publisher}"></span></div>
-				</div>
+          <div class="book-meta">
+            <div><b>著者：</b> <span th:text="${page.book.authors}"></span></div>
+            <div><b>出版日：</b> <span th:text="${page.book.publishedDate}"></span></div>
+            <div><b>ISBN：</b> <span th:text="${page.book.isbn}"></span></div>
+            <div><b>出版社：</b> <span th:text="${page.book.publisher}"></span></div>
+          </div>
 
+          <div class="book-link">
+            <a th:href="${page.book.previewLink}" target="_blank">Google Booksで見る</a>
+          </div>
 
-                <div style="margin-top:10px;">
-                    <a th:href="${page.book.previewLink}" target="_blank">Google Booksで見る</a>
-                </div>
-
-                <!-- ▼ ステータス変更 -->
-                <form th:action="@{/shelf/edit/status}" th:object="${formStatus}" method="post">
-                    <input type="hidden" th:field="*{uuid}">
-                    <div class="status-wrap">
-                        <div class="status-title">ステータス変更</div>
-                        <div class="status-row">
-                            <select th:field="*{status}" class="select-modern" id="status-select">
-                                <option value="WANT">欲しい</option>
-                                <option value="PENDING">積読</option>
-                                <option value="READING">読んでる</option>
-                                <option value="COMPLETED">読了</option>
-                            </select>
-                            <button type="submit" class="btn-primary" id="status-submit" disabled>変更する</button>
-                        </div>
-                    </div>
-                </form>
-
+          <!-- ▼ ステータス変更 -->
+          <form th:action="@{/shelf/edit/status}" th:object="${formStatus}" method="post">
+            <input type="hidden" th:field="*{uuid}">
+            <div class="status-wrap">
+              <div class="status-title">ステータス変更</div>
+              <div class="status-row">
+                <select th:field="*{status}" class="select-modern" id="status-select">
+                  <option value="WANT">欲しい</option>
+                  <option value="PENDING">積読</option>
+                  <option value="READING">読んでる</option>
+                  <option value="COMPLETED">読了</option>
+                </select>
+                <button type="submit" class="btn-primary" id="status-submit" disabled>変更する</button>
+              </div>
             </div>
-        </div>
-    </div>
+          </form>
 
+        </div>
+      </div>
+    </div>
 
     <!-- ▼ レビュー -->
     <div class="card">
-        <h3>レビュー</h3>
+      <h3>レビュー</h3>
 
-        <!-- ▼ 表示モード -->
-        <div id="review-display" class="review-display">
+      <!-- ▼ 表示モード -->
+      <div id="review-display" class="review-display">
 
-            <!-- レビューあり -->
-            <div th:if="${formReview.review != null}">
-                <div class="review-rating">評価： ★ <span th:text="${formReview.rating}"></span></div>
+        <div th:if="${formReview.review != null}">
+          <div class="review-rating">
+            評価： ★ <span th:text="${formReview.rating}"></span>
+          </div>
 
-                <div class="info-label">レビュー内容</div>
-                <div th:text="${formReview.review}"></div>
+          <div class="info-label">レビュー内容</div>
+          <!-- ★ id 削除（表示専用） -->
+          <div class="review-text" th:text="${formReview.review}"></div>
 
-                <button class="btn-primary" onclick="switchToEdit()">編集する</button>
-            </div>
-
-            <!-- レビューなし -->
-            <div th:if="${formReview.review == null}">
-                <div style="color:#777; margin-bottom:10px;">
-                    ※ レビューはまだ投稿されていません
-                </div>
-                <button class="btn-primary" onclick="switchToEdit()">レビューを書く</button>
-            </div>
+          <button type="button" class="btn-primary" onclick="switchToEdit()">編集する</button>
         </div>
 
+        <div th:if="${formReview.review == null}">
+          <div class="review-empty">※ レビューはまだ投稿されていません</div>
+          <button type="button" class="btn-primary" onclick="switchToEdit()">レビューを書く</button>
+        </div>
 
-        <!-- ▼ 編集モード -->
-        <form th:action="@{/shelf/edit/review}" th:object="${formReview}" method="post">
-            <input type="hidden" th:field="*{uuid}">
+      </div>
 
-            <div id="review-edit" style="display:none;">
+      <!-- ▼ 編集モード -->
+      <form th:action="@{/shelf/edit/review}" th:object="${formReview}" method="post">
+        <input type="hidden" th:field="*{uuid}">
 
-                <div class="info-label">評価（0〜5）</div>
-                <select th:field="*{rating}" class="review-select" id="rating-select">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+        <div id="review-edit" class="review-edit" style="display:none;">
 
-                <div class="info-label" style="margin-top:14px;">レビュー内容</div>
-                <textarea th:field="*{review}" class="review-box" id="review-text"></textarea>
+          <div class="info-label">評価（0〜5）</div>
+          <select th:field="*{rating}" class="review-select" id="rating-select">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
 
-                <div class="review-buttons">
-                    <button type="submit" class="btn-primary" id="review-submit" disabled>保存する</button>
-                    <button type="button" class="btn-secondary" onclick="switchToDisplay()">キャンセル</button>
-                </div>
-            </div>
-        </form>
+          <div class="info-label review-label-space">レビュー内容</div>
+          <!-- ★ こっちだけ id="review-text" -->
+          <textarea th:field="*{review}" class="review-box" id="review-text"></textarea>
+
+          <div class="review-buttons">
+            <button type="submit" class="btn-primary" id="review-submit" disabled>保存する</button>
+            <button type="button" class="btn-secondary" onclick="switchToDisplay()">キャンセル</button>
+          </div>
+
+        </div>
+      </form>
     </div>
 
-
-    <!-- ▼ 説明トグル -->
+    <!-- ▼ 説明 -->
     <div class="description-toggle" onclick="toggleDescription()">説明を表示する ▼</div>
 
-    <div id="description-panel">
-        <div class="info-label">説明</div>
-        <div th:utext="${page.book.description}"></div>
+    <div id="description-panel" class="description-panel">
+      <div class="info-label">説明</div>
+      <div class="description-text" th:utext="${page.book.description}"></div>
     </div>
 
-    <div style="margin-top:20px;">
-        <a href="/shelf/list">← 本棚に戻る</a>
+    <div class="back-link">
+      <a href="/shelf/list">← 本棚に戻る</a>
     </div>
 
-</div>
+  </div>
 
+  <div th:replace="layout/fragments/footer :: footer"></div>
 
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
 
-<script>
-/* ▼ レビュー切り替え */
-function switchToEdit() {
+    /* =========================
+       ステータス変更フォーム
+       ========================= */
+    const statusForm = document.querySelector("form[action*='/shelf/edit/status']");
+    if (statusForm) {
+      const select = statusForm.querySelector("select");
+      const button = statusForm.querySelector("button[type='submit']");
+
+      if (select && button) {
+        const original = select.value;
+        select.addEventListener("change", () => {
+          button.disabled = (select.value === original);
+        });
+      }
+    }
+
+    /* =========================
+       レビュー編集フォーム
+       ========================= */
+    const reviewForm = document.querySelector("form[action*='/shelf/edit/review']");
+    if (reviewForm) {
+      const rate = reviewForm.querySelector("select");
+      const text = reviewForm.querySelector("textarea");
+      const button = reviewForm.querySelector("button[type='submit']");
+
+      if (rate && text && button) {
+        const origRate = rate.value;
+        const origText = text.value;
+
+        const check = () => {
+          button.disabled = !(
+            rate.value !== origRate ||
+            text.value !== origText
+          );
+        };
+
+        rate.addEventListener("change", check);
+        text.addEventListener("input", check);
+      }
+    }
+
+  });
+
+  /* =========================
+     表示切替（form送信とは無関係）
+     ========================= */
+  function switchToEdit() {
     document.getElementById("review-display").style.display = "none";
     document.getElementById("review-edit").style.display = "block";
-}
-function switchToDisplay() {
+  }
+
+  function switchToDisplay() {
     document.getElementById("review-edit").style.display = "none";
     document.getElementById("review-display").style.display = "block";
-}
+  }
 
-/* ▼ ステータス：変更時だけボタン有効化 */
-document.addEventListener("DOMContentLoaded", () => {
-    const s = document.getElementById("status-select");
-    const b = document.getElementById("status-submit");
-    const original = s.value;
-
-    s.addEventListener("change", () => {
-        b.disabled = (s.value === original);
-    });
-});
-
-/* ▼ レビュー：変更時だけ保存ボタン有効化 */
-document.addEventListener("DOMContentLoaded", () => {
-    const rate = document.getElementById("rating-select");
-    const text = document.getElementById("review-text");
-    const btn = document.getElementById("review-submit");
-
-    const origRate = rate.value;
-    const origText = text.value;
-
-    const check = () => {
-        const changed = (rate.value !== origRate) || (text.value !== origText);
-        btn.disabled = !changed;
-    };
-
-    rate.addEventListener("change", check);
-    text.addEventListener("input", check);
-});
-
-/* ▼ 説明ビューン */
-function toggleDescription() {
+  function toggleDescription() {
     const panel = document.getElementById("description-panel");
     const toggle = document.querySelector(".description-toggle");
 
-    if (panel.style.display === "none") {
-        panel.style.display = "block";
-        toggle.textContent = "説明を閉じる ▲";
+    if (panel.style.display === "none" || panel.style.display === "") {
+      panel.style.display = "block";
+      toggle.textContent = "説明を閉じる ▲";
     } else {
-        panel.style.display = "none";
-        toggle.textContent = "説明を表示する ▼";
+      panel.style.display = "none";
+      toggle.textContent = "説明を表示する ▼";
     }
-}
-</script>
+  }
+  </script>
+
+
 
 </body>
 </html>

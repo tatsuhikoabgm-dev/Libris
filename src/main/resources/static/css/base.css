@@ -1,89 +1,117 @@
+:root {
+  --danger: #D14343;
+}
+
+/* =========================
+   Base Layout
+   ========================= */
+
+/* ページ全体を縦Flexにする（footer対策の核） */
+html, body {
+  height: 100%;
+}
+
 body {
-    background: #EBE9EA;
-    color: #34251F;
-    font-family: 'Noto Sans JP', sans-serif;
-    margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  background: #EBE9EA;
+  color: #34251F;
+  font-family: 'Noto Sans JP', sans-serif;
+  margin: 0;
 }
 
+/*
+  メインコンテンツ候補
+  各ページの最外層クラスをここに追加していく
+  （← あなたが後で貼り足す前提）*/
 
-/* ページ全体のコンテンツ */
+.container,
+.wrapper{
+  flex: 1;
+}
+
+/* =========================
+   Page Content
+   ========================= */
+
+/* ページ全体のコンテンツ幅 */
 .container {
-    width: 90%;
-    max-width: 1000px;
-    margin: 30px auto;
+  width: 90%;
+  max-width: 1000px;
+  margin: 30px auto;
+  flex: 1;
 }
 
-/* カード */
+/* =========================
+   Card
+   ========================= */
+
 .card {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-    margin-bottom: 25px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
 }
+
+/* =========================
+   Form Base
+   ========================= */
 
 label {
-    font-weight: 600;
+  font-weight: 600;
 }
 
-input, select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #CCC;
-    margin-top: 5px;
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #CCC;
+  margin-top: 5px;
+  box-sizing: border-box;
 }
 
 button {
-    background: #34251F;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    cursor: pointer;
+  background: #34251F;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 button:hover {
-    background: #5a4235;
+  background: #5a4235;
 }
 
-/* ===== Message ===== */
+/* =========================
+   Message
+   ========================= */
+
 .message {
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    font-weight: 600;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-weight: 600;
 }
 
 .message-success {
-    background: #e6f4ea;
-    color: #627962;
-    border: 1px solid #b7e1c2;
+  background: #e6f4ea;
+  color: #627962;
+  border: 1px solid #b7e1c2;
 }
 
 .message-error {
-    background: #ffe5e5;
-    color: #a40000;
-    border: 1px solid #f5bcbc;
+  background: #ffe5e5;
+  color: #a40000;
+  border: 1px solid #f5bcbc;
 }
 
 .empty-message {
-    text-align: center;
-    margin-top: 40px;
-    color: #888;
+  text-align: center;
+  margin-top: 40px;
+  color: #888;
 }
-
-
-
-/* 検索フォーム見出し */
-/*.page-title {*/
-/*    font-size: 1.6rem;*/
-/*    font-weight: 700;*/
-/*    margin-bottom: 20px;*/
-/*}*/
-
-
-/* フォーム */
-/*.form-group {*/
-/*    margin-bottom: 18px;*/
-/*}*/
