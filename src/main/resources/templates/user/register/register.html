@@ -15,7 +15,7 @@
 
     <div class="auth-title">会員登録</div>
 
-    <div th:if="${msg}" class="message-success" th:text="${msg}"></div>
+    <div th:if="${msg}" class="message-error" th:text="${msg}"></div>
 
     <form th:action="@{/user/register/confirm}"
           method="post"

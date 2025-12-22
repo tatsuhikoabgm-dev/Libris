@@ -2,6 +2,7 @@ package com.tsd.libris.service.User;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import com.tsd.libris.domain.dto.user.PasswordChangeForm;
@@ -14,6 +15,7 @@ import com.tsd.libris.domain.entity.UserWithProfileEntity;
 import com.tsd.libris.domain.entity.UsersEntity;
 import com.tsd.libris.mapper.user.UserMapper;
 import com.tsd.libris.mapper.user.UserProfilesMapper;
+import com.tsd.libris.service.common.DbAssert;
 
 import lombok.RequiredArgsConstructor;
 
@@ -109,14 +111,14 @@ public class MypageService {
 	}//UserRegisterConfirmDto
 	
 	
-	
+	@Transactional
 	public void updateProfile(MypageEditForm form,Long userId) {
 		
 		
 		/*変更対象しか値いれないよ！！
 		 * 
 		 */
-		um.updateUser(new UsersEntity(userId,
+		int arart = um.updateUser(new UsersEntity(userId,
 																	null,
 																	null,
 																	null,
@@ -125,11 +127,13 @@ public class MypageService {
 																	null,
 																	null));
 		
+		DbAssert.assertSingleUpdate(arart, "updateProfile.updateUser");
+		
 		/*変更不可項目については
 		 * Mapper.xmlで項目から外してるけど
 		 * ここでもnullにしておこうかな！！
 		 */
-		upm.updateProfile(new UserProfilesEntity(userId,
+		arart =upm.updateProfile(new UserProfilesEntity(userId,
 																								null,
 																								null,
 																								null,
@@ -145,6 +149,10 @@ public class MypageService {
 																								form.getEmail(),
 																								null,null
 																								));
+		
+		DbAssert.assertSingleUpdate(arart, "updateProfile.updateProfile");
+		
+		
 	}//updateProfile
 	
 	
@@ -187,19 +195,31 @@ public class MypageService {
 	
 	
 	
-	//マイページ初回登録用
+	/*メアド、表示名の変更
+	 * マイページ初回登録用
+	 */
+	@Transactional
 	public void updateAccount(Long userId,MypageRegisterForm form) {
 		
-		um.updateUser(new UsersEntity(userId,
+		int arart = um.updateUser(new UsersEntity(userId,
 										null,null,null,form.getDisplayName(),null,null,null));
 		
+		
+		DbAssert.assertSingleUpdate(arart, "updateAccount.updateUser");
+		
 		upm.updateEmail(userId,form.getEmail());
+		
+		DbAssert.assertSingleUpdate(arart, "updateAccount.updateEmail");
 	}
 	
-	//マイページ初回登録用
+	
+	/*プロフィール登録
+	 * マイページ初回登録用
+	 */
+	@Transactional
 	public void registerProfile(Long userId,MypageRegisterForm form) {
 		
-		upm.updateProfileForRegister(new UserProfilesEntity(userId,
+		int arart = upm.updateProfileForRegister(new UserProfilesEntity(userId,
 													form.getLastName(),
 													form.getFirstName(),
 													form.getLastNameKana(),
@@ -213,6 +233,9 @@ public class MypageService {
 													form.getBirthday(),
 													form.getPhoneNumber(),
 													null,null,null));
+		
+		DbAssert.assertSingleUpdate(arart, "registerProfile.updateProfileForRegister");
+		
 	}
 	
 	//パスワードの確認欄の一致チェック
@@ -231,11 +254,13 @@ public class MypageService {
 	}
 	
 	//パスワードのUPDATE
+	@Transactional
 	public void changePassword(Long userId,PasswordChangeForm form) {
 		
 		String passwordHash = BCrypt.hashpw(form.getPassword(), BCrypt.gensalt());
-		um.updatePassword(userId,passwordHash);
+		int arart = um.updatePassword(userId,passwordHash);
 		
+		DbAssert.assertSingleUpdate(arart, "changePassword");
 	}
 	
 

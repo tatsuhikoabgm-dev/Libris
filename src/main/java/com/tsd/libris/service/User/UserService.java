@@ -2,6 +2,7 @@ package com.tsd.libris.service.User;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import com.tsd.libris.domain.dto.auth.SessionUser;
@@ -76,6 +77,7 @@ public class UserService {
 	/*ユーザー情報をテーブルにINSERT
 	 * usersとuser_profileにINSERTだからね！！
 	 */
+	@Transactional
 	public Long registerUser(UserRegisterForm form) {
 		
 		UsersEntity ue = new UsersEntity(null,

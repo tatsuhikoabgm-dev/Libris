@@ -1,5 +1,5 @@
 :root {
-  --danger: #D14343;
+	--danger: #D14343;
 }
 
 /* =========================
@@ -7,19 +7,20 @@
    ========================= */
 
 /* ページ全体を縦Flexにする（footer対策の核） */
-html, body {
-  height: 100%;
+html,
+body {
+	height: 100%;
 }
 
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 
-  background: #EBE9EA;
-  color: #34251F;
-  font-family: 'Noto Sans JP', sans-serif;
-  margin: 0;
+	background: #EBE9EA;
+	color: #34251F;
+	font-family: 'Noto Sans JP', sans-serif;
+	margin: 0;
 }
 
 /*
@@ -28,8 +29,8 @@ body {
   （← あなたが後で貼り足す前提）*/
 
 .container,
-.wrapper{
-  flex: 1;
+.wrapper {
+	flex: 1;
 }
 
 /* =========================
@@ -38,10 +39,10 @@ body {
 
 /* ページ全体のコンテンツ幅 */
 .container {
-  width: 90%;
-  max-width: 1000px;
-  margin: 30px auto;
-  flex: 1;
+	width: 90%;
+	max-width: 1000px;
+	margin: 30px auto;
+	flex: 1;
 }
 
 /* =========================
@@ -49,11 +50,11 @@ body {
    ========================= */
 
 .card {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-  margin-bottom: 25px;
+	background: white;
+	padding: 25px;
+	border-radius: 12px;
+	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+	margin-bottom: 25px;
 }
 
 /* =========================
@@ -61,30 +62,30 @@ body {
    ========================= */
 
 label {
-  font-weight: 600;
+	font-weight: 600;
 }
 
 input,
 select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #CCC;
-  margin-top: 5px;
-  box-sizing: border-box;
+	width: 100%;
+	padding: 10px;
+	border-radius: 8px;
+	border: 1px solid #CCC;
+	margin-top: 5px;
+	box-sizing: border-box;
 }
 
 button {
-  background: #34251F;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
+	background: #34251F;
+	color: white;
+	border: none;
+	padding: 12px 20px;
+	border-radius: 8px;
+	cursor: pointer;
 }
 
 button:hover {
-  background: #5a4235;
+	background: #5a4235;
 }
 
 /* =========================
@@ -92,26 +93,31 @@ button:hover {
    ========================= */
 
 .message {
-  padding: 12px 16px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  font-weight: 600;
+	max-width: 840px;
+	/* ← card と同じ値にする */
+	margin: 0 auto 16px;
+	/* ← 中央寄せ + 下余白 */
+	padding: 12px 16px;
+	border-radius: 8px;
+	font-weight: 600;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .message-success {
-  background: #e6f4ea;
-  color: #627962;
-  border: 1px solid #b7e1c2;
+	background: #e6f4ea;
+	color: #627962;
+	border: 1px solid #b7e1c2;
 }
 
 .message-error {
-  background: #ffe5e5;
-  color: #a40000;
-  border: 1px solid #f5bcbc;
+	background: #ffe5e5;
+	color: #a40000;
+	border: 1px solid #f5bcbc;
 }
 
 .empty-message {
-  text-align: center;
-  margin-top: 40px;
-  color: #888;
+	text-align: center;
+	margin-top: 40px;
+	color: #888;
 }

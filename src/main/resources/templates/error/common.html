@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>エラー | Libris</title>
+
+  <link rel="stylesheet" th:href="@{/css/base.css}">
+  <link rel="stylesheet" th:href="@{/css/nav.css}">
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
+  <link rel="stylesheet" th:href="@{/css/error.css}">
+</head>
+
+<body>
+
+<!-- NAV（表示したいならONでOK） -->
+<!--<div th:replace="layout/fragments/nav :: nav"></div>-->
+
+<!-- MAIN -->
+<div class="error-wrapper">
+
+  <div class="error-card">
+    <h1 class="error-title">
+      🙇‍♂️エラーが発生しました🙇‍♂️
+    </h1>
+
+    <p class="error-message" th:text="${errorMessage}">
+      システムエラーです。もう一度やり直してください。
+    </p>
+
+    <a th:href="@{/books/search}" class="btn btn-primary">
+      書籍検索へ戻る
+    </a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div th:replace="layout/fragments/footer :: footer"></div>
+
+</body>
+</html>

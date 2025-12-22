@@ -15,5 +15,17 @@ public enum UserBookReadingStatus {
 	private final String code;
 	private final String label;
 	
+	 
+	//enum判定用
+	public static boolean isValid(String value) {
+		
+		for(UserBookReadingStatus status : values()) {
+			
+			if(status.name().equals(value))
+				return true;
+		}
+		return false;
+	}
+	
 	
 }

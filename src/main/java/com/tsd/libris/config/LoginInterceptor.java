@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
-public class LoginIntercepter implements HandlerInterceptor {
+public class LoginInterceptor implements HandlerInterceptor {
 
 	
 	@Override
@@ -20,18 +20,33 @@ public class LoginIntercepter implements HandlerInterceptor {
 		String uri = request.getRequestURI();
 		boolean login = session != null && session.getAttribute("SESSION_USER") != null;
 		
-		boolean publicpage = uri.startsWith("/user/register") ||
-							uri.equals("/error") ||
-							uri.equals("/auth/login");
+		boolean publicPage =
+		        uri.startsWith("/auth/login") ||
+		        uri.startsWith("/user");
+
+		boolean staticResource =
+	            uri.startsWith("/css/") ||
+	            uri.startsWith("/js/") ||
+	            uri.startsWith("/images/") ||
+	            uri.equals("/favicon.ico");
 		
-		if(login && publicpage) {
+		boolean errorPage =
+		        uri.startsWith("/error");
+		
+		
+	    if (staticResource) return true;
+	    if(errorPage) return true;
+	    
+	    
+		
+		if(login && publicPage) {
 			response.sendRedirect("/books/search");
 			return false;
 		}
 		
-		if(!login && !publicpage) {
+		if(!login && !publicPage) {
 			response.sendRedirect("/auth/login");
-			System.out.println(publicpage);
+			System.out.println(publicPage);
 			System.out.println(uri);
 			return false;
 		}

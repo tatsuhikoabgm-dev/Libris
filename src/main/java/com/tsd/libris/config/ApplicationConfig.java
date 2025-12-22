@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,13 @@ import lombok.RequiredArgsConstructor;
 public class ApplicationConfig implements WebMvcConfigurer {
 	
 	
-	private final LoginIntercepter loginInterceptor;
+	private final LoginInterceptor loginInterceptor;
 
-//	@Override
-//	public void  addInterceptors(InterceptorRegistry registry) {
-//		
-//		registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
-//	}
+	@Override
+	public void  addInterceptors(InterceptorRegistry registry) {
+		
+		registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
+	}
 	
 	
 	 @Override

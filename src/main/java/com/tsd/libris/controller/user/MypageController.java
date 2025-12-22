@@ -66,11 +66,11 @@ public class MypageController {
 		
 		SessionUser su = (SessionUser)session.getAttribute("SESSION_USER");
 		
-		if(session.getAttribute("SESSION_MYPAGE_EDIT") == null) {
+//		if(session.getAttribute("SESSION_MYPAGE_EDIT") == null) {
 		model.addAttribute("mypageEditForm",ms.getMypageEditForm(su.getUserId()));
-		}else {
-		model.addAttribute("mypageEditForm",session.getAttribute("SESSION_MYPAGE_EDIT"));
-		}
+//		}else {
+//		model.addAttribute("mypageEditForm",session.getAttribute("SESSION_MYPAGE_EDIT"));
+//		}
 		
 		return "/user/mypage/edit";
 	}
@@ -98,7 +98,7 @@ public class MypageController {
 	}//showEditConfirm
 	
 	
-	/*マイページの更新
+	/*マイページの編集
 	 * 
 	 */
 	@PostMapping("/edit/complete")
@@ -203,6 +203,13 @@ public class MypageController {
 		if(form.getRegisterType() == RegisterType.ACCOUNT) {
 			
 			ms.updateAccount(su.getUserId(), form);
+			//新しいユーザー情報の取得
+			UsersEntity e = um.findByUserId(su.getUserId());
+			//sessionに新しいユーザー情報をセット
+			session.setAttribute("SESSION_USER", new SessionUser(e.getUserId(),e.getAuthority(),e.getDisplayName()));
+			session.removeAttribute("SESSION_MYPAGE_REGISTER");
+			ra.addFlashAttribute("successMessage","変更が完了しました");
+			return "redirect:/mypage/register";
 			
 		}else if(form.getRegisterType() == RegisterType.PROFILE) {
 			
@@ -215,7 +222,7 @@ public class MypageController {
 			session.setAttribute("SESSION_USER", new SessionUser(e.getUserId(),e.getAuthority(),e.getDisplayName()));
 			session.removeAttribute("SESSION_MYPAGE_REGISTER");
 			ra.addFlashAttribute("successMessage","変更が完了しました");
-			return "redirect:/mypage/register";
+			return "redirect:/mypage";
 	}
 	
 	

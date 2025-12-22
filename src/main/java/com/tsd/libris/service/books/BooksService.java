@@ -7,6 +7,9 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.tsd.libris.domain.api.books.GoogleBooksApiDto;
@@ -23,6 +26,8 @@ import com.tsd.libris.domain.entity.BooksEntity;
 import com.tsd.libris.domain.entity.UserBooksEntity;
 import com.tsd.libris.domain.entity.UserBooksWithUserEntity;
 import com.tsd.libris.domain.enums.UserBookReadingStatus;
+import com.tsd.libris.exception.ApplicationException;
+import com.tsd.libris.exception.ApplicationException.Type;
 import com.tsd.libris.mapper.book.BooksMapper;
 import com.tsd.libris.mapper.userbooks.UserBookMapper;
 
@@ -72,11 +77,15 @@ public class BooksService {
 			url = "https://www.googleapis.com/books/v1/volumes?projection=lite&q=isbn:" + form.getIsbn();
 		}
 		
-		
+		try {
 		//API叩くぞ！！おりゃ！！
 		ResponseEntity<GoogleBooksApiDto> results = new RestTemplate().getForEntity(url, GoogleBooksApiDto.class);
-		
 		return results.getBody();
+		}catch(HttpClientErrorException e){
+			throw new ApplicationException(Type.SYSTEM, "Exception : 外部APIの404");
+		}catch(RestClientException e){
+			throw new ApplicationException(Type.INVALID_REQUEST, "Exception : 外部API　５００, 通信失敗, タイムアウト");
+		}
 		
 	}//searchBooks
 	
@@ -137,12 +146,21 @@ public class BooksService {
 	 */
 	public GoogleBooksItemDto getBookInfo(String googleVolumeId) {
 		
+		try {
 		String url = "https://www.googleapis.com/books/v1/volumes/" + googleVolumeId;
 		
 		ResponseEntity<GoogleBooksItemDto> rest= new RestTemplate().getForEntity(url,GoogleBooksItemDto.class);
-		
+		if(rest.getBody() == null)
+			throw new ApplicationException(Type.INVALID_REQUEST,"Exception : 外部APIのvolumeId検索でnullだよ");
 		
 		return rest.getBody();
+		
+		}catch(HttpClientErrorException e){
+			throw new ApplicationException(Type.INVALID_REQUEST, "Exception : 外部API　４０４");
+		}catch(RestClientException e){
+			throw new ApplicationException(Type.INVALID_REQUEST, "Exception : 外部API　５００, 通信失敗, タイムアウト");
+			
+		}
 		
 	}
 	
@@ -241,6 +259,7 @@ public class BooksService {
 	/*INSERTの神
 	 * 本棚登録之命
 	 */
+	@Transactional
 	public void saveUserBook(Long userId,UserBookRegisterForm form) {
 		Long bookId;
 		
@@ -254,7 +273,7 @@ public class BooksService {
 	/*booksテーブルにあればidを返して
 	 * なければＩＮＳＥＲＴするよ！
 	 */
- public Long getOrCreateBookId(String googleVolumeId) {
+	public Long getOrCreateBookId(String googleVolumeId) {
 	 
 	 //API叩いてEntityを生成するよ
 	 if(findBookByVolumeId(googleVolumeId) == null) {
@@ -273,7 +292,7 @@ public class BooksService {
 				 																		null,
 				 																		null
 				 																		);
-		 Integer arart = bm.insertBook(entity);
+		 bm.insertBook(entity);
 		 return entity.getId();
 	 }
 		 
@@ -284,18 +303,23 @@ public class BooksService {
  
  
  public void saveUserBookToShelf(Long userId,Long bookId,String status) {
-	
-	 Integer arart = ubm.insertUserBook(new UserBooksEntity(null,
-			 																		UUID.randomUUID().toString(),
-			 																		userId,
-			 																		bookId,
-			 																		UserBookReadingStatus.valueOf(status),
-			 																		null,
-			 																		null,
-			 																		null,
-			 																		null,
-			 																		null,
-			 																		null));
+	 
+	 if(!UserBookReadingStatus.isValid(status))
+		 throw new ApplicationException(ApplicationException.Type.INVALID_REQUEST,
+				 						"saveUserBookToShelf : " + status);
+		 
+		 
+	 ubm.insertUserBook(new UserBooksEntity(null,
+			 								UUID.randomUUID().toString(),
+			 								userId,
+			 								bookId,
+			 								UserBookReadingStatus.valueOf(status),
+			 								null,
+			 								null,
+			 								null,
+			 								null,
+			 								null,
+			 								null));
  }
 	
 	

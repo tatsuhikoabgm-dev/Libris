@@ -27,7 +27,53 @@
 		<div class="message-success" th:if="${successMessage}">
 			<strong th:text="${successMessage}"></strong>
 		</div>
+<!------------------>
 
+<!-- ================== カード② 表示名・メール変更 ================== -->
+		<div class="card">
+			<div class="section-title">表示名・メールアドレスの変更</div>
+			<div class="note">
+			</div>
+
+			<form th:action="@{/mypage/register/confirm}" th:object="${mypageRegisterForm}" method="post" id="accountForm">
+				<input type="hidden" name="registerType" value="ACCOUNT" />
+
+
+				<div class="form-grid">
+
+					<div class="form-item wide">
+						<label>表示名</label>
+						<input th:field="*{displayName}" />
+						<div class="error" th:errors="*{displayName}"></div>
+					</div>
+
+					<div class="form-item">
+						<label>メールアドレス</label>
+						<input th:field="*{email}" />
+						<div class="error" th:errors="*{email}"></div>
+					</div>
+
+					<div class="form-item">
+						<label>メールアドレス（確認）</label>
+						<input th:field="*{emailConfirm}" />
+						<div class="error" th:errors="*{emailConfirm}"></div>
+					</div>
+
+				</div>
+
+				<div class="actions">
+					<button type="submit" class="btn btn-primary" id="accountSubmitBtn" disabled>変更内容を確認</button>
+				</div>
+			</form>
+			<div class="actions password-action">
+				<form th:action="@{/mypage/password}" method="get">
+					<input type="hidden" name="returnTo" value="register" />
+					<button type="submit" class="btn btn-outline">
+						パスワード変更
+					</button>
+				</form>
+			</div>
+		</div>
 		<!-- ================== カード① マイページ登録 ================== -->
 		<div class="card">
 			<div class="section-title">マイページ登録（初回）</div>
@@ -121,52 +167,8 @@
 			</form>
 		</div>
 
-		<!-- ================== カード② 表示名・メール変更 ================== -->
-		<div class="card">
-			<div class="section-title">表示名・メールアドレスの変更</div>
-			<div class="note">
-			</div>
-
-			<form th:action="@{/mypage/register/confirm}" th:object="${mypageRegisterForm}" method="post" id="accountForm">
-				<input type="hidden" name="registerType" value="ACCOUNT" />
-
-
-				<div class="form-grid">
-
-					<div class="form-item wide">
-						<label>表示名</label>
-						<input th:field="*{displayName}" />
-						<div class="error" th:errors="*{displayName}"></div>
-					</div>
-
-					<div class="form-item">
-						<label>メールアドレス</label>
-						<input th:field="*{email}" />
-						<div class="error" th:errors="*{email}"></div>
-					</div>
-
-					<div class="form-item">
-						<label>メールアドレス（確認）</label>
-						<input th:field="*{emailConfirm}" />
-						<div class="error" th:errors="*{emailConfirm}"></div>
-					</div>
-
-				</div>
-
-				<div class="actions">
-					<button type="submit" class="btn btn-primary" id="accountSubmitBtn" disabled>変更内容を確認</button>
-				</div>
-			</form>
-			<div class="actions password-action">
-				<form th:action="@{/mypage/password}" method="get">
-					<input type="hidden" name="returnTo" value="register" />
-					<button type="submit" class="btn btn-outline">
-						パスワード変更
-					</button>
-				</form>
-			</div>
-		</div>
-
+		
+<!--------------->
 	</div>
 	
 	<div th:replace="layout/fragments/footer :: footer"></div>
