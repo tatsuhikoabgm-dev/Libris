@@ -2,11 +2,11 @@
    MyPage Confirm (Standalone)
    ================================ */
 
-.confirm-wrapper {
-  max-width: 1100px;
-  margin: 28px auto 60px;
-  padding: 0 20px;
-}
+/*.confirm-wrapper {*/
+/*  max-width: 1100px;*/
+/*  margin: 28px auto 60px;*/
+/*  padding: 0 20px;*/
+/*}*/
 
 .confirm-title {
   font-size: 26px;
@@ -20,14 +20,14 @@
   margin-top: 6px;
 }
 
-.confirm-card {
-  margin-top: 18px;
-  background: #FFFFFF;
-  border: 1px solid #E7E2DD;
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.08);
-}
+/*.confirm-card {*/
+/*  margin-top: 18px;*/
+/*  background: #FFFFFF;*/
+/*  border: 1px solid #E7E2DD;*/
+/*  border-radius: 18px;*/
+/*  padding: 22px;*/
+/*  box-shadow: 0 10px 26px rgba(0,0,0,0.08);*/
+/*}*/
 
 .confirm-section {
   font-size: 16px;

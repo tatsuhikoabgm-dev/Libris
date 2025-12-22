@@ -1,0 +1,47 @@
+/* ==================================================
+   Auth Confirm (Register Confirm)
+   ================================================== */
+
+/* ===== Confirm Row ===== */
+.confirm-row {
+  margin-bottom: 22px;
+}
+
+/* label は auth.css の .form-label を流用 */
+
+/* ===== Value (input風表示) ===== */
+.confirm-value {
+  background: #ffffff;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+
+  height: 42px;              /* form-input と合わせる */
+  display: flex;
+  align-items: center;
+}
+
+/* 未入力表示 */
+.confirm-value--empty {
+  color: #999;
+}
+
+/* ===== Button Area ===== */
+.confirm-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+/* 戻るボタン（サブ） */
+.auth-btn--back {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.auth-btn--back:hover {
+  background: #cfcfcf;
+}
+
+

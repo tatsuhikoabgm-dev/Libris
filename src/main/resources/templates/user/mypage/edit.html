@@ -9,6 +9,7 @@
 	<link rel="stylesheet" th:href="@{/css/nav.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage-edit.css}">
+	<link rel="stylesheet" th:href="@{/css/footer.css}">
 
 </head>
 
@@ -133,12 +134,12 @@
 					<button type="submit" class="btn btn-primary" id="submitBtn" disabled>変更を確認</button>
 				</div>
 
-				<div class="footer">© 2025 Libris / たつひこシステム開発（TSD）✨</div>
 
 			</form>
 		</div>
 	</div>
-
+	<div th:replace="layout/fragments/footer :: footer"></div>
+	
 	<script>
 	document.addEventListener('DOMContentLoaded', () => {
 

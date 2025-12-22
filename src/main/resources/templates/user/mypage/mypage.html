@@ -8,6 +8,7 @@
 	<link rel="stylesheet" th:href="@{/css/base.css}">
 	<link rel="stylesheet" th:href="@{/css/nav.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage.css}">
+	<link rel="stylesheet" th:href="@{/css/footer.css}">
 
 </head>
 
@@ -135,11 +136,10 @@
 				</form>
 
 			</div>
-
-			<div class="footer">© 2025 Libris / たつひこシステム開発（TSD）✨</div>
 		</div>
 	</div>
-
+	<div th:replace="layout/fragments/footer :: footer"></div>
+	
 </body>
 
 </html>

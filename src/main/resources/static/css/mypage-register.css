@@ -4,18 +4,27 @@
    - mypage.css を継承する前提
    ================================================== */
 
+/* ===== Register Card Width Adjustment ===== */
+/* ★ 思い切って広げる */
+/*.card {*/
+/*  max-width: 1200px;         ← ここが一番効く */
+/*  margin: 0 auto 36px;*/
+/*  padding: 32px 36px;       ← 中の余白も広げる */
+/*}*/
+
 /* ===== Form Grid ===== */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px 16px;
+  gap: 20px 32px;          /* ← 横方向にゆとり */
 }
 
-@media (max-width: 820px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-}
+/*@media (max-width: 900px) {*/
+/*  .form-grid {*/
+/*    grid-template-columns: 1fr;*/
+/*    gap: 18px;*/
+/*  }*/
+/*}*/
 
 .form-item {
   display: flex;
@@ -28,19 +37,19 @@
 
 /* ===== Label ===== */
 .form-item label {
-  font-size: 12px;
+  font-size: 13px;         /* ← 少しだけ存在感UP */
   color: var(--mypage-muted);
   margin-bottom: 6px;
 }
 
 /* ===== Input ===== */
 .form-item input {
-  padding: 10px 12px;
+  padding: 14px 16px;      /* ← フィールドも堂々と */
   border-radius: 10px;
   border: 1px solid var(--mypage-line);
-  font-size: 14px;
+  font-size: 15px;
   background: #fff;
-  width: 100%;   /* 明示的に指定 */
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -59,22 +68,18 @@
 
 /* ===== Note ===== */
 .note {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--mypage-muted);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   line-height: 1.6;
 }
-
 
 /* ===== Actions ===== */
 .register-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 18px;
+  margin-top: 28px;
 }
-
-/* ※ ボタン自体の色・サイズは mypage.css に委譲 */
-
 
 /* ===== Disabled Button ===== */
 .btn:disabled {
@@ -93,14 +98,12 @@
   background: #e6f4ea;
   color: #627962;
   border: 1px solid #b7e1c2;
-  padding: 12px 14px;
+  padding: 14px 16px;
   border-radius: 10px;
-  margin: 14px 0 18px;
+  margin: 16px 0 22px;
   font-size: 14px;
 }
 
 .message-success strong {
   font-weight: 800;
 }
-
-

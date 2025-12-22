@@ -9,6 +9,7 @@
 	<link rel="stylesheet" th:href="@{/css/nav.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage-register.css}">
+	<link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
 
 <body>
@@ -167,6 +168,9 @@
 		</div>
 
 	</div>
+	
+	<div th:replace="layout/fragments/footer :: footer"></div>
+	
 	<script>
 	  document.addEventListener('DOMContentLoaded', () => {
 	    const form = document.getElementById('accountForm');
