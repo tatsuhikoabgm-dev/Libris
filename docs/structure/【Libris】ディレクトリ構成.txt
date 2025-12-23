@@ -1,0 +1,118 @@
+
+
+
+
+
+
+src/main/java
+└─ com.tsd.libris
+   ├─ config
+   │
+   ├─ controller
+   │  ├─ advice
+   │  ├─ auth
+   │  ├─ books
+   │  ├─ shelf
+   │  ├─ user
+   │  └─ test.java
+   │
+   ├─ domain
+   │  ├─ api.books
+   │  ├─ converter
+   │  ├─ dto
+   │  │  ├─ auth
+   │  │  ├─ books
+   │  │  ├─ shelf
+   │  │  └─ user
+   │  │ 
+   │  ├─ validation
+   │  ├─ entity
+   │  └─ enums
+   │
+   ├─ exception
+   │
+   ├─ mapper
+   │  ├─ book
+   │  ├─ shelf
+   │  ├─ user
+   │  └─ userbooks
+   │
+   ├─ service
+   │  ├─ auth
+   │  ├─ books
+   │  ├─ common
+   │  ├─ shelf
+   │  └─ user
+   │
+   └─ LibrisApplication.java
+
+
+
+
+
+
+
+src/main/resources
+├─ mybatis
+│
+├─ static
+│  ├─ css
+│  └─ img
+│
+├─ templates
+│  ├─ auth
+│  ├─ books
+│  ├─ error
+│  ├─ layout
+│  │  └─ fragments
+│  ├─ shelf
+│  └─ user
+│     ├─ mypage
+│     └─ register
+│
+├─ application.properties
+└─ validation.properties
+
+
+
+
+
+Libris
+├─ src/
+├─ docs/
+│  ├─ architecture/
+│  │  └─ 決定クラス設計書.xlsx
+│  │
+│  ├─ domain/
+│  │  └─ 決定ドメイン設計.xlsx
+│  │
+│  ├─ database/
+│  │  ├─ Libris.mwb
+│  │  ├─ ER図_Libris.svg
+│  │  ├─ sql/
+│  │  │  ├─ CREATE.sql
+│  │  │  ├─ INSERT.sql
+│  │  │  └─ dmp/
+│  │  │     ├─ libris_books.sql
+│  │  │     ├─ libris_user_books.sql
+│  │  │     ├─ libris_user_profiles.sql
+│  │  │     └─ libris_users.sql
+│  │  └─ README.md
+│  │
+│  ├─ ui/
+│  │  ├─ 決定画面設計.xlsx
+│  │  └─ README.md
+│  │
+│  └─ structure/
+│     └─ Libris_ディレクトリ構成.txt
+│
+├─ README.md
+└─ pom.xml
+
+
+
+
+
+
+
+
