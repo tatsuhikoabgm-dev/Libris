@@ -28,7 +28,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 	            uri.startsWith("/css/") ||
 	            uri.startsWith("/js/") ||
 	            uri.startsWith("/images/") ||
-	            uri.equals("/favicon.ico");
+	            uri.equals("/favicon.ico") ||
+	            uri.equals("/user/welcome") ;
+	            
 		
 		boolean errorPage =
 		        uri.startsWith("/error");
