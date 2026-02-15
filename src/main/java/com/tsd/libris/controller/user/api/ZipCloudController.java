@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/user/mypage")
 public class ZipCloudController {
 
-//    @PostMapping("/zip")
-//    public ZipAddressDto (){
-//
-//        return dto;
-//    }
+    @PostMapping("/zip")
+    public ZipAddressDto (){
+
+        return dto;
+    }
 
 
 
