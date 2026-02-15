@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,8 @@ public class BooksService {
 	private final GoogleBooksConverter converter;
 	private final BooksMapper bm;
 	private final UserBookMapper ubm;
+	@Value("${google.books.api.key}")
+	private String apikey;
 	
 	
 //******************書籍検索画面*****************	
@@ -72,6 +75,7 @@ public class BooksService {
 		url += "&orderBy=" + form.getOrderBy();
 		url += "&printType=" + form.getPrintType();
 		url += "&startIndex=" + (page-1)*20;
+		url += "&key=" + apikey;
 		}else {
 		//ISBN入力自は単体検索-
 			url = "https://www.googleapis.com/books/v1/volumes?projection=lite&q=isbn:" + form.getIsbn();
